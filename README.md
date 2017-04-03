@@ -10,7 +10,7 @@ This library is in beta now and will be used in internal project first.
 
 ## Table of contents
 
-- [WebAPI](https://github.com/dys-solutions/crm-sdk/blob/develop/WebAPI)
+- [WebAPI](https://github.com/dys-solutions/crm-sdk/blob/develop/WebAPI.md)
 - [Building](#building)
 - [Folder Structure](#folder-structure)
 - [Contributing](#contributing)
