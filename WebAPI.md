@@ -38,14 +38,10 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 });
 ```
 
---
-
 ### 2.2) Modules
 The library can be imported or required. 
 Using that means no include of the WebAPI.js in index.html is needed.
 You only have to upload app.js to CRM instead of the WebAPI.js too.
-
---
 
 #### 2.2.1) Example of ECMAScript 6.
 ```javascript
@@ -57,8 +53,6 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 });
 ```
 
---
-
 #### 2.2.2) Example of require
 ```javascript
 //app.js
@@ -69,20 +63,14 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 });
 ```
 
---
-
 # 3) WebAPI
 The WebAPI.js is the low level SDK for the CRM webApi.
-
---
 
 ## 3.1) Version
 The default webApi version is 8.0, but you can change it runtime by setting the version.
 ```javascript
 WebAPI.version = "8.2";
 ```
-
---
 
 ## 3.2) Create
 The createEntity method has two parameters:
@@ -93,7 +81,11 @@ The createEntity method has two parameters:
 WebAPI.createEntity(logicalName, attributes).then(function (data) {});
 ```
 
---
+```javascript
+WebAPI.createEntity("account", {
+    emailaddress1: "test@company.com" 
+}).then(function (data) {});
+```
 
 ## 3.3) Delete
 The deleteEntity method has two parameters:
@@ -104,7 +96,9 @@ The deleteEntity method has two parameters:
 WebAPI.deleteEntity(logicalName, entityId).then(function (data) {});
 ```
 
---
+```javascript
+WebAPI.deleteEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function () {});
+```
 
 ## 3.4) RetrieveEntity
 The retrieveEntity method has three parameters:
@@ -116,7 +110,9 @@ The retrieveEntity method has three parameters:
 WebAPI.retrieveEntity(logicalName, entityId, queryOptions).then(function (data) {});
 ```
 
---
+```javascript
+WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function () {});
+```
 
 ## 3.5) RetrieveEntitySet
 This class is used by retrieveEntity after finding the entitySetName
@@ -130,7 +126,9 @@ The retrieveEntitySet method has three parameters:
 WebAPI.retrieveEntitySet(entitySetName, entityId, queryOptions).then(function (data) {});
 ```
 
---
+```javascript
+WebAPI.retrieveEntitySet("accounts", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
+```
 
 ## 3.6) RetrieveMultiple
 The retrieveMultiple method has two parameters:
@@ -141,7 +139,11 @@ The retrieveMultiple method has two parameters:
 WebAPI.retrieveMultiple(logicalName, queryOptions).then(function (data) {});
 ```
 
---
+```javascript
+WebAPI.retrieveMultiple("account", {
+    emailaddress: "test@company.com"
+}).then(function (data) {});
+```
 
 ## 3.7) ExecuteFetchXml
 The executeFetchXml has two parameters:
@@ -152,7 +154,17 @@ The executeFetchXml has two parameters:
 WebAPI.executeFetchXml(logicalName, fetchXml).then(function (data) {});
 ```
 
---
+```javascript
+WebAPI.executeFetchXml("systemuser", `<fetch>
+                <entity name='systemuser'>
+                    <attribute name='systemuserid' />
+                    <filter type='and'>
+                        <condition attribute='systemuserid' operator='eq-userid' />
+                    </filter>
+                </entity>
+            </fetch>`)
+.then(function (data) {});
+```
 
 ## 3.8) UpdateEntity
 The updateEntity has three parameters:
@@ -164,7 +176,11 @@ The updateEntity has three parameters:
 WebAPI.updateEntity(logicalName, entityId, attributes).then(function (data) {});
 ```
 
---
+```javascript
+WebAPI.updateEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8", {
+    emailaddress1: "test2@company.com"
+}).then(function (data) {});
+```
 
 ## 3.9) Actions
 Bound and unbound actions can be executed via the webAPI.
@@ -172,8 +188,6 @@ If you don't know which one to use, the executeAction will do the check for you.
 ```javascript
 WebAPI.executeAction(actionName, data, logicalName, entityId).then(function () {});
 ```
-
---
 
 ### 3.9.1) Unbound action
 See https://msdn.microsoft.com/en-us/library/mt607600.aspx.
@@ -184,8 +198,6 @@ Unbound action has two parameters:
 ```javascript
 WebAPI.executeUnboundAction(actionName, data).then(function () {});
 ```
-
---
 
 ### 3.9.2) Bound action
 See https://msdn.microsoft.com/en-us/library/mt607600.aspx.
@@ -199,16 +211,12 @@ The bound action has four parameters:
 WebAPI.executeBoundAction(actionName, data, logicalName, entityId).then(function () {});
 ```
 
---
-
 ## 3.10) Functions
 Bound and unbound functions can be executed via the WebAPI.
 If you don't know which one to use, the executeFunction will do the check for you.
 ```javascript
 WebAPI.executeFunction(functionString, logicalName, entityId).then(function () {});
 ```
-
---
 
 ### 3.10.1) Unbound function
 See https://msdn.microsoft.com/en-us/library/gg309638.aspx.
@@ -225,8 +233,6 @@ WebAPI.executeUnboundFunction("WhoAmI").then(function (data) {
 });
 ```
 
---
-
 ### 3.10.2) Bound function
 See https://msdn.microsoft.com/en-us/library/gg309638.aspx.
 The execute bound function has three parameters:
@@ -238,13 +244,9 @@ The execute bound function has three parameters:
 WebAPI.executeBoundFunction(functionString, logicalName, entityId).then(function () {});
 ```
 
---
-
 ## 3.11) Associate/disassociate entities
 See https://msdn.microsoft.com/en-us/library/mt607875.aspx.
 Entities can be associated or disassociated using the WebAPI.
-
---
 
 ### 3.11.1) Associate entities
 The associateEntities has five parameters:
@@ -259,8 +261,6 @@ WebAPI.associateEntities(logicalName, entityId, navigationProperty,
     associateEntity, associateEntityId).then(function () {});
 ```
 
---
-
 ### 3.11.2) disassociate entities
 The disassociateEntities has four parameters:
 * logicalName
@@ -273,12 +273,16 @@ WebAPI.disassociateEntities(logicalName, entityId,
     navigationProperty, associateEntityId).then(function () {});
 ```
 
---
-
 ## 3.12) getEntitySetName
 The getEntitySetName has one parameter:
 * logicalName
 
 ```javascript
 WebAPI.getEntitySetName(logicalName).then(function (entitySetName) {});
+```
+
+```javascript
+WebAPI.getEntitySetName("account").then(function (entitySetName) {
+   console.log(entitySetName); //accounts 
+});
 ```
