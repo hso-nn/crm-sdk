@@ -97,7 +97,7 @@ WebAPI.deleteEntity(logicalName, entityId).then(function (data) {});
 ```
 
 ```javascript
-WebAPI.deleteEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function () {});
+WebAPI.deleteEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
 ## 3.4) RetrieveEntity
@@ -111,7 +111,7 @@ WebAPI.retrieveEntity(logicalName, entityId, queryOptions).then(function (data) 
 ```
 
 ```javascript
-WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function () {});
+WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
 ## 3.5) RetrieveEntitySet
