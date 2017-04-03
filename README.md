@@ -6,7 +6,7 @@ Javasript Software Development Kit for CRM Web API
 
 ## BETA
 
-This library is in beta now and will be used in internal project first.
+This library is in beta.
 
 ## Table of contents
 
