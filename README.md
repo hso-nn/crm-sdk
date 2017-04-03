@@ -31,10 +31,10 @@ the global scope. The new JavaScript distribution files contain the CSS for the 
 separately.
 - **\src]webapi\settings.json -> contains default settings
 
-##Contributing
+## Contributing
 
 Please don't do Pull Request for dist folder
 
-##Copyright and license
+## Copyright and license
 
 Code and documentation copyright 2011-2017 Dynamics Software. Code released under the [MIT License](https://github.com/twbs/bootstrap/blob/master/LICENSE).
