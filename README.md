@@ -10,6 +10,7 @@ This library is in beta now and will be used in internal project first.
 
 ## Table of contents
 
+- [WebAPI](https://github.com/dys-solutions/crm-sdk/blob/develop/WebAPI)
 - [Building](#building)
 - [Folder Structure](#folder-structure)
 - [Contributing](#contributing)
@@ -26,7 +27,7 @@ To build:
 The new build has the following structure:
 - **\src** -> contains source files
 - **\dist** -> contains distribution files
-- **\dist\WebAPI.js and \dist\CRMSDK.js** -> use these if not using a package manager and put CRMSDK on
+- **\dist\WebAPI.js and \dist\CRMSDK.js -> use these if not using a package manager and put CRMSDK on
 the global scope. The new JavaScript distribution files contain the CSS for the grid, no need to reference
 separately.
 - **\src\webapi\settings.json -> contains default settings
