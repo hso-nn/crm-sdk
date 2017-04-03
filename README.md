@@ -20,7 +20,9 @@ This library is in beta now and will be used in internal project first.
 
 To build:
 - `npm install`
-- `npm run build:prod` or `npm run build` or `npm start` (live reload)
+- Production: `npm run build:prod`
+- Develop: `npm run build`
+- Develop live reload: `npm start`
 
 ## Folder Structure
 
