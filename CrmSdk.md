@@ -55,14 +55,15 @@ Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (acc
 #### 2.2.2) Example of require
 ```javascript
 //app.js
-var Entity = require("../dist/CRMSDK.js"); //umd
+var CRMSDK = require("../dist/CRMSDK.js"); //umd
+var Entity = CRMSDK.Entity;
 
 Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (account) {
     //todo logic here 
 });
 ```
 
-# 3) CRMSDK
+# 3) API
 The CRMSDK.js is the high level SDK for the CRM webApi. Please use CRMSDK.js instead of WebAPI.js.
 CRMSDK.js contains WebAPI.
 
