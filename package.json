@@ -1,0 +1,20 @@
+{
+  "name": "CRM-SDK",
+  "version": "0.1.0",
+  "author": "Dynamics Software <solutions@dynamicssoftware.com> (http://www.dynamicssoftware.com)",
+  "description": "Javasript Software Development Kit for CRM Web API",
+  "main": "dist/WebAPI.js",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/dys-solutions/crm-sdk.git"
+  },
+  "keywords": [
+    "CRM",
+    "CRM-SDK",
+    "WebAPI",
+    "javascript",
+    "library",
+    "WebAPI"
+  ],
+  "license": "MIT"
+}
