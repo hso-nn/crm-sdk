@@ -6,7 +6,7 @@
 [![npm](https://img.shields.io/npm/v/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
 
 
-Javasript Software Development Kit for CRM Web API.
+Javascript Software Development Kit for CRM Web API.
 
 ## Why another library
 There are several SDK's available, so why another one?
