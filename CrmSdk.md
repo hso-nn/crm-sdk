@@ -82,8 +82,6 @@ Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (acc
 });
 ```
 
---
-
 ## 3.1) Entity.get
 Entity.get has three parameters:
   * logicalName
@@ -96,8 +94,6 @@ Entity.get(logicalName, id, query).then(function (account) {
 });
 ```  
 
---
-
 ### 3.1.1) Entity.get using id
 ```javascript
 Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (account) {
@@ -106,8 +102,6 @@ Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (acc
     }
 });
 ````
-
---
 
 ### 3.1.2) Entity.get using direct filters
 ```javascript
@@ -120,8 +114,6 @@ Entity.get("account", null, {
     }
 });
 ```
-
---
 
 ### 3.1.3) Entity.get using filters definition
 Result is exactly as example above, but operators can be different.
@@ -136,8 +128,6 @@ Entity.get("account", null, {
 });
 ```
 
---
-
 ## 3.2) Entity.query
 Entity.query has two parameters:
   * logicalName
@@ -148,8 +138,6 @@ Entity.query(logicalName, query).then(function (accounts) {
     //logic here
 });
 ```
-
---
 
 ### 3.2.1) Entity.query using direct filters
 ```javascript
@@ -162,8 +150,6 @@ Entity.query("account", {
     });
 });
 ```
-
---
 
 ### 3.2.2) Entity.query using filters definition
 ```javascript
@@ -187,9 +173,29 @@ Entity.query("account", {
 });
 ```
 
---
+## 3.3) Create
+Entity.create has two parameters:
+  * logicalName
+  * data
 
-## 3.3) Entity.fetch
+```javascript
+Entity.create(logicalName, data).then(function (account) {
+    //logic here
+});
+```
+
+### 3.3.1) Create example
+```javascript
+Entity.create("account", {
+    paymenttermscode: 4,
+    statecode: 0,
+    emailaddress1: "created@dys.nl"
+}).then(function (account) {
+    console.log("entity.create 'acount' " + account.emailaddress1);
+});
+```
+
+## 3.4) Entity.fetch
 Entity.fetch has three parameters:
   * logicalName
   * fetchXml
@@ -200,9 +206,7 @@ Entity.fetch(logicalName, fetchXml).then(function (entities) {
 });
 ```
 
---
-
-### 3.4.4) Orders
+### 3.5) Orders
 Ordering is supported via orders attribute. Each order config has 'attribute' and 'descending'.
 To order Attributes, please use the 'expand'. This is equal to the web-API $orderby.
 ```javascript
@@ -221,9 +225,7 @@ Entity.query("account", {
 });
 ```
 
---
-
-## 3.5) Bind
+## 3.6) Bind
 For expanded(Lookup) Attributes it's not possible to assign a new value like on normal Attributes.
 A bind is the equivalent for this. Be aware that unbinding is not implemented yet, so
 removing a binding is not possible.
@@ -247,9 +249,7 @@ Entity.get("account", null, {
 });
 ```
 
---
-
-## 3.6) Save
+## 3.7) Save
 Saving the entity can be done by invoking the save method.
 ```javascript
 Entity.get("account", {
@@ -259,16 +259,14 @@ Entity.get("account", {
     if (account) {
         console.log("entity.save 'acount' " + account.emailaddress1);
         account.emailaddress1 = "changed@dys.nl";
-        account.save().then(() => {
+        account.save().then(function () {
             console.log("entity.save 'acount' " + account.emailaddress1);
         });
     }
 });
 ```
 
---
-
-## 3.7) Delete
+## 3.8) Delete
 Deleting an entity can be done by invoking the delete method.
 ```javascript
 Entity.get("account", {
@@ -278,45 +276,15 @@ Entity.get("account", {
     if (account) {
         console.log("entity.save 'acount' " + account.emailaddress1);
         account.emailaddress1 = "changed@dys.nl";
-        account.delete().then(() => {
+        account.delete().then(function () {
             console.log("entity.delete 'acount' " + account.emailaddress1);
         });
     }
 });
 ```
 
---
-
-## 3.8) Create
-Entity.create has two parameters:
-  * logicalName
-  * data
-
-```javascript
-Entity.create(logicalName, data).then(function (account) {
-    //logic here
-});
-```
-
---
-
-### 3.8.1) Create example
-```javascript
-Entity.create("account", {
-    paymenttermscode: 4,
-    statecode: 0,
-    emailaddress1: "created@dys.nl"
-}).then(account => {
-    console.log("entity.create 'acount' " + account.emailaddress1);
-});
-```
-
---
-
 # 4) OData
 The query parameters contain OData elements in json format.
-
---
 
 ## 4.1) $select
 The 'select' is an array of attributes of the entity.
@@ -329,8 +297,6 @@ Entity.query("account", {
     console.log(data.value[0].accountid);
 });
 ```
-
---
 
 When adding a Lookup in the select, the value will be an Object having LogicalName, Name, Id.
 Normally odata skips Lookup attributes in the select, but the WebAPI.js will resolve to LogicalName, Id, Name.
@@ -347,8 +313,6 @@ Entity.get("systemuser", id, {
 });
 ```
 
---
-
 ## 4.2) $expand
 The 'expand' is an array of Lookup attributes having a nested select.
 A nested expand is not possible due to restrictions on CRM side.
@@ -363,8 +327,6 @@ Entity.query("account", {
     console.log(data.value[0].businessunitid.name);
 });
 ```
-
---
 
 When an expand has no 'select', all attributes will be taken.
 ```javascript
@@ -382,8 +344,6 @@ Entity.get("account", null, {
 });
 ```
 
---
-
 ## 4.3) $orderby
 The 'orders' is an array of configurations of attribute and descending boolean.
 ```javascript
@@ -397,8 +357,6 @@ entity.query("account", {
     console.log(data.value[0].accountid);
 });
 ```
-
---
 
 ## 4.4) $filter
 The 'filters' is an array of configurations of filter type and conditions.
@@ -443,13 +401,9 @@ entity.query("account", {
 });
 ```
 
---
-
 # 5) Account
 Account is a sub-class of Entity. It can be included in your application the same way.
 The Account will ease programming.
-
---
 
 ## 5.1) Definition
 Instead of
@@ -463,8 +417,6 @@ the following can be used:
 Account.query(query).then(function (accounts) {});
 Account.get(id, query).then(function (account) {});
 ```
-
---
 
 ## 5.2) Active accounts
 The Account has a getter for the activeFilter and a method to get active accounts.
@@ -489,13 +441,9 @@ Account.getActiveAccounts({
 });
 ```
 
---
-
 # 6) Systemuser
 Systemuser is a sub-class of Entity. It can be included in your application the same way.
 The Systemuser will ease programming.
-
---
 
 ## 6.1) userId
 The Systemuser has a getter for the userId.
@@ -521,8 +469,6 @@ Systemuser.get(null, {
     console.log("Entity.get current 'systemuser' " + systemuser.systemuserid);
 });
 ```
-
---
 
 ## 6.2) Current Systemuser
 The Systemuser has a getter for the currentFilter and a method to get the current systemuser.
