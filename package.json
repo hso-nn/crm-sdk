@@ -1,0 +1,13 @@
+{
+  "name": "CRM-SDK",
+  "version": "0.1.0",
+  "author": "Dynamics Software",
+  "description": "Javasript Software Development Kit for CRM Web API",
+  "keywords": [
+    "CRM",
+    "CRM-SDK",
+    "WebAPI",
+    "Javascript"
+  ],
+  "license": "MIT"
+}
