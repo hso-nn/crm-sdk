@@ -3,6 +3,8 @@
 
 [![npm](https://img.shields.io/npm/dm/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
 [![npm](https://img.shields.io/npm/dt/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
+[![npm](https://img.shields.io/npm/v/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
+
 
 Javasript Software Development Kit for CRM Web API.
 
