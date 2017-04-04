@@ -4,11 +4,17 @@
   "author": "Dynamics Software <solutions@dynamicssoftware.com> (http://www.dynamicssoftware.com)",
   "description": "Javasript Software Development Kit for CRM Web API",
   "main": "dist/WebAPI.js",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/dys-solutions/crm-sdk.git"
+  },
   "keywords": [
     "CRM",
     "CRM-SDK",
     "WebAPI",
-    "Javascript"
+    "javascript",
+    "library",
+    "WebAPI"
   ],
   "license": "MIT"
 }
