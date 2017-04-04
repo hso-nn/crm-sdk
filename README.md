@@ -27,7 +27,8 @@ This library is in beta. Source files will be added on short term.
 - [Install](#install)
 - [WebAPI example](#webapi-example)
 - [WebAPI](./WebAPI.md)
-- [CRM-SDK](#crm-sdk-example)
+- [CRM-SDK example](#crm-sdk-example)
+- [CRM-SDK](./CrmSdk.md)
 - [Contribute](./Contribute.md)
 - [Copyright](#copyright-and-license)
 
