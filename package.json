@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "author": "Dynamics Software <solutions@dynamicssoftware.com> (http://www.dynamicssoftware.com)",
   "description": "Javasript Software Development Kit for CRM Web API",
+  "main": "dist/WebAPI.js",
   "keywords": [
     "CRM",
     "CRM-SDK",
