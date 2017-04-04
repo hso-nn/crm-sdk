@@ -2,9 +2,6 @@
 ## WebAPI tutorial
 
 ## 1) CRM Web-API
-The Web-API is promise based and will:
-* Page (using @odata-nextLink)
-* Use LogicalName(entityName) by finding correct entitySetName instead of LogicalName + 's'
 
 ### 1.1 Check WebApi support
 The Web-API is new for Microsoft Dynamics 365 (online and on-premises).
