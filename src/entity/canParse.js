@@ -1,10 +1,10 @@
 
 const canParse = superclass => class extends superclass {
     static async getQueryAttributes(query = {}, logicalName = this.logicalName) {
-        let attributes = this.extractQueryAttributes(query);
+        const attributes = this.extractQueryAttributes(query);
         if (attributes.length === 0) {
-            let entityAttributes = await this.getEntityAttributes(logicalName);
-            for (let attributeName of Object.keys(entityAttributes)) {
+            const entityAttributes = await this.getEntityAttributes(logicalName);
+            for (const attributeName of Object.keys(entityAttributes)) {
                 attributes.push(attributeName);
             }
         }
@@ -12,8 +12,8 @@ const canParse = superclass => class extends superclass {
     }
 
     static extractQueryAttributes({select, expand = []}) {
-        let attributes = select ? select.slice() : [];
-        for (let item of expand) {
+        const attributes = select ? select.slice() : [];
+        for (const item of expand) {
             if (typeof item === "string") {
                 attributes.push(item);
             } else {
@@ -24,9 +24,9 @@ const canParse = superclass => class extends superclass {
     }
 
     static parseResult(data = [], logicalName, attributes) {
-        let entities = [];
-        for (let entityData of data) {
-            let instance = new this(entityData, logicalName);
+        const entities = [];
+        for (const entityData of data) {
+            const instance = new this(entityData, logicalName);
             this.addDescriptors(instance, attributes);
             entities.push(instance);
         }
@@ -34,15 +34,15 @@ const canParse = superclass => class extends superclass {
     }
 
     static addDescriptors(instance, attributes = []) {
-        for (let attribute of attributes) {
-            let descriptor = this.getDescriptor(attribute);
+        for (const attribute of attributes) {
+            const descriptor = this.getDescriptor(attribute);
             Object.defineProperty(instance, attribute, descriptor);
         }
     }
 
     static getDescriptor(attribute) {
-        let origDescriptor = this.getPropertyDescriptor(attribute),
-            descriptor = null;
+        const origDescriptor = this.getPropertyDescriptor(attribute);
+        let descriptor = null;
         if (!origDescriptor || !origDescriptor.get || !origDescriptor.set) {
             descriptor = {};
         }

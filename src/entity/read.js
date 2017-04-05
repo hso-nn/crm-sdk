@@ -7,12 +7,12 @@ const read = superclass => class extends superclass {
     }
 
     static async get(logicalName = this.logicalName, id, query = {}) {
-        let queryOptions = await this.getQueryOptions(query, logicalName);
+        const queryOptions = await this.getQueryOptions(query, logicalName);
         if (id && query.filters) {
             console.log(`Get by 'id' does negate filters on query`);
         }
         console.log(`Get ${logicalName} (${id}) ${queryOptions}`);
-        let data = await WebAPI.retrieveEntity(logicalName, id, queryOptions),
+        const data = await WebAPI.retrieveEntity(logicalName, id, queryOptions),
             attributes = await this.getQueryAttributes(query, logicalName);
         return this.parseResult(data.value ? data.value : [data], logicalName, attributes)[0];
     }
@@ -22,14 +22,11 @@ const read = superclass => class extends superclass {
      * type: "or" | "and"
      * conditions: [{attribute, operator, value}]
      *
-     * @param logicalName
-     * @param query
-     * @returns {Promise.<*|Promise.<TResult>>}
      */
     static async query(logicalName = this.logicalName, query = {}) {
-        let queryOptions = await this.getQueryOptions(query, logicalName);
+        const queryOptions = await this.getQueryOptions(query, logicalName);
         console.log(`Query ${logicalName}`);
-        let result = await WebAPI.retrieveMultiple(logicalName, queryOptions),
+        const result = await WebAPI.retrieveMultiple(logicalName, queryOptions),
             attributes = await this.getQueryAttributes(query, logicalName);
         return this.parseResult(result.value, logicalName, attributes);
     }
@@ -37,17 +34,16 @@ const read = superclass => class extends superclass {
     /**
      * Rewrites filter attributes on query to filters collection in query.
      * .query({myAttribute: "abc"}) => .query({filters: [conditions: [{attribute: "myAttribute", operator: "eq", value: "abc"}]]})
-     * @param query
      */
     static rewriteFilters(query) {
-        let filter = {
+        const filter = {
             type: "and",
             conditions: []
         };
         if (!query.filters) {
             query.filters = [];
         }
-        for (let name in query) {
+        for (const name in query) {
             if (query.hasOwnProperty(name)) {
                 if (this.queryElements.indexOf(name) === -1) {
                     filter.conditions.push({
@@ -68,13 +64,13 @@ const read = superclass => class extends superclass {
      */
     static async rewriteSelect(query, logicalName) {
         if (query.select) {
-            let entityAttributes = await this.getEntityAttributes(logicalName),
+            const entityAttributes = await this.getEntityAttributes(logicalName),
                 clone = query.select.slice();
-            for (let attribute of clone) {
-                let entityAttribute = entityAttributes[attribute],
+            for (const attribute of clone) {
+                const entityAttribute = entityAttributes[attribute],
                     AttributeType = entityAttribute && entityAttribute.AttributeType;
                 if (AttributeType === "Lookup") {
-                    let entityMetadata = await Metadata.getEntityDefinitions(entityAttribute.Targets[0]),
+                    const entityMetadata = await Metadata.getEntityDefinitions(entityAttribute.Targets[0]),
                         index = query.select.indexOf(attribute);
                     query.select.splice(index, 1);
                     if (!query.expand) {
@@ -94,7 +90,7 @@ const read = superclass => class extends superclass {
     static async getQueryOptions(query, logicalName, separator = "&") {
         this.rewriteFilters(query);
         await this.rewriteSelect(query, logicalName);
-        let options = [],
+        const options = [],
             parsedSelect = this.parseSelect(query.select),
             parsedFilters = await this.parseFilters(query.filters, logicalName),
             parsedExpand = await this.parseExpand(query.expand, logicalName),
@@ -118,14 +114,14 @@ const read = superclass => class extends superclass {
         let parsedExpand = null;
         if (expand.length > 0) {
             let attributeString = "";
-            for (let item of expand) {
+            for (const item of expand) {
                 if (attributeString !== "") {
                     attributeString += ",";
                 }
                 if (typeof item === "string") {
                     attributeString += `${item}`;
                 } else {
-                    let {attribute} = item,
+                    const {attribute} = item,
                         entityAttributes = await this.getEntityAttributes(logicalName),
                         parsedSubQuery = await this.getQueryOptions(item, entityAttributes[attribute].Targets[0], ";");
                     attributeString += `${attribute}(${parsedSubQuery})`;
@@ -140,7 +136,7 @@ const read = superclass => class extends superclass {
         let parsedAttributes = null;
         if (select.length > 0) {
             let attributeString = "";
-            for (let attribute of select) {
+            for (const attribute of select) {
                 if (attributeString !== "") {
                     attributeString += ",";
                 }
@@ -154,12 +150,12 @@ const read = superclass => class extends superclass {
     static async parseFilters(filters = [], logicalName) {
         let parsedFiltersString = null;
         if (filters.length > 0) {
-            let parsedFilters = [];
-            for (let filter of filters) {
-                let {type, conditions} = filter;
+            const parsedFilters = [];
+            for (const filter of filters) {
+                const {type, conditions} = filter;
                 parsedFilters.push(await this.parseConditions(conditions, type, logicalName));
                 if (filter.filters) {
-                    let parsedSubFilterString = await this.parseFilters(filter.filters, logicalName);
+                    const parsedSubFilterString = await this.parseFilters(filter.filters, logicalName);
                     parsedFilters.push(parsedSubFilterString.substring(8));//scrape $filter=
                 }
             }
@@ -169,10 +165,12 @@ const read = superclass => class extends superclass {
     }
 
     static async parseConditions(conditions = [], type = "and", logicalName) {
-        let parsedConditions = "",
-            entityAttributes = await this.getEntityAttributes(logicalName);
-        for (let {attribute, operator, value} of conditions) {
-            let {AttributeType} = entityAttributes[attribute];
+        let parsedConditions = "";
+        const entityAttributes = await this.getEntityAttributes(logicalName);
+        for (const condition of conditions) {
+            let {operator, value} = condition;
+            const {attribute} = condition,
+                {AttributeType} = entityAttributes[attribute];
             operator = operator || "eq";
             value = AttributeType === "String" ? `'${value}'` : `${value}`;
             if (parsedConditions !== "") {
@@ -188,8 +186,8 @@ const read = superclass => class extends superclass {
         let parsedOrders = null;
         if (orders.length > 0) {
             let attributeString = "";
-            for (let {attribute, descending} of orders) {
-                let orderString = !descending ? "asc" : "desc";
+            for (const {attribute, descending} of orders) {
+                const orderString = !descending ? "asc" : "desc";
                 if (attributeString !== "") {
                     attributeString += ",";
                 }

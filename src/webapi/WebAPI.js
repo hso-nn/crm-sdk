@@ -22,7 +22,7 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
     }
 
     static get webAPIPath() {
-        let clientUrl = this.context.getClientUrl(),
+        const clientUrl = this.context.getClientUrl(),
             api = this.version;
         return `${clientUrl}/api/data/${api}`;
     }
@@ -39,12 +39,12 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
     }
 
     static async getEntitySetName(logicalName) {
-        let entityMetadata = await Metadata.getEntityDefinitions(logicalName);
+        const entityMetadata = await Metadata.getEntityDefinitions(logicalName);
         return entityMetadata.EntitySetName;
     }
 
     static async retrieveEntitySetProperty(entitySetName, entityId, property, queryOptions) {
-        let queryString = WebAPI.buildQueryString(queryOptions),
+        const queryString = WebAPI.buildQueryString(queryOptions),
             parsedEntityId = WebAPI.parseEntityId(entityId);
         return WebAPI.requestAndReturnBody("GET", `${entitySetName}(${parsedEntityId})/${property}${queryString}`);
     }
@@ -52,8 +52,8 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
     static parseEntityId(entityId) {
         let parsedEntityId = entityId;
         if (typeof entityId === "object") {
-            let entityIdList = [];
-            for (let field in entityId) {
+            const entityIdList = [];
+            for (const field in entityId) {
                 if (entityId.hasOwnProperty(field)) {
                     entityIdList.push(`${field}='${entityId[field]}'`);
                 }
@@ -76,7 +76,7 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
     }
 
     static buildQueryString(queryOptions = {}) {
-        let queryParts = [];
+        const queryParts = [];
         if (typeof queryOptions === "string") {
             queryParts.push(queryOptions);
         } else {

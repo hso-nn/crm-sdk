@@ -15,7 +15,7 @@ class Metadata {
         if (typeof logicalName !== "string") {
             throw Error("Invalid logicalName given");
         }
-        let result = await WebAPI.retrieveEntitySet("EntityDefinitions", {LogicalName: logicalName});
+        const result = await WebAPI.retrieveEntitySet("EntityDefinitions", {LogicalName: logicalName});
         this.cachedEntityDefinitions[logicalName] = result;
         return result;
     }
@@ -36,7 +36,7 @@ class Metadata {
             return Promise.resolve(this.cachedEntityDefinitionAttributes[logicalName]);
         }
 
-        let result = await WebAPI.retrieveEntitySetProperty("EntityDefinitions", {LogicalName: logicalName}, "Attributes");
+        const result = await WebAPI.retrieveEntitySetProperty("EntityDefinitions", {LogicalName: logicalName}, "Attributes");
         this.cachedEntityDefinitionAttributes[logicalName] = result;
         return result;
     }

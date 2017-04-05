@@ -24,7 +24,7 @@ class Systemuser extends SubEntity {
     }
 
     static get userId() {
-        let userId = window.Xrm.Page.context.getUserId();
+        const userId = window.Xrm.Page.context.getUserId();
         return userId.slice(1, userId.length - 1);
     }
 }

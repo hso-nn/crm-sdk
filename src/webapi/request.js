@@ -2,7 +2,7 @@ import requestJSON from "../requestJSON";
 
 const request = superclass => class extends superclass {
     static request(method, url, body, headers) {
-        let baseURL = this.webAPIPath;
+        const baseURL = this.webAPIPath;
         let requestUrl;
         if (url.indexOf("http") === 0) {
             requestUrl = url;

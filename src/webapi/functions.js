@@ -11,7 +11,7 @@ const functions = superclass => class extends superclass {
 
     //https://msdn.microsoft.com/en-us/library/gg309638.aspx
     static async executeBoundFunction(functionString, logicalName, entityId) {
-        let entitySetName = await this.getEntitySetName(logicalName);
+        const entitySetName = await this.getEntitySetName(logicalName);
         return this.requestAndReturnBody("GET", `${entitySetName}(${entityId})/Microsoft.Dynamics.CRM.${functionString}`);
     }
 

@@ -11,7 +11,7 @@ const actions = superclass => class extends superclass {
 
     //https://msdn.microsoft.com/en-us/library/mt607600.aspx
     static async executeBoundAction(actionName, data, logicalName, entityId) {
-        let entitySetName = await this.getEntitySetName(logicalName);
+        const entitySetName = await this.getEntitySetName(logicalName);
         return this.requestAndReturnBody("POST", `${entitySetName}(${entityId})/Microsoft.Dynamics.CRM.${actionName}`, data);
     }
 

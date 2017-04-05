@@ -42,6 +42,6 @@
       "named": "never"
     }],
     "space-before-blocks": "error",
-    "prefer-const": "warn"
+    "prefer-const": "error"
   }
 }

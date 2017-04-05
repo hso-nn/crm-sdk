@@ -40,12 +40,12 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
     }
 
     async getPrimaryIdAttribute() {
-        let entityMetadata = await this.getEntityMetadata();
+        const entityMetadata = await this.getEntityMetadata();
         return entityMetadata.PrimaryIdAttribute;
     }
 
     async getPrimaryId() {
-        let primaryIdAttribute = await this.getPrimaryIdAttribute();
+        const primaryIdAttribute = await this.getPrimaryIdAttribute();
         return this.data[primaryIdAttribute];
     }
 
@@ -56,10 +56,10 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
         if (this.cachedEntityAttributes[logicalName]) {
             return this.cachedEntityAttributes[logicalName];
         } else {
-            let entityDefinitionAttributes = await Metadata.getEntityDefinitionAttributes(logicalName),
+            const entityDefinitionAttributes = await Metadata.getEntityDefinitionAttributes(logicalName),
                 value = entityDefinitionAttributes.value,
                 entityAttributes = {};
-            for (let entityDefinitionAttribute of value) {
+            for (const entityDefinitionAttribute of value) {
                 entityAttributes[entityDefinitionAttribute.LogicalName] = entityDefinitionAttribute;
             }
             this.cachedEntityAttributes[logicalName] = entityAttributes;
@@ -90,12 +90,12 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
             if (typeof this.data[name] !== "object") {
                 return this.data[name];
             } else {
-                let entityAttributes = this.getClass().getCachedEntityAttributes(this.logicalName),
+                const entityAttributes = this.getClass().getCachedEntityAttributes(this.logicalName),
                     entityAttribute = entityAttributes[name],
                     entityDefinitions = Metadata.getCachedEntityDefinitions(entityAttribute.Targets[0]),
                     lookupData = this.data[name];
                 if (entityDefinitions) {
-                    let {SchemaName, PrimaryIdAttribute, PrimaryNameAttribute} = entityDefinitions;
+                    const {SchemaName, PrimaryIdAttribute, PrimaryNameAttribute} = entityDefinitions;
                     lookupData.LogicalName = SchemaName;
                     lookupData.Id = lookupData[PrimaryIdAttribute];
                     lookupData.Name = lookupData[PrimaryNameAttribute];
@@ -103,7 +103,7 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
                 return lookupData;
             }
         } else {
-            let logicalName = this.logicalName;
+            const logicalName = this.logicalName;
             console.log(`${logicalName} has no attribute '${name}'`);
         }
     }
@@ -111,17 +111,17 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
     setAttribute(name, value) {
         if (this.data.hasOwnProperty(name) || name.endsWith("@odata.bind")) {
             if (typeof this.data[name] !== "object") {
-                let currentValue = this.data[name];
+                const currentValue = this.data[name];
                 if (currentValue !== value) {
                     this.data[name] = value;
                     this.changes[name] = value;
                 }
             } else {
-                let logicalName = this.logicalName;
+                const logicalName = this.logicalName;
                 console.log(`${logicalName} attribute ${name} is a Lookup. Use systemuser.bind(${name}, ${value}) instead.`);
             }
         } else {
-            let logicalName = this.logicalName;
+            const logicalName = this.logicalName;
             console.log(`${logicalName} has no attribute '${name}'`);
         }
     }
@@ -129,7 +129,7 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
     //account.setAttribute("primarycontactid@odata.bind", "https://dys001.crm4.dynamics.com/api/data/v8.0/contacts(465b158c-541c-e511-80d3-3863bb347ba8)");
     async bind(name, value) {
         if (this.data.hasOwnProperty(name)) {
-            let entityDefinitionAttributes = await this.getClass().getEntityAttributes(this.logicalName),
+            const entityDefinitionAttributes = await this.getClass().getEntityAttributes(this.logicalName),
                 baseURL = WebAPI.webAPIPath,
                 target = entityDefinitionAttributes[name].Targets[0],
                 entityMetadata = await Metadata.getEntityDefinitions(target),
@@ -148,15 +148,15 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
      * @returns {Promise.<void>}
      */
     async updateBinding(name, bindingName, value) {
-        let dataAttribute = this.getAttribute(name),
+        const dataAttribute = this.getAttribute(name),
             attributes = [];
-        for (let key of Object.keys(dataAttribute)) {
+        for (const key of Object.keys(dataAttribute)) {
             attributes.push(key);
         }
         await Entity.get(bindingName, value, {
             select: attributes
         }).then(bindingEntity => {
-            for (let key of attributes) {
+            for (const key of attributes) {
                 dataAttribute[key] = bindingEntity[key];
             }
             this.setAttribute(name, dataAttribute);

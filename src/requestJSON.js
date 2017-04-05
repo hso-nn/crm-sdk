@@ -11,7 +11,7 @@ const requestJSON = (url, method = "GET", data, headers = {}) => {
         request.setRequestHeader("OData-Version", "4.0");
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-        for (let header in headers) {
+        for (const header in headers) {
             XMLHttpRequest.setRequestHeader(header, headers[header]);
         }
         request.onreadystatechange = () => {
@@ -26,7 +26,7 @@ const requestJSON = (url, method = "GET", data, headers = {}) => {
 
 const dateReviver = (key, value) => {
     if (typeof value === "string") {
-        let d = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?::(\d*))?Z$/.exec(value);
+        const d = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?::(\d*))?Z$/.exec(value);
         if (d) {
             return new Date(Date.UTC(+d[1], +d[2] - 1, +d[3], +d[4], +d[5], +d[6], +d[7]));
         }
@@ -36,13 +36,12 @@ const dateReviver = (key, value) => {
 
 const handleRequest = (request) => {
     return new Promise((resolve, reject) => {
-        let statusHandlers  = [{
+        const statusHandlers  = [{
             status: [200],
             handler: () => {
-                let body = null,
-                    data = request.response;
+                let body = null;
                 try {
-                    body = JSON.parse(data, dateReviver);
+                    body = JSON.parse(request.response, dateReviver);
                 } catch (ex) {
                     reject(new Error("JSON response can't be parsed"));
                     return;
@@ -57,9 +56,8 @@ const handleRequest = (request) => {
         }, {
             status: [204],
             handler: () => {
-                let body = null;
                 resolve({
-                    body: body,
+                    body: null,
                     getResponseHeader: request.getResponseHeader.bind(request),
                     statusCode: request.status
                 });
@@ -77,7 +75,7 @@ const handleRequest = (request) => {
 
         };
 
-        let statusHandler = statusHandlers.find(item => {
+        const statusHandler = statusHandlers.find(item => {
             if (item.status.indexOf(request.status) > -1) {
                 return true;
             }

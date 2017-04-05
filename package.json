@@ -18,5 +18,31 @@
     "odata",
     "fetch"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack",
+    "build:prod": "cross-env NODE_ENV=production webpack --optimize-dedupe --bail --progress",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --hot --inline",
+    "starthttps": "webpack-dev-server --hot --inline --https"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "es2017"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2017": "^6.16.0",
+    "cross-env": "^3.1.4",
+    "eslint": "^3.18.0",
+    "eslint-loader": "^1.7.0",
+    "json-loader": "^0.5.4",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
+  }
 }

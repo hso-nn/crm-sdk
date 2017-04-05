@@ -10,7 +10,7 @@ const update = superclass => class extends superclass {
     }
 
     async update() {
-        let {changes} = this,
+        const {changes} = this,
             primaryId = await this.getPrimaryId(),
             logicalName = this.logicalName;
 
