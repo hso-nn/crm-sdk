@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "author": "Dynamics Software <solutions@dynamicssoftware.com> (http://www.dynamicssoftware.com)",
   "description": "Javasript Software Development Kit for Microsoft Dynamics CRM Web API",
-  "main": "dist/WebAPI.js",
+  "main": "dist/CRMSDK.js",
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/dys-solutions/crm-sdk.git"
