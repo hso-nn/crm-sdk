@@ -2,7 +2,7 @@
   "name": "crm-sdk",
   "version": "0.1.0",
   "author": "Dynamics Software <solutions@dynamicssoftware.com> (http://www.dynamicssoftware.com)",
-  "description": "Javasript Software Development Kit for CRM Web API",
+  "description": "Javasript Software Development Kit for Microsoft Dynamics CRM Web API",
   "main": "dist/WebAPI.js",
   "repository" : {
     "type" : "git",
@@ -10,10 +10,12 @@
   },
   "keywords": [
     "crm",
-    "webapi",
+    "dynamics",
     "crm-sdk",
+    "webapi",
     "javascript",
     "library",
+    "odata",
     "fetch"
   ],
   "license": "MIT"
