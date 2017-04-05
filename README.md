@@ -15,12 +15,7 @@ There are several SDK's available, so why another one?
 * This library is promise based
 * This library supports modules
 * This library supports default [WebAPI](#webapi-example) like other libraries, but also
-* This library will support extra [abstraction](#crm-sdk-example) on short term
-
-## BETA
-
-This library is in beta. Source files will be added on short term.
-[abstraction](#crm-sdk-example) layer will be added on short term.
+* This library supports extra [abstraction](#crm-sdk-example)
 
 ## Table of contents
 
