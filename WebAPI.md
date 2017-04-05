@@ -22,7 +22,7 @@ Include the library in your index.html. The app.js is your own application code.
 ```html
 <html>
 <body>
-    <script type="text/javascript" src="WebAPI.js"/>
+    <script type="text/javascript" src="CRMSDK.slim.js"/>
     <script type="text/javascript" src="app.js"/>
 </body>
 </html>
@@ -31,7 +31,7 @@ Include the library in your index.html. The app.js is your own application code.
 In app.js, The WebAPI will be available on window scope. Example for using WebAPI below:
 ```javascript
 //app.js
-var WebAPI = window.WebAPI;
+var WebAPI = window.CRMSDK.WebAPI;
 
 WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {
     //todo logic here 
@@ -40,13 +40,13 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 
 ### 2.2) Modules
 The library can be imported or required. 
-Using that means no include of the WebAPI.js in index.html is needed.
-You only have to upload app.js to CRM instead of the WebAPI.js too.
+Using that means no include of the CRMSDK.slim.js in index.html is needed.
+You only have to upload app.js to CRM instead of the CRMSDK.slim.js too.
 
 #### 2.2.1) Example of ECMAScript 6.
 ```javascript
 //app.js
-import {WebAPI} from "../dist/WebAPI";
+import {WebAPI} from "crm-sdk";
 
 WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {
     //todo logic here 
@@ -56,7 +56,8 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 #### 2.2.2) Example of require
 ```javascript
 //app.js
-var WebAPI = require("../dist/WebAPI.js"); //umd
+var CRMSDK = require("crm-sdk"); //umd
+var WebAPI = CRMSDK.WebAPI;
 
 WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {
     //todo logic here 
@@ -64,7 +65,7 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 ```
 
 # 3) WebAPI
-The WebAPI.js is the low level SDK for the CRM webApi.
+The CRMSDK.slim.js is the low level SDK for the CRM webApi.
 
 ## 3.1) Version
 The default webApi version is 8.0, but you can change it runtime by setting the version.
