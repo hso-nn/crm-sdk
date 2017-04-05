@@ -1,97 +1,40 @@
 
 ## CRM-SDK
 
-[![npm](https://img.shields.io/npm/dm/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
-[![npm](https://img.shields.io/npm/dt/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
-[![npm](https://img.shields.io/npm/v/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
 
-
-Javascript Software Development Kit for CRM Web API.
-
-## Why another library
-There are several SDK's available, so why another one?
-* This library does paging for you (using @odata-nextLink to do multiple requests)
-* This library always finds correct entitySetName (which is not always: LogicalName + 's')
-* This library is promise based
-* This library supports ES6+
-* This library supports default [WebAPI](#webapi-example) like other libraries, but also
-* This library will support extra [abstraction](#crm-sdk-example) on short term
+Javasript Software Development Kit for CRM Web API
 
 ## BETA
 
-This library is in beta. Source files will be added on short term.
-[abstraction](#crm-sdk-example) layer will be added on short term.
+This library is in beta.
 
 ## Table of contents
 
-- [Install](#install)
-- [WebAPI example](#webapi-example)
 - [WebAPI](./WebAPI.md)
-- [CRM-SDK example](#crm-sdk-example)
-- [CRM-SDK](./CrmSdk.md)
-- [Contribute](./Contribute.md)
+- [Building](#building)
+- [Folder Structure](#folder-structure)
+- [Contributing](#contributing)
 - [Copyright](#copyright-and-license)
 
-## Install
+## Building
 
-#### Install with Npm
-```sh
-$ npm install crm-sdk
-```
+To build:
+- `npm install`
+- Production: `npm run build:prod`
+- Develop: `npm run build`
+- Develop live reload: `npm start`
 
-#### Install via download
-[Download latest release](https://github.com/dys-solutions/crm-sdk/archive/0.1.0.zip) and put reference to dist/WebAPI.js in your index.html.
+## Folder Structure
 
-## WebAPI example
-#### Index.html
-```html
-<html>
-<body>
-    <script type="text/javascript" src="WebAPI.js"/>
-    <script type="text/javascript" src="app.js"/>
-</body>
-</html>
-```
+The new build has the following structure:
+- **\src** -> contains source files
+- **\dist** -> contains distribution files
+- **\dist\CRMSDK.js** and **\dist\CRMSDK.slim.js** -> use these if not using a package manager
+- **\src\webapi\settings.json** -> contains default settings
 
-#### app.js
-```javascript
-    WebAPI.version = "8.2"; //default 8.0
+## Contributing
 
-    WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8")
-    .then(function (accountData) {
-        WebAPI.updateEntity("account", accountData.accountid, {
-            emailaddress1: "test2@company.com"
-        }).then(function (data) {
-            console.log("saved " + data.accountid);
-        });
-    });
-```
-
-## CRM-SDK example
-#### Index.html
-```html
-<html>
-<body>
-    <script type="text/javascript" src="CRMSDK.js"/>
-    <script type="text/javascript" src="app.js"/>
-</body>
-</html>
-```
-
-#### app.js
-```javascript
-    var WebAPI = CRMSDK.WebAPI;
-    var Entity = CRMSDK.Entity;
-    WebAPI.version = "8.2"; //default 8.0
-
-    Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8")
-    .then(function (account) {
-        account.emailaddress1 = "test2@company.com";
-        account.save().then(function () {
-            console.log("saved! " + account.accountid);
-        });
-    });
-```
+Please don't do Pull Request for dist folder
 
 ## Copyright and license
 
