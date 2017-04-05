@@ -1,0 +1,47 @@
+{
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jasmine": true,
+    "protractor": true
+  },
+  "globals": {
+    "angular": 1
+  },
+  "rules": {
+    "indent": [
+      "error",
+      4
+    ],
+    "quotes": [
+      "error",
+      "double",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "brace-style": ["error", "1tbs"],
+    "no-underscore-dangle": "error",
+    "no-plusplus": "error",
+    "no-console": "off",
+    "no-debugger": "off",
+    "no-unused-vars": "error",
+    "no-useless-constructor": "error",
+    "space-before-function-paren": ["error", {
+      "anonymous": "always",
+      "named": "never"
+    }],
+    "space-before-blocks": "error",
+    "prefer-const": "error"
+  }
+}
