@@ -15,15 +15,15 @@ There are several SDK's available, so why another one?
 * This library is promise based
 * This library supports modules
 * This library supports default [WebAPI](#webapi-example) like other libraries, but also
-* This library supports extra [abstraction](#crm-sdk-example)
+* This library supports extra [Entity abstraction](#entity-abstraction-example)
 
 ## Table of contents
 
 - [Install](#install)
 - [WebAPI example](#webapi-example)
 - [WebAPI](./WebAPI.md)
-- [CRM-SDK example](#crm-sdk-example)
-- [CRM-SDK](./CrmSdk.md)
+- [Entity abstraction example](#entity-abstraction-example)
+- [Entity abstraction](./Entity.md)
 - [Contribute](./Contribute.md)
 - [Copyright](#copyright-and-license)
 
@@ -105,7 +105,7 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
     });
 ```
 
-## CRM-SDK example
+## Entity abstraction example
 ### Index.html
 ```html
 <html>
