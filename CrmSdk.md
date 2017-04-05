@@ -1,88 +1,28 @@
 
-## Crm-sdk tutorial
+## Entity tutorial
 
-## 1) CRM Web-API
+## 1) Entity
 
-### 1.1 Check WebApi support
-The Web-API is new for Microsoft Dynamics 365 (online and on-premises).
-See more about your Web-API version via CRM => Settings => Customizations => Developer Resources.
-See more about Dynamics CRM Web API at https://msdn.microsoft.com/en-us/library/gg334767.aspx.
-
-## 2) Include library
-The crm-sdk supports high-level requests. 
-The library can be used via index.html or via modules. 
-Besides the including, the usage of the library is equal for both index.html and module way of use. 
-
-### 2.1) Index.html
-Include the library in your index.html. The app.js is your own application code.
-```html
-<html>
-<body>
-    <script type="text/javascript" src="CRMSDK.js"/>
-    <script type="text/javascript" src="app.js"/>
-</body>
-</html>
-```
-
-In app.js, The CRMSDK will be available on window scope. Example for using CRMSDK below:
+Entity api can be accessed like WebAPI.
 ```javascript
 //app.js
 var CRMSDK = window.CRMSDK;
 var WebAPI = CRMSDK.WebAPI;
 var Entity = CRMSDK.Entity;
-
-WebAPI.version = "8.2"; //default 8.0
-Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (account) {
-    //todo logic here 
-});
 ```
 
-### 2.2) Modules
-The library can be imported or required. 
-Using that means no include of the WebAPI.js in index.html is needed.
-You only have to upload app.js to CRM instead of the WebAPI.js too.
-
-#### 2.2.1) Example of ECMAScript 6.
 ```javascript
-//app.js
-import {Entity} from "../dist/CRMSDK";
-
-Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (account) {
-    //todo logic here 
-});
+import {Entity} from "crm-sdk";
 ```
 
-#### 2.2.2) Example of require
 ```javascript
-//app.js
-var CRMSDK = require("../dist/CRMSDK.js"); //umd
+var CRMSDK = require("crm-sdk"); //umd
 var Entity = CRMSDK.Entity;
+``` 
 
-Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (account) {
-    //todo logic here 
-});
-```
+## 2) Entity
 
-# 3) API
-The CRMSDK.js is the high level SDK for the CRM webApi. Please use CRMSDK.js instead of WebAPI.js.
-CRMSDK.js contains WebAPI.
-
-```html
-<script type="text/javascript" src="CRMSDK.js"/>
-```
-
-```javascript
-//app.js
-var CRMSDK = window.CRMSDK;
-var WebAPI = CRMSDK.WebAPI;
-var Entity = CRMSDK.Entity;
-
-Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (account) {
-    console.log(account.accountid); 
-});
-```
-
-## 3.1) Entity.get
+## 2.1) Entity.get
 Entity.get has three parameters:
   * logicalName
   * id
@@ -94,7 +34,7 @@ Entity.get(logicalName, id, query).then(function (account) {
 });
 ```  
 
-### 3.1.1) Entity.get using id
+### 2.1.1) Entity.get using id
 ```javascript
 Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (account) {
     if (account) {
@@ -103,7 +43,7 @@ Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (acc
 });
 ````
 
-### 3.1.2) Entity.get using direct filters
+### 2.1.2) Entity.get using direct filters
 ```javascript
 Entity.get("account", null, {
     emailaddress1: "Oeha@Dys.nl",
@@ -115,7 +55,7 @@ Entity.get("account", null, {
 });
 ```
 
-### 3.1.3) Entity.get using filters definition
+### 2.1.3) Entity.get using filters definition
 Result is exactly as example above, but operators can be different.
 Filter type can be "and" or "or".
 ```javascript
@@ -128,7 +68,7 @@ Entity.get("account", null, {
 });
 ```
 
-## 3.2) Entity.query
+## 2.2) Entity.query
 Entity.query has two parameters:
   * logicalName
   * query (see odata chapter)
@@ -139,7 +79,7 @@ Entity.query(logicalName, query).then(function (accounts) {
 });
 ```
 
-### 3.2.1) Entity.query using direct filters
+### 2.2.1) Entity.query using direct filters
 ```javascript
 Entity.query("account", {
     emailaddress1: "test@dys.nl",
@@ -151,7 +91,7 @@ Entity.query("account", {
 });
 ```
 
-### 3.2.2) Entity.query using filters definition
+### 2.2.2) Entity.query using filters definition
 ```javascript
 Entity.query("account", {
     filters: [{
@@ -173,7 +113,7 @@ Entity.query("account", {
 });
 ```
 
-## 3.3) Create
+## 2.3) Create
 Entity.create has two parameters:
   * logicalName
   * data
@@ -184,7 +124,7 @@ Entity.create(logicalName, data).then(function (account) {
 });
 ```
 
-### 3.3.1) Create example
+### 2.3.1) Create example
 ```javascript
 Entity.create("account", {
     paymenttermscode: 4,
@@ -195,7 +135,7 @@ Entity.create("account", {
 });
 ```
 
-## 3.4) Entity.fetch
+## 2.4) Entity.fetch
 Entity.fetch has three parameters:
   * logicalName
   * fetchXml
@@ -206,7 +146,7 @@ Entity.fetch(logicalName, fetchXml).then(function (entities) {
 });
 ```
 
-### 3.5) Orders
+### 2.5) Orders
 Ordering is supported via orders attribute. Each order config has 'attribute' and 'descending'.
 To order Attributes, please use the 'expand'. This is equal to the web-API $orderby.
 ```javascript
@@ -225,7 +165,7 @@ Entity.query("account", {
 });
 ```
 
-## 3.6) Bind
+## 2.6) Bind
 For expanded(Lookup) Attributes it's not possible to assign a new value like on normal Attributes.
 A bind is the equivalent for this. Be aware that unbinding is not implemented yet, so
 removing a binding is not possible.
@@ -249,7 +189,7 @@ Entity.get("account", null, {
 });
 ```
 
-## 3.7) Save
+## 2.7) Save
 Saving the entity can be done by invoking the save method.
 ```javascript
 Entity.get("account", {
@@ -266,7 +206,7 @@ Entity.get("account", {
 });
 ```
 
-## 3.8) Delete
+## 2.8) Delete
 Deleting an entity can be done by invoking the delete method.
 ```javascript
 Entity.get("account", {
@@ -283,10 +223,10 @@ Entity.get("account", {
 });
 ```
 
-# 4) OData
+# 3) OData
 The query parameters contain OData elements in json format.
 
-## 4.1) $select
+## 3.1) $select
 The 'select' is an array of attributes of the entity.
 If no 'select' is specified, all Attributes of the logicalName will be selected. This may cause performance issues. 
 
@@ -313,7 +253,7 @@ Entity.get("systemuser", id, {
 });
 ```
 
-## 4.2) $expand
+## 3.2) $expand
 The 'expand' is an array of Lookup attributes having a nested select.
 A nested expand is not possible due to restrictions on CRM side.
 ```javascript
@@ -344,7 +284,7 @@ Entity.get("account", null, {
 });
 ```
 
-## 4.3) $orderby
+## 3.3) $orderby
 The 'orders' is an array of configurations of attribute and descending boolean.
 ```javascript
 entity.query("account", {
@@ -358,7 +298,7 @@ entity.query("account", {
 });
 ```
 
-## 4.4) $filter
+## 3.4) $filter
 The 'filters' is an array of configurations of filter type and conditions.
 Filters can also be nested to support 'grouping'.
 See https://msdn.microsoft.com/en-us/library/gg334767.aspx#bkmk_filter for possible operator values.
@@ -401,11 +341,11 @@ entity.query("account", {
 });
 ```
 
-# 5) Account
+# 4) Account
 Account is a sub-class of Entity. It can be included in your application the same way.
 The Account will ease programming.
 
-## 5.1) Definition
+## 4.1) Definition
 Instead of
 ```javascript
 Entity.query("account", query).then(function (accounts) {});
@@ -418,7 +358,7 @@ Account.query(query).then(function (accounts) {});
 Account.get(id, query).then(function (account) {});
 ```
 
-## 5.2) Active accounts
+## 4.2) Active accounts
 The Account has a getter for the activeFilter and a method to get active accounts.
 The method is the easiest one, but also good to know that there is a filter.
 
@@ -441,11 +381,11 @@ Account.getActiveAccounts({
 });
 ```
 
-# 6) Systemuser
+# 5) Systemuser
 Systemuser is a sub-class of Entity. It can be included in your application the same way.
 The Systemuser will ease programming.
 
-## 6.1) userId
+## 5.1) userId
 The Systemuser has a getter for the userId.
 
 Instead of
@@ -470,7 +410,7 @@ Systemuser.get(null, {
 });
 ```
 
-## 6.2) Current Systemuser
+## 5.2) Current Systemuser
 The Systemuser has a getter for the currentFilter and a method to get the current systemuser.
 The method is the easiest one, but also good to know that there is a filter.
 
