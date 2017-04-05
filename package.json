@@ -1,6 +1,6 @@
 {
   "name": "crm-sdk",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "Dynamics Software <solutions@dynamicssoftware.com> (http://www.dynamicssoftware.com)",
   "description": "Javasript Software Development Kit for Microsoft Dynamics CRM Web API",
   "main": "dist/CRMSDK.js",
