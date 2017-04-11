@@ -349,6 +349,14 @@ Entity.query("account", {
 }).then(function (accounts) {});
 ```
 
+## 3.6) top
+This will add $top in the request.
+```javascript
+Entity.query("account", {
+    top: 3
+}).then(function (accounts) {});
+```
+
 # 4) Account
 Account is a sub-class of Entity. It can be included in your application the same way.
 The Account will ease programming.

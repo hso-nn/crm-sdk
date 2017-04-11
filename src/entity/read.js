@@ -3,7 +3,7 @@ import WebAPI from "../webapi/WebAPI";
 
 const read = superclass => class extends superclass {
     static get queryElements() {
-        return ["attribute", "filters", "select", "expand", "orders", "maxpagesize"];
+        return ["attribute", "filters", "select", "expand", "orders", "maxpagesize", "top"];
     }
 
     static async get(logicalName = this.logicalName, id, query = {}) {
@@ -100,7 +100,8 @@ const read = superclass => class extends superclass {
             parsedSelect = this.parseSelect(query.select),
             parsedFilters = await this.parseFilters(query.filters, logicalName),
             parsedExpand = await this.parseExpand(query.expand, logicalName),
-            parsedOrders = this.parseOrders(query.orders);
+            parsedOrders = this.parseOrders(query.orders),
+            parsedTop = this.parseTop(query.top);
         if (parsedFilters) {
             options.push(parsedFilters);
         }
@@ -112,6 +113,9 @@ const read = superclass => class extends superclass {
         }
         if (parsedOrders) {
             options.push(parsedOrders);
+        }
+        if (parsedTop) {
+            options.push(parsedTop);
         }
         return options.join(separator);
     }
@@ -202,6 +206,14 @@ const read = superclass => class extends superclass {
             parsedOrders = `$orderby=${attributeString}`;
         }
         return parsedOrders;
+    }
+
+    static parseTop(top) {
+        let parsedTop = null;
+        if (top) {
+            parsedTop = `$top=${top}`;
+        }
+        return parsedTop;
     }
 };
 export default read;

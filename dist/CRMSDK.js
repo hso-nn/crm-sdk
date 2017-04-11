@@ -9549,6 +9549,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                    queryParts.push("$select=" + selectValue);
 	                }
+	                if (queryOptions.top) {
+	                    queryParts.push("$top=" + queryOptions.top);
+	                }
 	            }
 	            return queryParts.length ? "?" + queryParts.join("&") : "";
 	        }
@@ -11039,7 +11042,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value: function () {
 	                var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(query, logicalName) {
 	                    var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "&";
-	                    var options, parsedSelect, parsedFilters, parsedExpand, parsedOrders;
+	                    var options, parsedSelect, parsedFilters, parsedExpand, parsedOrders, parsedTop;
 	                    return regeneratorRuntime.wrap(function _callee4$(_context4) {
 	                        while (1) {
 	                            switch (_context4.prev = _context4.next) {
@@ -11062,6 +11065,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                case 10:
 	                                    parsedExpand = _context4.sent;
 	                                    parsedOrders = this.parseOrders(query.orders);
+	                                    parsedTop = this.parseTop(query.top);
 	
 	                                    if (parsedFilters) {
 	                                        options.push(parsedFilters);
@@ -11075,9 +11079,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                    if (parsedOrders) {
 	                                        options.push(parsedOrders);
 	                                    }
+	                                    if (parsedTop) {
+	                                        options.push(parsedTop);
+	                                    }
 	                                    return _context4.abrupt("return", options.join(separator));
 	
-	                                case 17:
+	                                case 19:
 	                                case "end":
 	                                    return _context4.stop();
 	                            }
@@ -11501,9 +11508,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return parsedOrders;
 	            }
 	        }, {
+	            key: "parseTop",
+	            value: function parseTop(top) {
+	                var parsedTop = null;
+	                if (top) {
+	                    parsedTop = "$top=" + top;
+	                }
+	                return parsedTop;
+	            }
+	        }, {
 	            key: "queryElements",
 	            get: function get() {
-	                return ["attribute", "filters", "select", "expand", "orders", "maxpagesize"];
+	                return ["attribute", "filters", "select", "expand", "orders", "maxpagesize", "top"];
 	            }
 	        }]);
 	

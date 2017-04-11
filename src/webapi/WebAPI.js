@@ -79,6 +79,9 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
                 }
                 queryParts.push(`$select=${selectValue}`);
             }
+            if (queryOptions.top) {
+                queryParts.push(`$top=${queryOptions.top}`);
+            }
         }
         return queryParts.length ? "?" + queryParts.join("&") : "";
     }

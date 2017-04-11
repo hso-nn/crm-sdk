@@ -70,7 +70,7 @@ WebAPI.retrieveEntitySet("accounts", "475b158c-541c-e511-80d3-3863bb347ba8").the
 The retrieveMultiple method has two parameters:
 * logicalName
 * queryOptions (odata query string)
-* headers (odata headers like Prefer: "odata.maxpagesize=3")
+* headers (odata headers)
 
 ```javascript
 WebAPI.retrieveMultiple(logicalName, queryOptions, headers).then(function (data) {});
@@ -79,6 +79,18 @@ WebAPI.retrieveMultiple(logicalName, queryOptions, headers).then(function (data)
 ```javascript
 WebAPI.retrieveMultiple("account", {
     emailaddress: "test@company.com"
+}).then(function (data) {});
+```
+
+```javascript
+WebAPI.retrieveMultiple("account", {}, {
+    Prefer: "odata.maxpagesize=3"
+}).then(function (data) {});
+```
+
+```javascript
+WebAPI.retrieveMultiple("account", {
+    top: 3
 }).then(function (data) {});
 ```
 

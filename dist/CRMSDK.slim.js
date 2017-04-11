@@ -8579,6 +8579,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                    queryParts.push("$select=" + selectValue);
 	                }
+	                if (queryOptions.top) {
+	                    queryParts.push("$top=" + queryOptions.top);
+	                }
 	            }
 	            return queryParts.length ? "?" + queryParts.join("&") : "";
 	        }
