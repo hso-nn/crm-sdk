@@ -341,6 +341,14 @@ entity.query("account", {
 });
 ```
 
+## 3.5) maxpagesize
+This will add the odata.maxpagesize=x as header in the request.
+```javascript
+Entity.query("account", {
+    maxpagesize: 3
+}).then(function (accounts) {});
+```
+
 # 4) Account
 Account is a sub-class of Entity. It can be included in your application the same way.
 The Account will ease programming.
