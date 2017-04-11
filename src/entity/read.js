@@ -3,7 +3,7 @@ import WebAPI from "../webapi/WebAPI";
 
 const read = superclass => class extends superclass {
     static get queryElements() {
-        return ["attribute", "filters", "select", "expand", "orders", "maxpagesize", "top"];
+        return ["attribute", "filters", "select", "expand", "orders", "maxpagesize", "top", "count"];
     }
 
     static async get(logicalName = this.logicalName, id, query = {}) {
@@ -15,6 +15,10 @@ const read = superclass => class extends superclass {
         const data = await WebAPI.retrieveEntity(logicalName, id, queryOptions),
             attributes = await this.getQueryAttributes(query, logicalName);
         return this.parseResult(data.value ? data.value : [data], logicalName, attributes)[0];
+    }
+
+    static count(logicalName = this.logicalName) {
+        return WebAPI.count(logicalName);
     }
 
     /**
@@ -101,7 +105,8 @@ const read = superclass => class extends superclass {
             parsedFilters = await this.parseFilters(query.filters, logicalName),
             parsedExpand = await this.parseExpand(query.expand, logicalName),
             parsedOrders = this.parseOrders(query.orders),
-            parsedTop = this.parseTop(query.top);
+            parsedTop = this.parseTop(query.top),
+            parsedCount = this.parseCount(query.count);
         if (parsedFilters) {
             options.push(parsedFilters);
         }
@@ -116,6 +121,9 @@ const read = superclass => class extends superclass {
         }
         if (parsedTop) {
             options.push(parsedTop);
+        }
+        if (parsedCount) {
+            options.push(parsedCount);
         }
         return options.join(separator);
     }
@@ -214,6 +222,14 @@ const read = superclass => class extends superclass {
             parsedTop = `$top=${top}`;
         }
         return parsedTop;
+    }
+
+    static parseCount(count) {
+        let parsedCount = null;
+        if (count === true) {
+            parsedCount = `$count=${count}`;
+        }
+        return parsedCount;
     }
 };
 export default read;

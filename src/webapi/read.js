@@ -53,5 +53,11 @@ const read = superclass => class extends superclass {
             return body;
         });
     }
+
+    static async count(logicalName) {
+        const entitySetName = await this.getEntitySetName(logicalName),
+            body = await this.requestAndReturnBody("GET", `${entitySetName}/$count`);
+        return body;
+    }
 };
 export default read;

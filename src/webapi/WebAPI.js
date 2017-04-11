@@ -82,6 +82,9 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
             if (queryOptions.top) {
                 queryParts.push(`$top=${queryOptions.top}`);
             }
+            if (queryOptions.count) {
+                queryParts.push(`$count=${queryOptions.count}`);
+            }
         }
         return queryParts.length ? "?" + queryParts.join("&") : "";
     }

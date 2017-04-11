@@ -9552,6 +9552,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (queryOptions.top) {
 	                    queryParts.push("$top=" + queryOptions.top);
 	                }
+	                if (queryOptions.count) {
+	                    queryParts.push("$count=" + queryOptions.count);
+	                }
 	            }
 	            return queryParts.length ? "?" + queryParts.join("&") : "";
 	        }
@@ -10308,6 +10311,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                return executeFetchXml;
 	            }()
+	        }, {
+	            key: "count",
+	            value: function () {
+	                var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(logicalName) {
+	                    var entitySetName, body;
+	                    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+	                        while (1) {
+	                            switch (_context7.prev = _context7.next) {
+	                                case 0:
+	                                    _context7.next = 2;
+	                                    return this.getEntitySetName(logicalName);
+	
+	                                case 2:
+	                                    entitySetName = _context7.sent;
+	                                    _context7.next = 5;
+	                                    return this.requestAndReturnBody("GET", entitySetName + "/$count");
+	
+	                                case 5:
+	                                    body = _context7.sent;
+	                                    return _context7.abrupt("return", body);
+	
+	                                case 7:
+	                                case "end":
+	                                    return _context7.stop();
+	                            }
+	                        }
+	                    }, _callee7, this);
+	                }));
+	
+	                function count(_x13) {
+	                    return _ref7.apply(this, arguments);
+	                }
+	
+	                return count;
+	            }()
 	        }]);
 	
 	        return _class;
@@ -10798,6 +10836,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                return get;
 	            }()
+	        }, {
+	            key: "count",
+	            value: function count() {
+	                var logicalName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.logicalName;
+	
+	                return _WebAPI2.default.count(logicalName);
+	            }
 	
 	            /**
 	             * query: {filters: [{type, conditions, filters}]}
@@ -11031,7 +11076,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }, _callee3, this, [[8, 30, 34, 42], [35,, 37, 41]]);
 	                }));
 	
-	                function rewriteSelect(_x5, _x6) {
+	                function rewriteSelect(_x6, _x7) {
 	                    return _ref3.apply(this, arguments);
 	                }
 	
@@ -11042,7 +11087,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value: function () {
 	                var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(query, logicalName) {
 	                    var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "&";
-	                    var options, parsedSelect, parsedFilters, parsedExpand, parsedOrders, parsedTop;
+	                    var options, parsedSelect, parsedFilters, parsedExpand, parsedOrders, parsedTop, parsedCount;
 	                    return regeneratorRuntime.wrap(function _callee4$(_context4) {
 	                        while (1) {
 	                            switch (_context4.prev = _context4.next) {
@@ -11066,6 +11111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                    parsedExpand = _context4.sent;
 	                                    parsedOrders = this.parseOrders(query.orders);
 	                                    parsedTop = this.parseTop(query.top);
+	                                    parsedCount = this.parseCount(query.count);
 	
 	                                    if (parsedFilters) {
 	                                        options.push(parsedFilters);
@@ -11082,9 +11128,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                    if (parsedTop) {
 	                                        options.push(parsedTop);
 	                                    }
+	                                    if (parsedCount) {
+	                                        options.push(parsedCount);
+	                                    }
 	                                    return _context4.abrupt("return", options.join(separator));
 	
-	                                case 19:
+	                                case 21:
 	                                case "end":
 	                                    return _context4.stop();
 	                            }
@@ -11092,7 +11141,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }, _callee4, this);
 	                }));
 	
-	                function getQueryOptions(_x7, _x8) {
+	                function getQueryOptions(_x8, _x9) {
 	                    return _ref4.apply(this, arguments);
 	                }
 	
@@ -11517,9 +11566,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return parsedTop;
 	            }
 	        }, {
+	            key: "parseCount",
+	            value: function parseCount(count) {
+	                var parsedCount = null;
+	                if (count === true) {
+	                    parsedCount = "$count=" + count;
+	                }
+	                return parsedCount;
+	            }
+	        }, {
 	            key: "queryElements",
 	            get: function get() {
-	                return ["attribute", "filters", "select", "expand", "orders", "maxpagesize", "top"];
+	                return ["attribute", "filters", "select", "expand", "orders", "maxpagesize", "top", "count"];
 	            }
 	        }]);
 	

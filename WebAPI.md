@@ -94,10 +94,18 @@ WebAPI.retrieveMultiple("account", {
 }).then(function (data) {});
 ```
 
+## 2.6) Count
+The count has one parameter:
+  * logicalName
+  
+```javascript
+WebAPI.count(logicalName).then(function (nrEntities) {});
+```
+
 ## 2.6) ExecuteFetchXml
 The executeFetchXml has two parameters:
-* logicalName
-* fetchXml
+  * logicalName
+  * fetchXml
 
 ```javascript
 WebAPI.executeFetchXml(logicalName, fetchXml).then(function (data) {});

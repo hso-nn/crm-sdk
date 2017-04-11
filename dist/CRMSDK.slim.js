@@ -8582,6 +8582,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (queryOptions.top) {
 	                    queryParts.push("$top=" + queryOptions.top);
 	                }
+	                if (queryOptions.count) {
+	                    queryParts.push("$count=" + queryOptions.count);
+	                }
 	            }
 	            return queryParts.length ? "?" + queryParts.join("&") : "";
 	        }
@@ -9337,6 +9340,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	
 	                return executeFetchXml;
+	            }()
+	        }, {
+	            key: "count",
+	            value: function () {
+	                var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(logicalName) {
+	                    var entitySetName, body;
+	                    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+	                        while (1) {
+	                            switch (_context7.prev = _context7.next) {
+	                                case 0:
+	                                    _context7.next = 2;
+	                                    return this.getEntitySetName(logicalName);
+	
+	                                case 2:
+	                                    entitySetName = _context7.sent;
+	                                    _context7.next = 5;
+	                                    return this.requestAndReturnBody("GET", entitySetName + "/$count");
+	
+	                                case 5:
+	                                    body = _context7.sent;
+	                                    return _context7.abrupt("return", body);
+	
+	                                case 7:
+	                                case "end":
+	                                    return _context7.stop();
+	                            }
+	                        }
+	                    }, _callee7, this);
+	                }));
+	
+	                function count(_x13) {
+	                    return _ref7.apply(this, arguments);
+	                }
+	
+	                return count;
 	            }()
 	        }]);
 	
