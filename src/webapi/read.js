@@ -1,11 +1,11 @@
 
 const read = superclass => class extends superclass {
-    static async retrieveEntity(logicalName, entityId, queryOptions) {
+    static async retrieveEntity(logicalName, entityId, queryOptions, headers) {
         const entitySetName = await this.getEntitySetName(logicalName);
-        return this.retrieveEntitySet(entitySetName, entityId, queryOptions);
+        return this.retrieveEntitySet(entitySetName, entityId, queryOptions, headers);
     }
 
-    static retrieveEntitySet(entitySetName, entityId, queryOptions) {
+    static retrieveEntitySet(entitySetName, entityId, queryOptions, headers) {
         const queryString = this.buildQueryString(queryOptions),
             parsedEntityId = entityId ? this.parseEntityId(entityId) : null;
         let url = `${entitySetName}`;
@@ -13,19 +13,32 @@ const read = superclass => class extends superclass {
             url += `(${parsedEntityId})`;
         }
         url += `${queryString}`;
-        return this.requestAndReturnBody("GET", url);
+        return this.requestAndReturnBody("GET", url, null, headers);
     }
 
-    static async retrieveMultiple(logicalName, queryOptions) {
+    static async retrieveMultiple(logicalName, queryOptions, headers) {
         const entitySetName = await this.getEntitySetName(logicalName),
             queryString = this.buildQueryString(queryOptions);
-        return this.requestAndReturnBody("GET", `${entitySetName}${queryString}`).then(async body => {
-            if (body["@odata.nextLink"]) {
+        return this.requestAndReturnBody("GET", `${entitySetName}${queryString}`, null, headers).then(async body => {
+            const hasMaxpagesize = headers && headers.Prefer && headers.Prefer.includes("odata.maxpagesize");
+            if (body["@odata.nextLink"] && !hasMaxpagesize) {
                 const nextPagesValues = await this.requestNextLinks(body["@odata.nextLink"]);
                 body.value = body.value.concat(nextPagesValues);
                 delete body["@odata.nextLink"];
             }
             return body;
+        });
+    }
+
+    static requestNextLinks(nextLink) {
+        let values = [];
+        return this.requestAndReturnBody("GET", decodeURI(nextLink)).then(async body => {
+            values = body.value;
+            if (body["@odata.nextLink"]) {
+                //@odata.nextLink is an absolute url...
+                values = values.concat(await this.requestNextLinks(body["@odata.nextLink"]));
+            }
+            return values;
         });
     }
 

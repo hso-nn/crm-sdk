@@ -12,7 +12,7 @@ const requestJSON = (url, method = "GET", data, headers = {}) => {
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
         for (const header in headers) {
-            XMLHttpRequest.setRequestHeader(header, headers[header]);
+            request.setRequestHeader(header, headers[header]);
         }
         request.onreadystatechange = () => {
             if (request.readyState === 4) {

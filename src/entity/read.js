@@ -3,7 +3,7 @@ import WebAPI from "../webapi/WebAPI";
 
 const read = superclass => class extends superclass {
     static get queryElements() {
-        return ["attribute", "filters", "select", "expand", "orders"];
+        return ["attribute", "filters", "select", "expand", "orders", "maxpagesize"];
     }
 
     static async get(logicalName = this.logicalName, id, query = {}) {
@@ -26,9 +26,17 @@ const read = superclass => class extends superclass {
     static async query(logicalName = this.logicalName, query = {}) {
         const queryOptions = await this.getQueryOptions(query, logicalName);
         console.log(`Query ${logicalName}`);
-        const result = await WebAPI.retrieveMultiple(logicalName, queryOptions),
+        const result = await WebAPI.retrieveMultiple(logicalName, queryOptions, this.getHeaders(query)),
             attributes = await this.getQueryAttributes(query, logicalName);
         return this.parseResult(result.value, logicalName, attributes);
+    }
+
+    static getHeaders(query) {
+        const headers = {};
+        if (query.maxpagesize) {
+            headers.Prefer = `odata.maxpagesize=${query.maxpagesize}`;
+        }
+        return headers;
     }
 
     /**
@@ -43,15 +51,13 @@ const read = superclass => class extends superclass {
         if (!query.filters) {
             query.filters = [];
         }
-        for (const name in query) {
-            if (query.hasOwnProperty(name)) {
-                if (this.queryElements.indexOf(name) === -1) {
-                    filter.conditions.push({
-                        attribute: name.toLowerCase(),
-                        operator: "eq",
-                        value: query[name]
-                    });
-                }
+        for (const key of Object.keys(query)) {
+            if (!this.queryElements.includes(key)) {
+                filter.conditions.push({
+                    attribute: name.toLowerCase(),
+                    operator: "eq",
+                    value: query[key]
+                });
             }
         }
         if (filter.conditions.length > 0) {

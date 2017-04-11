@@ -8,13 +8,7 @@ See more about Dynamics CRM Web API at https://msdn.microsoft.com/en-us/library/
 
 # 2) WebAPI
 
-## 2.1) Version
-The default webApi version is 8.0, but you can change it runtime by setting the version.
-```javascript
-WebAPI.version = "8.2";
-```
-
-## 2.2) Create
+## 2.1) Create
 The createEntity method has two parameters:
 * logicalName
 * attributes
@@ -29,7 +23,7 @@ WebAPI.createEntity("account", {
 }).then(function (data) {});
 ```
 
-## 2.3) Delete
+## 2.2) Delete
 The deleteEntity method has two parameters:
 * logicalName
 * entityId
@@ -42,7 +36,7 @@ WebAPI.deleteEntity(logicalName, entityId).then(function (data) {});
 WebAPI.deleteEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
-## 2.4) RetrieveEntity
+## 2.3) RetrieveEntity
 The retrieveEntity method has three parameters:
 * logicalName
 * entityId
@@ -56,7 +50,7 @@ WebAPI.retrieveEntity(logicalName, entityId, queryOptions).then(function (data) 
 WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
-## 2.5) RetrieveEntitySet
+## 2.4) RetrieveEntitySet
 This class is used by retrieveEntity after finding the entitySetName
 and can be used when entitySetName is known already.
 The retrieveEntitySet method has three parameters:
@@ -72,7 +66,7 @@ WebAPI.retrieveEntitySet(entitySetName, entityId, queryOptions).then(function (d
 WebAPI.retrieveEntitySet("accounts", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
-## 2.6) RetrieveMultiple
+## 2.5) RetrieveMultiple
 The retrieveMultiple method has two parameters:
 * logicalName
 * queryOptions (odata query string)
@@ -87,7 +81,7 @@ WebAPI.retrieveMultiple("account", {
 }).then(function (data) {});
 ```
 
-## 2.7) ExecuteFetchXml
+## 2.6) ExecuteFetchXml
 The executeFetchXml has two parameters:
 * logicalName
 * fetchXml
@@ -108,7 +102,7 @@ WebAPI.executeFetchXml("systemuser", `<fetch>
 .then(function (data) {});
 ```
 
-## 2.8) UpdateEntity
+## 2.7) UpdateEntity
 The updateEntity has three parameters:
 * logicalName
 * entityId
@@ -124,14 +118,14 @@ WebAPI.updateEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8", {
 }).then(function (data) {});
 ```
 
-## 2.9) Actions
+## 2.8) Actions
 Bound and unbound actions can be executed via the webAPI.
 If you don't know which one to use, the executeAction will do the check for you.
 ```javascript
 WebAPI.executeAction(actionName, data, logicalName, entityId).then(function () {});
 ```
 
-### 2.9.1) Unbound action
+### 2.8.1) Unbound action
 See https://msdn.microsoft.com/en-us/library/mt607600.aspx.
 Unbound action has two parameters:
 * actionName
@@ -141,7 +135,7 @@ Unbound action has two parameters:
 WebAPI.executeUnboundAction(actionName, data).then(function () {});
 ```
 
-### 2.9.2) Bound action
+### 2.8.2) Bound action
 See https://msdn.microsoft.com/en-us/library/mt607600.aspx.
 The bound action has four parameters:
 * actionName
@@ -153,14 +147,14 @@ The bound action has four parameters:
 WebAPI.executeBoundAction(actionName, data, logicalName, entityId).then(function () {});
 ```
 
-## 2.10) Functions
+## 2.9) Functions
 Bound and unbound functions can be executed via the WebAPI.
 If you don't know which one to use, the executeFunction will do the check for you.
 ```javascript
 WebAPI.executeFunction(functionString, logicalName, entityId).then(function () {});
 ```
 
-### 2.10.1) Unbound function
+### 2.9.1) Unbound function
 See https://msdn.microsoft.com/en-us/library/gg309638.aspx.
 The execute unbound function has one parameters:
 * functionString
@@ -175,7 +169,7 @@ WebAPI.executeUnboundFunction("WhoAmI").then(function (data) {
 });
 ```
 
-### 2.10.2) Bound function
+### 2.9.2) Bound function
 See https://msdn.microsoft.com/en-us/library/gg309638.aspx.
 The execute bound function has three parameters:
 * functionString
@@ -186,11 +180,11 @@ The execute bound function has three parameters:
 WebAPI.executeBoundFunction(functionString, logicalName, entityId).then(function () {});
 ```
 
-## 2.11) Associate/disassociate entities
+## 2.10) Associate/disassociate entities
 See https://msdn.microsoft.com/en-us/library/mt607875.aspx.
 Entities can be associated or disassociated using the WebAPI.
 
-### 2.11.1) Associate entities
+### 2.10.1) Associate entities
 The associateEntities has five parameters:
 * logicalName
 * entityId
@@ -203,7 +197,7 @@ WebAPI.associateEntities(logicalName, entityId, navigationProperty,
     associateEntity, associateEntityId).then(function () {});
 ```
 
-### 2.11.2) disassociate entities
+### 2.10.2) disassociate entities
 The disassociateEntities has four parameters:
 * logicalName
 * entityId
@@ -215,7 +209,7 @@ WebAPI.disassociateEntities(logicalName, entityId,
     navigationProperty, associateEntityId).then(function () {});
 ```
 
-## 2.12) getEntitySetName
+## 2.11) getEntitySetName
 The getEntitySetName has one parameter:
 * logicalName
 

@@ -93,7 +93,6 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 ### app.js
 ```javascript
     var WebAPI = CRMSDK.WebAPI;
-    WebAPI.version = "8.2"; //default 8.0
 
     WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8")
     .then(function (accountData) {
@@ -120,7 +119,6 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 ```javascript
     var WebAPI = CRMSDK.WebAPI;
     var Entity = CRMSDK.Entity;
-    WebAPI.version = "8.2"; //default 8.0
 
     Entity.get("account", "475b158c-541c-e511-80d3-3863bb347ba8")
     .then(function (account) {

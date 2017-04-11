@@ -7,7 +7,6 @@ import functions from "./functions";
 import Metadata from "../metadata/Metadata";
 import read from "./read";
 import request from "./request";
-import settings from "./settings.json";
 import update from "./update";
 
 class WebAPI extends actions(associate(create(destroy(functions(read(request(update(Class)))))))) {
@@ -28,7 +27,10 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
     }
 
     static get version() {
-        return this.api || settings.api;
+        if (!this.api) {
+            this.version = window.Xrm.Page.context.getVersion().substr(0, 3);
+        }
+        return this.api;
     }
 
     static set version(version) {
@@ -61,18 +63,6 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
             parsedEntityId = entityIdList.join(",");
         }
         return parsedEntityId;
-    }
-
-    static requestNextLinks(nextLink) {
-        let values = [];
-        return WebAPI.requestAndReturnBody("GET", nextLink).then(async body => {
-            values = body.value;
-            if (body["@odata.nextLink"]) {
-                //@odata.nextLink is an absolute url...
-                values = values.concat(await WebAPI.requestNextLinks(body["@odata.nextLink"]));
-            }
-            return values;
-        });
     }
 
     static buildQueryString(queryOptions = {}) {
