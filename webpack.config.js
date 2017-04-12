@@ -1,7 +1,8 @@
 var path = require("path"),
     webpack = require("webpack"),
     DEBUG = process.env.NODE_ENV !== "production",
-    dir_build = path.resolve(__dirname, "dist");
+    dir_build = path.resolve(__dirname, "dist"),
+    WebpackAutoInject = require("webpack-auto-inject-version");
 
 module.exports = {
     entry: {
@@ -54,7 +55,13 @@ module.exports = {
     },
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.BannerPlugin("crm-sdk | (c) Dynamics Software | MIT license - https://github.com/dys-solutions/crm-sdk/blob/develop/LICENSE")
+        new WebpackAutoInject.default({
+            components: {
+                AutoIncreaseVersion: false,
+                InjectAsComment: false
+            }
+        }),
+        new webpack.BannerPlugin("crm-sdk [AIV]{version}[/AIV] | (c) Dynamics Software | MIT license - https://github.com/dys-solutions/crm-sdk/blob/develop/LICENSE")
     ].concat(DEBUG ? [] : [
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: false,
