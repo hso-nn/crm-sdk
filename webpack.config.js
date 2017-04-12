@@ -22,26 +22,26 @@ module.exports = {
         umdNamedDefine: true
     },
     resolve: {
-        extensions: ["", ".js", ".json"]
+        extensions: [".js", ".json"]
     },
     devServer: {
         contentBase: dir_build,
         outputPath: dir_build
     },
     module: {
-        preLoaders: [
-            {
-                test: /\.js?$/, loader: "eslint",
-                exclude: [
-                    path.resolve(__dirname, "./src/libs"),
-                ],
-                include: [
-                    path.resolve(__dirname, "./src"),
-                    path.resolve(__dirname, "./tests")
-                ]
-            }
-        ],
-        loaders: [{
+        rules: [{
+            enforce: "pre",
+            test: /\.js?$/,
+            loader: "eslint-loader",
+            options: {
+                failOnWarning: false,
+                failOnError: true
+            },
+            include: [
+                path.resolve(__dirname, "./src"),
+                path.resolve(__dirname, "./tests")
+            ]
+        },{
             loader: "babel-loader",
             test: /\.js$/,
             include: [
@@ -52,12 +52,9 @@ module.exports = {
             test: /\.json$/, loader: "json"
         }]
     },
-    eslint: {
-        failOnWarning: false,
-        failOnError: true
-    },
     plugins: [
-        new webpack.NoErrorsPlugin()
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.BannerPlugin("crm-sdk | (c) Dynamics Software | MIT license - https://github.com/dys-solutions/crm-sdk/blob/develop/LICENSE")
     ].concat(DEBUG ? [] : [
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: false,
