@@ -34,7 +34,6 @@ There are three ways to build:
 
 The project has the following structure:
 - **src** -> contains source files
-    - **src\webapi\settings.json** -> contains default settings
 - **dist** -> contains distribution files
     - **dist\WebAPI.js** -> the low-level WebAPI
     - **dist\CRMSDK.js** -> the high-level WebAPI

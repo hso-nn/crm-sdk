@@ -146,22 +146,13 @@ Entity.fetch(logicalName, fetchXml).then(function (entities) {
 });
 ```
 
-### 2.5) Orders
-Ordering is supported via orders attribute. Each order config has 'attribute' and 'descending'.
-To order Attributes, please use the 'expand'. This is equal to the web-API $orderby.
+## 2.5) Entity.count
+Entity.count count has one parameter:
+  * logicalName
+  
 ```javascript
-Entity.query("account", {
-    emailaddress1: "Oeha@Dys.nl",
-    statecode: 0,
-    select: ["accountid", "name", "emailaddress1"],
-    orders: [{
-        attribute: "accountid",
-        descending: true
-    }]
-}).then(function (account) {
-    if (account) {
-        console.log("Entity.get 'acount' " + account.emailaddress1);
-    }
+Entity.count(logicalName).then(function (nrOfEntities) {
+    //logic here
 });
 ```
 
@@ -178,7 +169,7 @@ Entity.get("account", null, {
         attribute: "primarycontactid",
         select: ["contactid", "fullname"]
     }]
-}).then(function (account) {debugger;
+}).then(function (account) {
     if (account) {
         console.log("Entity.get 'acount' " + account.emailaddress1);
         console.log("Entity.get 'acount' " + account.primarycontactid.contactid);
@@ -339,6 +330,41 @@ entity.query("account", {
 }).then(function (data) {
     console.log(data.value[0].accountid);
 });
+```
+
+## 3.5) Orders
+Ordering is supported via orders attribute. Each order config has 'attribute' and 'descending'.
+To order Attributes, please use the 'expand'. This is equal to the web-API $orderby.
+```javascript
+Entity.query("account", {
+    emailaddress1: "Oeha@Dys.nl",
+    statecode: 0,
+    select: ["accountid", "name", "emailaddress1"],
+    orders: [{
+        attribute: "accountid",
+        descending: true
+    }]
+}).then(function (account) {
+    if (account) {
+        console.log("Entity.get 'acount' " + account.emailaddress1);
+    }
+});
+```
+
+## 3.6) maxpagesize
+This will add the odata.maxpagesize=x as header in the request.
+```javascript
+Entity.query("account", {
+    maxpagesize: 3
+}).then(function (accounts) {});
+```
+
+## 3.7) top
+This will add $top in the request.
+```javascript
+Entity.query("account", {
+    top: 3
+}).then(function (accounts) {});
 ```
 
 # 4) Account

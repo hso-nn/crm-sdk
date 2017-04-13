@@ -1,3 +1,4 @@
+/* global define */
 import actions from "./actions";
 import associate from "./associate";
 import Class from "../Class";
@@ -7,7 +8,6 @@ import functions from "./functions";
 import Metadata from "../metadata/Metadata";
 import read from "./read";
 import request from "./request";
-import settings from "./settings.json";
 import update from "./update";
 
 class WebAPI extends actions(associate(create(destroy(functions(read(request(update(Class)))))))) {
@@ -28,7 +28,10 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
     }
 
     static get version() {
-        return this.api || settings.api;
+        if (!this.api) {
+            this.version = window.Xrm.Page.context.getVersion().substr(0, 3);
+        }
+        return this.api;
     }
 
     static set version(version) {
@@ -63,18 +66,6 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
         return parsedEntityId;
     }
 
-    static requestNextLinks(nextLink) {
-        let values = [];
-        return WebAPI.requestAndReturnBody("GET", nextLink).then(async body => {
-            values = body.value;
-            if (body["@odata.nextLink"]) {
-                //@odata.nextLink is an absolute url...
-                values = values.concat(await WebAPI.requestNextLinks(body["@odata.nextLink"]));
-            }
-            return values;
-        });
-    }
-
     static buildQueryString(queryOptions = {}) {
         const queryParts = [];
         if (typeof queryOptions === "string") {
@@ -89,9 +80,22 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
                 }
                 queryParts.push(`$select=${selectValue}`);
             }
+            if (queryOptions.top) {
+                queryParts.push(`$top=${queryOptions.top}`);
+            }
+            if (queryOptions.count) {
+                queryParts.push(`$count=${queryOptions.count}`);
+            }
         }
         return queryParts.length ? "?" + queryParts.join("&") : "";
     }
 }
 export {WebAPI};
 export default WebAPI;
+
+// webpack hack to export class directly,
+// - instead of using 'new WebpackAutoInject.default()',
+// - with this you can just use WebpackAutoInject();
+define(() => {
+    return WebAPI;
+});

@@ -12,12 +12,17 @@ const requestJSON = (url, method = "GET", data, headers = {}) => {
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
         for (const header in headers) {
-            XMLHttpRequest.setRequestHeader(header, headers[header]);
+            request.setRequestHeader(header, headers[header]);
         }
         request.onreadystatechange = () => {
             if (request.readyState === 4) {
                 request.onreadystatechange = null;
-                handleRequest(request).then(resolve).catch(reject);
+                try {
+                    const response = handleRequest(request);
+                    resolve(response);
+                } catch(e) {
+                    reject(e);
+                }
             }
         };
         request.send(JSON.stringify(data));
@@ -34,58 +39,36 @@ const dateReviver = (key, value) => {
     return value;
 };
 
-const handleRequest = (request) => {
-    return new Promise((resolve, reject) => {
-        const statusHandlers  = [{
-            status: [200],
-            handler: () => {
-                let body = null;
-                try {
-                    body = JSON.parse(request.response, dateReviver);
-                } catch (ex) {
-                    reject(new Error("JSON response can't be parsed"));
-                    return;
-                }
-
-                resolve({
-                    body: body,
-                    getResponseHeader: request.getResponseHeader.bind(request),
-                    statusCode: request.status
-                });
-            }
-        }, {
-            status: [204],
-            handler: () => {
-                resolve({
-                    body: null,
-                    getResponseHeader: request.getResponseHeader.bind(request),
-                    statusCode: request.status
-                });
-            }
-        }];
-
-        const defaultHandler = () => {
-            let error;
+const handleRequest = request => {
+    const statusHandlers  = {
+        200: () => {
+            let body = null;
             try {
-                error = JSON.parse(request.response).error;
-            } catch (e) {
-                error = new Error("Unexpected Error");
+                body = JSON.parse(request.response, dateReviver);
+            } catch (ex) {
+                throw new Error("JSON response can't be parsed");
             }
-            reject(error);
 
-        };
-
-        const statusHandler = statusHandlers.find(item => {
-            if (item.status.indexOf(request.status) > -1) {
-                return true;
-            }
-        });
-
-        if (statusHandler) {
-            statusHandler.handler();
-        } else {
-            defaultHandler();
+            return {
+                body: body,
+                getResponseHeader: request.getResponseHeader.bind(request),
+                statusCode: request.status
+            };
+        },
+        204: () => {
+            return {
+                body: null,
+                getResponseHeader: request.getResponseHeader.bind(request),
+                statusCode: request.status
+            };
         }
-    });
+    };
+
+    const statusHandler = statusHandlers[request.status];
+    if (statusHandler) {
+        return statusHandler();
+    } else {
+        throw new Error("Unexpected Error");
+    }
 };
 export default requestJSON;

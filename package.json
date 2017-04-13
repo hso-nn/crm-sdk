@@ -1,12 +1,12 @@
 {
   "name": "crm-sdk",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "author": "Dynamics Software <solutions@dynamicssoftware.com> (http://www.dynamicssoftware.com)",
   "description": "Javasript Software Development Kit for Microsoft Dynamics CRM Web API",
   "main": "dist/CRMSDK.js",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/dys-solutions/crm-sdk.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dys-solutions/crm-sdk.git"
   },
   "keywords": [
     "crm",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "build:prod": "cross-env NODE_ENV=production webpack --optimize-dedupe --bail --progress",
+    "build:prod": "cross-env NODE_ENV=production webpack --bail --progress",
     "watch": "webpack --watch",
     "start": "webpack-dev-server --hot --inline",
     "starthttps": "webpack-dev-server --hot --inline --https"
@@ -40,9 +40,10 @@
     "babel-preset-es2017": "^6.16.0",
     "cross-env": "^3.1.4",
     "eslint": "^3.18.0",
-    "eslint-loader": "^1.7.0",
+    "eslint-loader": "^1.7.1",
     "json-loader": "^0.5.4",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack": "^2.3.3",
+    "webpack-auto-inject-version": "^0.5.3",
+    "webpack-dev-server": "^2.4.2"
   }
 }

@@ -3,7 +3,7 @@ import WebAPI from "../webapi/WebAPI";
 
 const read = superclass => class extends superclass {
     static get queryElements() {
-        return ["attribute", "filters", "select", "expand", "orders"];
+        return ["attribute", "filters", "select", "expand", "orders", "maxpagesize", "top", "count"];
     }
 
     static async get(logicalName = this.logicalName, id, query = {}) {
@@ -17,6 +17,10 @@ const read = superclass => class extends superclass {
         return this.parseResult(data.value ? data.value : [data], logicalName, attributes)[0];
     }
 
+    static count(logicalName = this.logicalName) {
+        return WebAPI.count(logicalName);
+    }
+
     /**
      * query: {filters: [{type, conditions, filters}]}
      * type: "or" | "and"
@@ -26,9 +30,17 @@ const read = superclass => class extends superclass {
     static async query(logicalName = this.logicalName, query = {}) {
         const queryOptions = await this.getQueryOptions(query, logicalName);
         console.log(`Query ${logicalName}`);
-        const result = await WebAPI.retrieveMultiple(logicalName, queryOptions),
+        const result = await WebAPI.retrieveMultiple(logicalName, queryOptions, this.getHeaders(query)),
             attributes = await this.getQueryAttributes(query, logicalName);
         return this.parseResult(result.value, logicalName, attributes);
+    }
+
+    static getHeaders(query) {
+        const headers = {};
+        if (query.maxpagesize) {
+            headers.Prefer = `odata.maxpagesize=${query.maxpagesize}`;
+        }
+        return headers;
     }
 
     /**
@@ -43,15 +55,13 @@ const read = superclass => class extends superclass {
         if (!query.filters) {
             query.filters = [];
         }
-        for (const name in query) {
-            if (query.hasOwnProperty(name)) {
-                if (this.queryElements.indexOf(name) === -1) {
-                    filter.conditions.push({
-                        attribute: name.toLowerCase(),
-                        operator: "eq",
-                        value: query[name]
-                    });
-                }
+        for (const key of Object.keys(query)) {
+            if (!this.queryElements.includes(key)) {
+                filter.conditions.push({
+                    attribute: name.toLowerCase(),
+                    operator: "eq",
+                    value: query[key]
+                });
             }
         }
         if (filter.conditions.length > 0) {
@@ -94,7 +104,9 @@ const read = superclass => class extends superclass {
             parsedSelect = this.parseSelect(query.select),
             parsedFilters = await this.parseFilters(query.filters, logicalName),
             parsedExpand = await this.parseExpand(query.expand, logicalName),
-            parsedOrders = this.parseOrders(query.orders);
+            parsedOrders = this.parseOrders(query.orders),
+            parsedTop = this.parseTop(query.top),
+            parsedCount = this.parseCount(query.count);
         if (parsedFilters) {
             options.push(parsedFilters);
         }
@@ -106,6 +118,12 @@ const read = superclass => class extends superclass {
         }
         if (parsedOrders) {
             options.push(parsedOrders);
+        }
+        if (parsedTop) {
+            options.push(parsedTop);
+        }
+        if (parsedCount) {
+            options.push(parsedCount);
         }
         return options.join(separator);
     }
@@ -196,6 +214,22 @@ const read = superclass => class extends superclass {
             parsedOrders = `$orderby=${attributeString}`;
         }
         return parsedOrders;
+    }
+
+    static parseTop(top) {
+        let parsedTop = null;
+        if (top) {
+            parsedTop = `$top=${top}`;
+        }
+        return parsedTop;
+    }
+
+    static parseCount(count) {
+        let parsedCount = null;
+        if (count === true) {
+            parsedCount = `$count=${count}`;
+        }
+        return parsedCount;
     }
 };
 export default read;
