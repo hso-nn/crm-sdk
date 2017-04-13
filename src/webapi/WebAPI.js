@@ -1,3 +1,4 @@
+/* global define */
 import actions from "./actions";
 import associate from "./associate";
 import Class from "../Class";
@@ -91,3 +92,10 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
 }
 export {WebAPI};
 export default WebAPI;
+
+// webpack hack to export class directly,
+// - instead of using 'new WebpackAutoInject.default()',
+// - with this you can just use WebpackAutoInject();
+define(() => {
+    return WebAPI;
+});

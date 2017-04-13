@@ -13,18 +13,18 @@ module.exports = {
         "CRMSDK.noBabelPolyflll": [
             path.resolve(__dirname, "src/CRM-SDK.js")
         ],
-        "CRMSDK.slim": [
+        WebAPI: [
             "babel-polyfill",
             path.resolve(__dirname, "src/webapi/WebAPI.js")
         ],
-        "CRMSDK.slim.noBabelPolyfill": [
+        "WebAPI.noBabelPolyfill": [
             path.resolve(__dirname, "src/webapi/WebAPI.js")
         ]
     },
     output: {
         path: dir_build,
         filename: "[name].js",
-        library: "CRMSDK",
+        library: "[name]",
         libraryTarget: "umd",
         umdNamedDefine: true
     },
