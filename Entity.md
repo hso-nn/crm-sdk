@@ -169,7 +169,7 @@ Entity.get("account", null, {
         attribute: "primarycontactid",
         select: ["contactid", "fullname"]
     }]
-}).then(function (account) {debugger;
+}).then(function (account) {
     if (account) {
         console.log("Entity.get 'acount' " + account.emailaddress1);
         console.log("Entity.get 'acount' " + account.primarycontactid.contactid);

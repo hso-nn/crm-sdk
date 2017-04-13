@@ -243,3 +243,73 @@ WebAPI.getEntitySetName("account").then(function (entitySetName) {
    console.log(entitySetName); //accounts 
 });
 ```
+
+## 2.12) batch
+```text
+Enterprise version only
+```
+
+The batch has two parameters:
+* changeSets
+* getSet
+
+The result of changeSets is a boolean set to indicate whether it succeeded.
+The result of getSet is the data like retrieveMultiple.
+
+```javascript
+WebAPI.batch(changeSets, getSets).then(function (result) {
+    var changeSetsResult = result[0];
+    var getSetResult = result[1];
+});
+```
+
+```javascript
+var changeSet1 = [{
+    logicalName: "account",
+    attributes: {
+        accountid: "475b158c-541c-e511-80d3-3863bb347ba8",
+        emailaddress1: "hallo@abc.nl"
+    }
+}, {
+    logicalName: "account",
+    attributes: {
+        accountid: "475b158c-541c-e511-80d3-3863bb347ba8",
+        emailaddress1: "olla@abc.nl"
+    }
+}];
+var changeSet2 = [{
+    logicalName: "account",
+    attributes: {
+        accountid: "475b158c-541c-e511-80d3-3863bb347ba8",
+        emailaddress1: "ollahoe@abc.nl"
+    }
+}];
+var getSet = [{
+    logicalName: "account"
+}, {
+    logicalName: "systemuser"
+}];
+WebAPI.batch([changeSet1, changeSet2], getSet).then(function (result) {
+     var changeSetsResult = result[0]; //[[true, true], [true]]
+     var getSetResult = result[1]; //[accountData, systemuserData]
+});
+```
+
+### 2.12.1) Referencing
+It's also possible to [reference](http://www.odata.org/documentation/odata-version-3-0/batch-processing/) in a changeSet.
+User reference instead of logicalName
+
+```javascript
+WebAPI.batch([[{
+    logicalName: "account",
+    attributes: {
+        accountid: "475b158c-541c-e511-80d3-3863bb347ba8",
+        emailaddress1: "hallo@abc.nl"
+    }
+}, {
+    reference: "$0/Orders",
+    attributes: {
+        name: "x"
+    }
+}]]).then(function (data) {});
+```
