@@ -1,8 +1,8 @@
 
 const read = superclass => class extends superclass {
-    static async retrieveEntity(logicalName, entityId, queryOptions, headers) {
+    static async retrieveEntity(logicalName, entityId, query, headers) {
         const entitySetName = await this.getEntitySetName(logicalName);
-        return this.retrieveEntitySet(entitySetName, entityId, queryOptions, headers);
+        return this.retrieveEntitySet(entitySetName, entityId, query, headers);
     }
 
     static retrieveEntitySet(entitySetName, entityId, queryOptions, headers) {
@@ -16,9 +16,9 @@ const read = superclass => class extends superclass {
         return this.requestAndReturnBody("GET", url, null, headers);
     }
 
-    static async retrieveMultiple(logicalName, queryOptions, headers) {
+    static async retrieveMultiple(logicalName, query, headers) {
         const entitySetName = await this.getEntitySetName(logicalName),
-            queryString = this.buildQueryString(queryOptions);
+            queryString = this.buildQueryString(query);
         return this.requestAndReturnBody("GET", `${entitySetName}${queryString}`, null, headers).then(async body => {
             const hasMaxpagesize = headers && headers.Prefer && headers.Prefer.includes("odata.maxpagesize");
             if (body["@odata.nextLink"] && !hasMaxpagesize) {
