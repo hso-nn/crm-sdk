@@ -21,7 +21,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "build:prod": "cross-env NODE_ENV=production webpack --optimize-dedupe --bail --progress",
+    "build:prod": "cross-env NODE_ENV=production webpack --bail --progress",
     "watch": "webpack --watch",
     "start": "webpack-dev-server --hot --inline",
     "starthttps": "webpack-dev-server --hot --inline --https"
