@@ -10,8 +10,14 @@ module.exports = {
             "babel-polyfill",
             path.resolve(__dirname, "src/CRM-SDK.js")
         ],
+        "CRMSDK.noBabelPolyflll": [
+            path.resolve(__dirname, "src/CRM-SDK.js")
+        ],
         "CRMSDK.slim": [
             "babel-polyfill",
+            path.resolve(__dirname, "src/webapi/WebAPI.js")
+        ],
+        "CRMSDK.slim.noBabelPolyfill": [
             path.resolve(__dirname, "src/webapi/WebAPI.js")
         ]
     },
