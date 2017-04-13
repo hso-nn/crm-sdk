@@ -61,7 +61,7 @@ module.exports = {
     },
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
-        new WebpackAutoInject.default({
+        new WebpackAutoInject({
             components: {
                 AutoIncreaseVersion: false,
                 InjectAsComment: false
