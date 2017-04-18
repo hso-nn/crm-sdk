@@ -58,7 +58,7 @@ const read = superclass => class extends superclass {
         for (const key of Object.keys(query)) {
             if (!this.queryElements.includes(key)) {
                 filter.conditions.push({
-                    attribute: name.toLowerCase(),
+                    attribute: key.toLowerCase(),
                     operator: "eq",
                     value: query[key]
                 });
