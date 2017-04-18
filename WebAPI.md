@@ -124,19 +124,32 @@ WebAPI.executeFetchXml("systemuser", `<fetch>
 ```
 
 ## 2.7) UpdateEntity
-The updateEntity has three parameters:
+The updateEntity has four parameters:
 * logicalName
 * entityId
 * attributes
+* query (enterprise version only; $select only: see https://msdn.microsoft.com/en-us/library/mt607664.aspx)
 
 ```javascript
-WebAPI.updateEntity(logicalName, entityId, attributes).then(function (data) {});
+WebAPI.updateEntity(logicalName, entityId, attributes, query).then(function (data) {});
 ```
 
 ```javascript
 WebAPI.updateEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8", {
     emailaddress1: "test2@company.com"
 }).then(function (data) {});
+```
+
+Update using query results in having return=representation (https://msdn.microsoft.com/en-us/library/mt607664.aspx)
+```text
+Enterprise version only
+```
+```javascript
+WebAPI.updateEntity("account", data.accountid, {
+    emailaddress3: "test3@test.com"
+}, "$select=emailaddress3, accountid").then(function (result) {
+    console.log("Update using select " + JSON.stringify(result.body));
+});
 ```
 
 ## 2.8) Actions
