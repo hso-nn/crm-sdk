@@ -214,8 +214,8 @@ There are two parameters:
 * entityId
 
 ```javascript
-WebAPI.executeWorkflow("MyWorkflow", "475b158c-541c-e511-80d3-3863bb347ba8").then(function () {
-    debugger;
+WebAPI.executeWorkflow("MyWorkflow", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {
+    console.log("Workflow MyWorkflow " + JSON.stringify(data));
 });
 ```
 
