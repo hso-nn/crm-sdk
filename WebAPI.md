@@ -124,19 +124,32 @@ WebAPI.executeFetchXml("systemuser", `<fetch>
 ```
 
 ## 2.7) UpdateEntity
-The updateEntity has three parameters:
+The updateEntity has four parameters:
 * logicalName
 * entityId
 * attributes
+* query (enterprise version only; $select only: see https://msdn.microsoft.com/en-us/library/mt607664.aspx)
 
 ```javascript
-WebAPI.updateEntity(logicalName, entityId, attributes).then(function (data) {});
+WebAPI.updateEntity(logicalName, entityId, attributes, query).then(function (data) {});
 ```
 
 ```javascript
 WebAPI.updateEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8", {
     emailaddress1: "test2@company.com"
 }).then(function (data) {});
+```
+
+Update using query results in having return=representation (https://msdn.microsoft.com/en-us/library/mt607664.aspx)
+```text
+Enterprise version only
+```
+```javascript
+WebAPI.updateEntity("account", data.accountid, {
+    emailaddress3: "test3@test.com"
+}, "$select=emailaddress3, accountid").then(function (result) {
+    console.log("Update using select " + JSON.stringify(result.body));
+});
 ```
 
 ## 2.8) Actions
@@ -201,11 +214,29 @@ The execute bound function has three parameters:
 WebAPI.executeBoundFunction(functionString, logicalName, entityId).then(function () {});
 ```
 
-## 2.10) Associate/disassociate entities
+## 2.10) Workflow
+```text
+Enterprise version only
+```
+
+Workflows can be executed by WebAPI.executeWorkflow.
+A workflow is a bound action. See https://msdn.microsoft.com/en-us/library/mt491159.aspx for more information.
+https://msdn.microsoft.com/en-us/library/mt491159.aspx
+There are two parameters:
+* workflowName
+* entityId
+
+```javascript
+WebAPI.executeWorkflow("MyWorkflow", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {
+    console.log("Workflow MyWorkflow " + JSON.stringify(data));
+});
+```
+
+## 2.11) Associate/disassociate entities
 See https://msdn.microsoft.com/en-us/library/mt607875.aspx.
 Entities can be associated or disassociated using the WebAPI.
 
-### 2.10.1) Associate entities
+### 2.11.1) Associate entities
 The associateEntities has five parameters:
 * logicalName
 * entityId
@@ -218,7 +249,7 @@ WebAPI.associateEntities(logicalName, entityId, navigationProperty,
     associateEntity, associateEntityId).then(function () {});
 ```
 
-### 2.10.2) disassociate entities
+### 2.11.2) disassociate entities
 The disassociateEntities has four parameters:
 * logicalName
 * entityId
@@ -230,7 +261,7 @@ WebAPI.disassociateEntities(logicalName, entityId,
     navigationProperty, associateEntityId).then(function () {});
 ```
 
-## 2.11) getEntitySetName
+## 2.12) getEntitySetName
 The getEntitySetName has one parameter:
 * logicalName
 
@@ -244,7 +275,7 @@ WebAPI.getEntitySetName("account").then(function (entitySetName) {
 });
 ```
 
-## 2.12) batch
+## 2.13) batch
 ```text
 Enterprise version only
 ```
@@ -295,7 +326,7 @@ WebAPI.batch([changeSet1, changeSet2], getSet).then(function (result) {
 });
 ```
 
-### 2.12.1) Referencing
+### 2.13.1) Referencing
 It's also possible to [reference](http://www.odata.org/documentation/odata-version-3-0/batch-processing/) in a changeSet.
 User reference instead of logicalName
 
