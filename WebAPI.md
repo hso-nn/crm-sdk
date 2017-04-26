@@ -9,7 +9,7 @@ See more about Dynamics CRM Web API at https://msdn.microsoft.com/en-us/library/
 # 2) WebAPI
 
 ## 2.1) Create
-The createEntity method has two parameters:
+The createEntity method has two arguments:
 * logicalName
 * attributes
 
@@ -24,7 +24,7 @@ WebAPI.createEntity("account", {
 ```
 
 ## 2.2) Delete
-The deleteEntity method has two parameters:
+The deleteEntity method has two arguments:
 * logicalName
 * entityId
 
@@ -37,7 +37,7 @@ WebAPI.deleteEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(func
 ```
 
 ## 2.3) RetrieveEntity
-The retrieveEntity method has four parameters:
+The retrieveEntity method has four arguments:
 * logicalName
 * entityId
 * queryOptions (odata query string)
@@ -54,7 +54,7 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 ## 2.4) RetrieveEntitySet
 This class is used by retrieveEntity after finding the entitySetName
 and can be used when entitySetName is known already.
-The retrieveEntitySet method has three parameters:
+The retrieveEntitySet method has three arguments:
 * entitySetName
 * entityId
 * queryOptions (odata query string)
@@ -68,7 +68,7 @@ WebAPI.retrieveEntitySet("accounts", "475b158c-541c-e511-80d3-3863bb347ba8").the
 ```
 
 ## 2.5) RetrieveMultiple
-The retrieveMultiple method has two parameters:
+The retrieveMultiple method has two arguments:
 * logicalName
 * queryOptions (odata query string)
 * headers (odata headers)
@@ -96,7 +96,7 @@ WebAPI.retrieveMultiple("account", {
 ```
 
 ## 2.6) Count
-The count has one parameter:
+The count has one argument:
   * logicalName
   
 ```javascript
@@ -104,7 +104,7 @@ WebAPI.count(logicalName).then(function (nrEntities) {});
 ```
 
 ## 2.6) ExecuteFetchXml
-The executeFetchXml has two parameters:
+The executeFetchXml has two arguments:
   * logicalName
   * fetchXml
 
@@ -128,7 +128,7 @@ WebAPI.executeFetchXml("systemuser", `<fetch>
 ```text
 Enterprise version only
 ```
-The executeSavedQuery has two parameters:
+The executeSavedQuery has two arguments:
   * logicalName
   * queryName
 
@@ -140,7 +140,7 @@ WebAPI.executeSavedQuery("account", "Active Accounts").then(data => {});
 ```text
 Enterprise version only
 ```
-The executeUserQuery has two parameters:
+The executeUserQuery has two arguments:
   * logicalName
   * queryName
   
@@ -149,7 +149,7 @@ WebAPI.executeUserQuery("account", "HelloWorld").then(data => {});
 ```
 
 ## 2.9) UpdateEntity
-The updateEntity has four parameters:
+The updateEntity has four arguments:
   * logicalName
   * entityId
   * attributes
@@ -186,7 +186,7 @@ WebAPI.executeAction(actionName, data, logicalName, entityId).then(function () {
 
 ### 2.10.1) Unbound action
 See https://msdn.microsoft.com/en-us/library/mt607600.aspx.
-Unbound action has two parameters:
+Unbound action has two arguments:
 * actionName
 * data
 
@@ -196,7 +196,7 @@ WebAPI.executeUnboundAction(actionName, data).then(function () {});
 
 ### 2.10.2) Bound action
 See https://msdn.microsoft.com/en-us/library/mt607600.aspx.
-The bound action has four parameters:
+The bound action has four arguments:
 * actionName
 * data
 * logicalName
@@ -215,7 +215,7 @@ WebAPI.executeFunction(functionString, logicalName, entityId).then(function () {
 
 ### 2.11.1) Unbound function
 See https://msdn.microsoft.com/en-us/library/gg309638.aspx.
-The execute unbound function has one parameters:
+The execute unbound function has one argument:
 * functionString
 
 ```javascript
@@ -230,7 +230,7 @@ WebAPI.executeUnboundFunction("WhoAmI").then(function (data) {
 
 ### 2.11.2) Bound function
 See https://msdn.microsoft.com/en-us/library/gg309638.aspx.
-The execute bound function has three parameters:
+The execute bound function has three arguments:
 * functionString
 * logicalName
 * entityId
@@ -247,7 +247,7 @@ Enterprise version only
 Workflows can be executed by WebAPI.executeWorkflow.
 A workflow is a bound action. See https://msdn.microsoft.com/en-us/library/mt491159.aspx for more information.
 https://msdn.microsoft.com/en-us/library/mt491159.aspx
-There are two parameters:
+There are two arguments:
 * workflowName
 * entityId
 
@@ -262,7 +262,7 @@ See https://msdn.microsoft.com/en-us/library/mt607875.aspx.
 Entities can be associated or disassociated using the WebAPI.
 
 ### 2.13.1) Associate entities
-The associateEntities has five parameters:
+The associateEntities has five arguments:
 * logicalName
 * entityId
 * navigationProperty
@@ -275,7 +275,7 @@ WebAPI.associateEntities(logicalName, entityId, navigationProperty,
 ```
 
 ### 2.13.2) disassociate entities
-The disassociateEntities has four parameters:
+The disassociateEntities has four arguments:
 * logicalName
 * entityId
 * navigationProperty
@@ -287,7 +287,7 @@ WebAPI.disassociateEntities(logicalName, entityId,
 ```
 
 ## 2.14) getEntitySetName
-The getEntitySetName has one parameter:
+The getEntitySetName has one argument:
 * logicalName
 
 ```javascript
@@ -305,7 +305,7 @@ WebAPI.getEntitySetName("account").then(function (entitySetName) {
 Enterprise version only
 ```
 
-The batch has two parameters:
+The batch has two arguments:
 * changeSets
 * getSet
 
