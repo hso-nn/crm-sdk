@@ -56,7 +56,7 @@ WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(fu
 ```
 
 ### Install via download
-[Download latest release](https://github.com/dys-solutions/crm-sdk/archive/0.2.0.zip) and put reference to dist/CRMSDK.js in your index.html.
+[Download latest release](https://github.com/dys-solutions/crm-sdk/releases/latest) and put reference to dist/CRMSDK.js in your index.html.
 
 In example below, the app.js is your own application code.
 If you only need CRMSDK.WebAPI, you can include WebAPI.js in index.html instead of CRMSDK.js.
