@@ -23,7 +23,7 @@ var Entity = CRMSDK.Entity;
 ## 2) Entity
 
 ## 2.1) Entity.get
-Entity.get has three parameters:
+Entity.get has three arguments:
   * logicalName
   * id
   * query (see odata chapter)
@@ -69,7 +69,7 @@ Entity.get("account", null, {
 ```
 
 ## 2.2) Entity.query
-Entity.query has two parameters:
+Entity.query has two arguments:
   * logicalName
   * query (see odata chapter)
 
@@ -114,7 +114,7 @@ Entity.query("account", {
 ```
 
 ## 2.3) Create
-Entity.create has two parameters:
+Entity.create has two arguments:
   * logicalName
   * data
 
@@ -136,7 +136,7 @@ Entity.create("account", {
 ```
 
 ## 2.4) Entity.fetch
-Entity.fetch has three parameters:
+Entity.fetch has three arguments:
   * logicalName
   * fetchXml
   
@@ -146,8 +146,48 @@ Entity.fetch(logicalName, fetchXml).then(function (entities) {
 });
 ```
 
-## 2.5) Entity.count
-Entity.count count has one parameter:
+## 2.5) Entity.savedQuery
+```text
+Enterprise version only
+```
+Entity.savedQuery has two arguments:
+  * logicalName
+  * queryName
+  
+```javascript
+Entity.savedQuery(logicalName, queryName).then(entities => {
+    //logic here
+});
+```
+
+```javascript
+Entity.savedQuery("account", "Active Accounts").then(accounts => {
+    //logic here
+});
+```
+
+## 2.6) Entity.userQuery
+```text
+Enterprise version only
+```
+Entity.userQuery has two arguments:
+  * logicalName
+  * queryName
+  
+```javascript
+Entity.userQuery(logicalName, queryName).then(entities => {
+    //logic here
+});
+```
+
+```javascript
+Entity.userQuery("account", "HelloWorld").then(accounts => {
+    //logic here
+});
+```
+
+## 2.7) Entity.count
+Entity.count count has one argument:
   * logicalName
   
 ```javascript
@@ -156,7 +196,7 @@ Entity.count(logicalName).then(function (nrOfEntities) {
 });
 ```
 
-## 2.6) Bind
+## 2.8) Bind
 For expanded(Lookup) Attributes it's not possible to assign a new value like on normal Attributes.
 A bind is the equivalent for this. Be aware that unbinding is not implemented yet, so
 removing a binding is not possible.
@@ -180,7 +220,7 @@ Entity.get("account", null, {
 });
 ```
 
-## 2.7) Save
+## 2.9) Save
 Saving the entity can be done by invoking the save method.
 ```javascript
 Entity.get("account", {
@@ -197,7 +237,7 @@ Entity.get("account", {
 });
 ```
 
-## 2.8) Delete
+## 2.10) Delete
 Deleting an entity can be done by invoking the delete method.
 ```javascript
 Entity.get("account", {
@@ -215,7 +255,7 @@ Entity.get("account", {
 ```
 
 # 3) OData
-The query parameters contain OData elements in json format.
+The query arguments contain OData elements in json format.
 
 ## 3.1) $select
 The 'select' is an array of attributes of the entity.
