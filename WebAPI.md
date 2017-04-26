@@ -37,10 +37,11 @@ WebAPI.deleteEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(func
 ```
 
 ## 2.3) RetrieveEntity
-The retrieveEntity method has three parameters:
+The retrieveEntity method has four parameters:
 * logicalName
 * entityId
 * queryOptions (odata query string)
+* headers (odata headers) (Enterprise version only)
 
 ```javascript
 WebAPI.retrieveEntity(logicalName, entityId, queryOptions).then(function (data) {});
@@ -344,3 +345,18 @@ WebAPI.batch([[{
     }
 }]]).then(function (data) {});
 ```
+
+## 2.14) Odata headers
+### 2.14.1) odata.include-annotations
+Odata.include-annotations can be passed using the 'Prefer' header.
+```javascript
+WebAPI.retrieveMultiple("account", null, {
+    Prefer: `odata.include-annotations=*`
+}).then(data => {});
+```
+
+Following include-annotations are CRM specific. More can be found on in odata documentation on the web.
+* Microsoft.Dynamics.CRM.lookuplogicalname
+* Microsoft.Dynamics.CRM.associatednavigationproperty
+* OData.Community.Display.V1.FormattedValue
+* \*
