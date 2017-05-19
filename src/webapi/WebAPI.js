@@ -10,14 +10,16 @@ import read from "./read";
 import request from "./request";
 import update from "./update";
 
+if (typeof window.Xrm === "undefined" && typeof window.parent.Xrm !== "undefined") {
+    window.Xrm = window.parent.Xrm;
+}
+
 class WebAPI extends actions(associate(create(destroy(functions(read(request(update(Class)))))))) {
     static get context() {
         if (typeof window.Xrm !== "undefined") {
             return window.Xrm.Page.context;
         } else if (typeof window.GetGlobalContext !== "undefined") {
             return window.GetGlobalContext();
-        } else if (typeof window.parent.Xrm !== "undefined") {
-            return window.parent.Xrm.Page.context;
         } else {
             throw new Error("Context is not available.");
         }
