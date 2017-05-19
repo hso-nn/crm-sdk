@@ -16,6 +16,8 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
             return window.Xrm.Page.context;
         } else if (typeof window.GetGlobalContext !== "undefined") {
             return window.GetGlobalContext();
+        } else if (typeof window.parent.Xrm !== "undefined") {
+            return window.parent.Xrm.Page.context;
         } else {
             throw new Error("Context is not available.");
         }
