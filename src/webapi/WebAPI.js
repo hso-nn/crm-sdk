@@ -45,8 +45,12 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
         this.api = version;
     }
 
+    static getEntityDefinitions(logicalName) {
+        return Metadata.getEntityDefinitions(logicalName);
+    }
+
     static async getEntitySetName(logicalName) {
-        const entityMetadata = await Metadata.getEntityDefinitions(logicalName);
+        const entityMetadata = await this.getEntityDefinitions(logicalName);
         return entityMetadata.EntitySetName;
     }
 
