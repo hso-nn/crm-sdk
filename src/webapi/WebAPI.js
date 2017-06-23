@@ -70,6 +70,8 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
                 }
             }
             parsedEntityId = entityIdList.join(",");
+        } else if (entityId.startsWith("{") && entityId.endsWith("}")) {
+            parsedEntityId = parsedEntityId.substr(1, parsedEntityId.length - 2);
         }
         return parsedEntityId;
     }
