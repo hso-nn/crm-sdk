@@ -137,17 +137,37 @@ const read = superclass => class extends superclass {
                     attributeString += ",";
                 }
                 if (typeof item === "string") {
-                    attributeString += `${item}`;
+                    try {
+                        const navigationProperty = await this.getNavigationProperty(item, logicalName);
+                        attributeString += `${navigationProperty}`;
+                    } catch(e) {
+                        throw e;
+                    }
                 } else {
-                    const {attribute} = item,
-                        entityAttributes = await this.getEntityAttributes(logicalName),
-                        parsedSubQuery = await this.getQueryOptions(item, entityAttributes[attribute].Targets[0], ";");
-                    attributeString += `${attribute}(${parsedSubQuery})`;
+                    try {
+                        const {attribute} = item,
+                            navigationProperty = await this.getNavigationProperty(attribute, logicalName),
+                            entityAttributes = await this.getEntityAttributes(logicalName),
+                            parsedSubQuery = await this.getQueryOptions(item, entityAttributes[attribute].Targets[0], ";");
+                        attributeString += `${navigationProperty}(${parsedSubQuery})`;
+                    } catch(e) {
+                        throw e;
+                    }
                 }
             }
             parsedExpand = `$expand=${attributeString}`;
         }
         return parsedExpand;
+    }
+
+    static async getNavigationProperty(attribute, logicalName) {
+        const manyToManyRelationships = await Metadata.getEntityDefinitionManyToOneRelationships(logicalName);
+        for (const {ReferencingAttribute, ReferencingEntity, ReferencingEntityNavigationPropertyName} of manyToManyRelationships.value) {
+            if (ReferencingAttribute === attribute && ReferencingEntity === logicalName) {
+                return ReferencingEntityNavigationPropertyName;
+            }
+        }
+        throw new Error(`No navigation property '${attribute}' for entity '${logicalName}'`);
     }
 
     static parseSelect(select = []) {
