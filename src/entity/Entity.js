@@ -85,27 +85,25 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
         this.chngs = changes || {};
     }
 
-    getAttribute(name) {
-        if (this.data.hasOwnProperty(name)) {
-            if (typeof this.data[name] !== "object") {
-                return this.data[name];
-            } else {
+    getAttribute(name, navigationProperty) {
+        const data = this.data[navigationProperty || name];
+        if (data) {
+            if (navigationProperty) {
                 const entityAttributes = this.getClass().getCachedEntityAttributes(this.logicalName),
                     entityAttribute = entityAttributes[name],
-                    entityDefinitions = Metadata.getCachedEntityDefinitions(entityAttribute.Targets[0]),
-                    lookupData = this.data[name];
+                    entityDefinitions = Metadata.getCachedEntityDefinitions(entityAttribute.Targets[0]);
                 if (entityDefinitions) {
                     const {SchemaName, PrimaryIdAttribute, PrimaryNameAttribute} = entityDefinitions;
-                    lookupData.LogicalName = SchemaName;
-                    lookupData.Id = lookupData[PrimaryIdAttribute];
-                    lookupData.Name = lookupData[PrimaryNameAttribute];
+                    data.LogicalName = SchemaName;
+                    data.Id = data[PrimaryIdAttribute];
+                    data.Name = data[PrimaryNameAttribute];
                 }
-                return lookupData;
             }
         } else {
             const logicalName = this.logicalName;
             console.log(`${logicalName} has no attribute '${name}'`);
         }
+        return data;
     }
 
     setAttribute(name, value) {
