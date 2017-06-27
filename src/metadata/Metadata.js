@@ -21,7 +21,7 @@ class Metadata {
     }
 
     static getCachedEntityDefinitions(logicalName) {
-        return this.cachedEntityDefinitionAttributes[logicalName];
+        return this.cachedEntityDefinitions[logicalName];
     }
 
     static get cachedEntityDefinitionAttributes() {
@@ -38,6 +38,23 @@ class Metadata {
 
         const result = await WebAPI.retrieveEntitySetProperty("EntityDefinitions", {LogicalName: logicalName}, "Attributes");
         this.cachedEntityDefinitionAttributes[logicalName] = result;
+        return result;
+    }
+
+    static get cachedEntityDefinitionsManyToOneRelationships() {
+        if (!this.entityDefManyToOneRelationships) {
+            this.entityDefManyToOneRelationships = {};
+        }
+        return this.entityDefManyToOneRelationships;
+    }
+
+    static async getEntityDefinitionManyToOneRelationships(logicalName) {
+        if (this.cachedEntityDefinitionsManyToOneRelationships[logicalName]) {
+            return Promise.resolve(this.cachedEntityDefinitionsManyToOneRelationships[logicalName]);
+        }
+
+        const result = await WebAPI.retrieveEntitySetProperty("EntityDefinitions", {LogicalName: logicalName}, "ManyToOneRelationships");
+        this.cachedEntityDefinitionsManyToOneRelationships[logicalName] = result;
         return result;
     }
 }

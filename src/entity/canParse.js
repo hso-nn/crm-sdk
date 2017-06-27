@@ -23,32 +23,38 @@ const canParse = superclass => class extends superclass {
         return attributes;
     }
 
-    static parseResult(data = [], logicalName, attributes) {
+    static async parseResult(data = [], logicalName, attributes) {
         const entities = [];
         for (const entityData of data) {
             const instance = new this(entityData, logicalName);
-            this.addDescriptors(instance, attributes);
+            await this.addDescriptors(instance, attributes, logicalName);
             entities.push(instance);
         }
         return entities;
     }
 
-    static addDescriptors(instance, attributes = []) {
+    static async addDescriptors(instance, attributes = [], logicalName) {
         for (const attribute of attributes) {
-            const descriptor = this.getDescriptor(attribute);
+            const descriptor = await this.getDescriptor(attribute, logicalName);
             Object.defineProperty(instance, attribute, descriptor);
         }
     }
 
-    static getDescriptor(attribute) {
+    static async getDescriptor(attribute, logicalName) {
         const origDescriptor = this.getPropertyDescriptor(attribute);
-        let descriptor = null;
+        let descriptor = null,
+            navigationProperty = null;
+        const entityAttributes = await this.getEntityAttributes(logicalName),
+            entityAttribute = entityAttributes[attribute];
+        if (entityAttribute.AttributeType === "Lookup") {
+            navigationProperty = await this.getNavigationProperty(attribute, logicalName);
+        }
         if (!origDescriptor || !origDescriptor.get || !origDescriptor.set) {
             descriptor = {};
         }
         if (!origDescriptor || !origDescriptor.get) {
             descriptor.get = function () {
-                return this.getAttribute(attribute);
+                return this.getAttribute(attribute, navigationProperty);
             };
         }
         if (!origDescriptor || !origDescriptor.set) {
