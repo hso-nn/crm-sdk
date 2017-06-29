@@ -13,8 +13,10 @@ const read = superclass => class extends superclass {
         }
         console.log(`Get ${logicalName} (${id}) ${queryOptions}`);
         const data = await WebAPI.retrieveEntity(logicalName, id, queryOptions),
-            attributes = await this.getQueryAttributes(query, logicalName);
-        return this.parseResult(data.value ? data.value : [data], logicalName, attributes)[0];
+            attributes = await this.getQueryAttributes(query, logicalName),
+            value = data.value ? data.value : [data];
+        const result = await this.parseResult(value, logicalName, attributes);
+        return result[0];
     }
 
     static count(logicalName = this.logicalName) {
@@ -158,16 +160,6 @@ const read = superclass => class extends superclass {
             parsedExpand = `$expand=${attributeString}`;
         }
         return parsedExpand;
-    }
-
-    static async getNavigationProperty(attribute, logicalName) {
-        const manyToManyRelationships = await Metadata.getEntityDefinitionManyToOneRelationships(logicalName);
-        for (const {ReferencingAttribute, ReferencingEntity, ReferencingEntityNavigationPropertyName} of manyToManyRelationships.value) {
-            if (ReferencingAttribute === attribute && ReferencingEntity === logicalName) {
-                return ReferencingEntityNavigationPropertyName;
-            }
-        }
-        throw new Error(`No navigation property '${attribute}' for entity '${logicalName}'`);
     }
 
     static parseSelect(select = []) {
