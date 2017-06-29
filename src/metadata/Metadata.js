@@ -10,7 +10,7 @@ class Metadata {
 
     static async getEntityDefinitions(logicalName) {
         if (this.cachedEntityDefinitions[logicalName]) {
-            return Promise.resolve(this.cachedEntityDefinitions[logicalName]);
+            return this.cachedEntityDefinitions[logicalName];
         }
         if (typeof logicalName !== "string") {
             throw Error("Invalid logicalName given");
@@ -33,7 +33,7 @@ class Metadata {
 
     static async getEntityDefinitionAttributes(logicalName) {
         if (this.cachedEntityDefinitionAttributes[logicalName]) {
-            return Promise.resolve(this.cachedEntityDefinitionAttributes[logicalName]);
+            return this.cachedEntityDefinitionAttributes[logicalName];
         }
 
         const result = await WebAPI.retrieveEntitySetProperty("EntityDefinitions", {LogicalName: logicalName}, "Attributes");
@@ -50,12 +50,15 @@ class Metadata {
 
     static async getEntityDefinitionManyToOneRelationships(logicalName) {
         if (this.cachedEntityDefinitionsManyToOneRelationships[logicalName]) {
-            return Promise.resolve(this.cachedEntityDefinitionsManyToOneRelationships[logicalName]);
+            return this.cachedEntityDefinitionsManyToOneRelationships[logicalName];
         }
-
-        const result = await WebAPI.retrieveEntitySetProperty("EntityDefinitions", {LogicalName: logicalName}, "ManyToOneRelationships");
-        this.cachedEntityDefinitionsManyToOneRelationships[logicalName] = result;
-        return result;
+        try {
+            const result = await WebAPI.retrieveEntitySetProperty("EntityDefinitions", {LogicalName: logicalName}, "ManyToOneRelationships");
+            this.cachedEntityDefinitionsManyToOneRelationships[logicalName] = result;
+            return result;
+        } catch(e) {
+            throw e;
+        }
     }
 }
 export default Metadata;
