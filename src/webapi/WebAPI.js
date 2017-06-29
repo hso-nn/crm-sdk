@@ -54,7 +54,7 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
         return entityMetadata.EntitySetName;
     }
 
-    static async retrieveEntitySetProperty(entitySetName, entityId, property, queryOptions) {
+    static retrieveEntitySetProperty(entitySetName, entityId, property, queryOptions) {
         const queryString = WebAPI.buildQueryString(queryOptions),
             parsedEntityId = WebAPI.parseEntityId(entityId);
         return WebAPI.requestAndReturnBody("GET", `${entitySetName}(${parsedEntityId})/${property}${queryString}`);
