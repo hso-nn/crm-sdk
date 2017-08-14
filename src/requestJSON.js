@@ -25,7 +25,11 @@ const requestJSON = (url, method = "GET", data, headers = {}) => {
                 }
             }
         };
-        request.send(JSON.stringify(data));
+        let requestData = null;
+        if (data) {
+            requestData = JSON.stringify(data);
+        }
+        request.send(requestData); // when data is undefined IE sends undefined as a string
     });
 };
 
