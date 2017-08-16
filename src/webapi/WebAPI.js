@@ -33,7 +33,14 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
 
     static get version() {
         if (!this.api) {
-            this.version = window.Xrm.Page.context.getVersion().substr(0, 3);
+            let version = this.context.getVersion();
+            /**
+             * <script src="../ClientGlobalContext.js.aspx" type="text/javascript"></script> resulted in a context without version
+             */
+            if (!version) {
+                version = window.parent.Xrm.Page.context.getVersion();
+            }
+            this.version = version.substr(0, 3);
         }
         return this.api;
     }
