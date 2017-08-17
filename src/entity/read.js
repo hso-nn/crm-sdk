@@ -198,9 +198,10 @@ const read = superclass => class extends superclass {
         let parsedConditions = "";
         const entityAttributes = await this.getEntityAttributes(logicalName);
         for (const condition of conditions) {
-            let {operator, value} = condition;
-            const {attribute} = condition,
-                {AttributeType} = entityAttributes[attribute];
+            let {operator, value} = condition,
+                {attribute} = condition;
+            const {AttributeType} = entityAttributes[attribute];
+            attribute = AttributeType === "Lookup" ? `_${attribute}_value` : attribute;
             operator = operator || "eq";
             value = AttributeType === "String" ? `'${value}'` : `${value}`;
             if (parsedConditions !== "") {
