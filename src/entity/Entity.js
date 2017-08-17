@@ -103,9 +103,6 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
                     data.Name = data[PrimaryNameAttribute];
                 }
             }
-        } else {
-            const logicalName = this.logicalName;
-            console.log(`${logicalName} has no attribute '${name}'`);
         }
         return data;
     }
