@@ -57,10 +57,9 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
             return this.cachedEntityAttributes[logicalName];
         } else {
             try {
-                const entityDefinitionAttributes = await Metadata.getEntityDefinitionAttributes(logicalName),
-                    value = entityDefinitionAttributes.value,
+                const entityDefinitions = await Metadata.getEntityDefinitions(logicalName),
                     entityAttributes = {};
-                for (const entityDefinitionAttribute of value) {
+                for (const entityDefinitionAttribute of entityDefinitions.Attributes) {
                     entityAttributes[entityDefinitionAttribute.LogicalName] = entityDefinitionAttribute;
                 }
                 this.cachedEntityAttributes[logicalName] = entityAttributes;

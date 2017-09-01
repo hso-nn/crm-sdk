@@ -61,12 +61,6 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
         return entityMetadata.EntitySetName;
     }
 
-    static retrieveEntitySetProperty(entitySetName, entityId, property, queryOptions) {
-        const queryString = WebAPI.buildQueryString(queryOptions),
-            parsedEntityId = WebAPI.parseEntityId(entityId);
-        return WebAPI.requestAndReturnBody("GET", `${entitySetName}(${parsedEntityId})/${property}${queryString}`);
-    }
-
     static parseEntityId(entityId) {
         let parsedEntityId = entityId;
         if (typeof entityId === "object") {
