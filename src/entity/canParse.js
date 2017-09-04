@@ -1,71 +1,63 @@
+import Entity from "./Entity";
 import Metadata from "../metadata/Metadata";
 
 const canParse = superclass => class extends superclass {
-    static async getQueryAttributes(query = {}, logicalName = this.logicalName) {
-        const attributes = this.extractQueryAttributes(query);
-        if (attributes.length === 0) {
-            const entityAttributes = await this.getEntityAttributes(logicalName);
-            for (const attributeName of Object.keys(entityAttributes)) {
-                attributes.push(attributeName);
-            }
-        }
-        return attributes;
-    }
-
-    static extractQueryAttributes({select, expand = []}) {
-        const attributes = select ? select.slice() : [];
-        for (const item of expand) {
-            if (typeof item === "string") {
-                attributes.push(item);
-            } else {
-                attributes.push(item.attribute);
-            }
-        }
-        return attributes;
-    }
-
-    static async parseResult(data = [], logicalName, attributes) {
+    static async parseResult(data = [], logicalName) {
         const entities = [];
+        const DerivedClass = await this.getDerivedClass(logicalName);
         for (const entityData of data) {
-            const instance = new this(entityData, logicalName);
-            try {
-                await this.addDescriptors(instance, attributes, logicalName);
-            } catch(e) {
-                throw e;
-            }
+            const instance = new DerivedClass(entityData, logicalName);
             entities.push(instance);
         }
         return entities;
     }
 
-    static async addDescriptors(instance, attributes = [], logicalName) {
-        for (const attribute of attributes) {
-            const descriptor = await this.getDescriptor(attribute, logicalName);
+    static async getDerivedClass(logicalName) {
+        if (!this.derivedClasses) {
+            this.derivedClasses = {};
+        }
+        let DerivedClass = this.derivedClasses[logicalName];
+        if (!DerivedClass) {
+            try {
+                DerivedClass = class Derived extends Entity {};
+                await this.addDescriptors(DerivedClass.prototype, logicalName);
+                this.derivedClasses[logicalName] = DerivedClass;
+            } catch(e) {
+                throw e;
+            }
+        }
+        return DerivedClass;
+    }
+
+    static async addDescriptors(instance, logicalName) {
+        const entityAttributes = await this.getEntityAttributes(logicalName);
+        for (const entityName of Object.keys(entityAttributes)) {
+            const entityAttribute = entityAttributes[entityName],
+                descriptor = await this.getDescriptor(entityAttribute, logicalName);
             if (descriptor) {
-                Object.defineProperty(instance, attribute, descriptor);
+                Object.defineProperty(instance, entityAttribute.LogicalName, descriptor);
             }
         }
         return instance;
     }
 
-    static async getDescriptor(attribute, logicalName) {
+    static async getDescriptor(entityAttribute, logicalName) {
         try {
-            const origDescriptor = this.getPropertyDescriptor(attribute);
+            const origDescriptor = this.getPropertyDescriptor(entityAttribute.LogicalName);
             let descriptor = null;
-            const entityAttributes = await this.getEntityAttributes(logicalName),
-                entityAttribute = entityAttributes[attribute],
-                navigationProperty = entityAttribute.AttributeType === "Lookup" ? await this.getNavigationProperty(attribute, logicalName) : null;
+
+            const navigationProperty = entityAttribute.AttributeType === "Lookup" ? await this.getNavigationProperty(entityAttribute.LogicalName, logicalName) : null;
             if (!origDescriptor || !origDescriptor.get || !origDescriptor.set) {
                 descriptor = {};
             }
             if (!origDescriptor || !origDescriptor.get) {
                 descriptor.get = function () {
-                    return this.getAttribute(attribute, navigationProperty);
+                    return this.getAttribute(entityAttribute.LogicalName, navigationProperty);
                 };
             }
             if (!origDescriptor || !origDescriptor.set) {
                 descriptor.set = function (value) {
-                    this.setAttribute(attribute, value);
+                    this.setAttribute(entityAttribute.LogicalName, value);
                 };
             }
             return descriptor;

@@ -13,9 +13,8 @@ const read = superclass => class extends superclass {
         }
         console.log(`Get ${logicalName} (${id}) ${queryOptions}`);
         const data = await WebAPI.retrieveEntity(logicalName, id, queryOptions),
-            attributes = await this.getQueryAttributes(query, logicalName),
             value = data.value ? data.value : [data];
-        const result = await this.parseResult(value, logicalName, attributes);
+        const result = await this.parseResult(value, logicalName);
         return result[0];
     }
 
@@ -32,9 +31,8 @@ const read = superclass => class extends superclass {
     static async query(logicalName = this.logicalName, query = {}) {
         const queryOptions = await this.getQueryOptions(query, logicalName);
         console.log(`Query ${logicalName}`);
-        const result = await WebAPI.retrieveMultiple(logicalName, queryOptions, this.getHeaders(query)),
-            attributes = await this.getQueryAttributes(query, logicalName);
-        return this.parseResult(result.value, logicalName, attributes);
+        const result = await WebAPI.retrieveMultiple(logicalName, queryOptions, this.getHeaders(query));
+        return this.parseResult(result.value, logicalName);
     }
 
     static getHeaders(query) {
