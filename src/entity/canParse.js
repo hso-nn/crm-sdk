@@ -104,9 +104,6 @@ const canParse = superclass => class extends superclass {
             console.log(e);
             throw e;
         }
-        if (!navigationProperty) {
-            throw new Error(`No navigation property '${attribute}' for entity '${logicalName}'`);
-        }
         this.cachedNavigationProperties[cacheKey] = navigationProperty;
         return navigationProperty;
     }

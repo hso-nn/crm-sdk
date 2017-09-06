@@ -6,7 +6,7 @@ const create = superclass => class extends superclass {
         const entityMetadata = await Metadata.getEntityDefinitions(logicalName);
         console.log(`Create ${logicalName}`);
         entityData[entityMetadata.PrimaryIdAttribute] = await WebAPI.createEntity(logicalName, entityData);
-        return this.parseResult([entityData], logicalName)[0];
+        return this.parseResult([entityData], logicalName).then(entities => entities[0]);
     }
 
     async create() {
