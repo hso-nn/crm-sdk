@@ -107,18 +107,18 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
     }
 
     setAttribute(name, value) {
-        if (this.data.hasOwnProperty(name) || name.endsWith("@odata.bind")) {
-            const currentValue = this.data[name];
-            if (typeof currentValue !== "object"
-                || currentValue === null
-                || (currentValue && typeof currentValue.getMonth === "function")) {
+        const entityAttributes = this.getClass().getCachedEntityAttributes(this.logicalName),
+            entityAttribute = entityAttributes && entityAttributes[name];
+        if (entityAttribute || name.endsWith("@odata.bind")) {
+            if (entityAttribute && entityAttribute.AttributeType === "Lookup" && typeof value !== "object") {
+                const logicalName = this.logicalName;
+                console.log(`${logicalName} attribute ${name} is a Lookup. Use ${this.logicalName}.bind('${name}', '${value}') instead.`);
+            } else {
+                const currentValue = this.data[name];
                 if (currentValue !== value) {
                     this.data[name] = value;
                     this.changes[name] = value;
                 }
-            } else {
-                const logicalName = this.logicalName;
-                console.log(`${logicalName} attribute ${name} is a Lookup. Use ${this.logicalName}.bind('${name}', '${value}') instead.`);
             }
         } else {
             const logicalName = this.logicalName;
