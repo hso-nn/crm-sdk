@@ -32,7 +32,7 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
     }
 
     get isNew() {
-        return !this.data.hasOwnProperty("@odata.etag");
+        return !this.getPrimaryId();
     }
 
     async getEntityMetadata() {
