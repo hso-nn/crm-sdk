@@ -150,14 +150,11 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
      * @returns {Promise.<void>}
      */
     async updateBinding(name, bindingName, value) {
-        const dataAttribute = this.getAttribute(name),
-            attributes = [];
+        const dataAttribute = this.getAttribute(name);
         if (!dataAttribute) {
             return;
         }
-        for (const key of Object.keys(dataAttribute)) {
-            attributes.push(key);
-        }
+        const attributes = Object.keys(dataAttribute).filter(attr => !["Id", "LogicalName", "Name"].includes(attr));
         await Entity.get(bindingName, value, {
             select: attributes
         }).then(bindingEntity => {
