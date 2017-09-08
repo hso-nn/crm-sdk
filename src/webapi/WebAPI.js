@@ -107,6 +107,8 @@ export default WebAPI;
 // webpack hack to export class directly,
 // - instead of using 'new WebpackAutoInject.default()',
 // - with this you can just use WebpackAutoInject();
-define(() => {
-    return WebAPI;
-});
+if (typeof define === "function") {
+    define(() => {
+        return WebAPI;
+    });
+}
