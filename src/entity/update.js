@@ -2,7 +2,7 @@ import WebAPI from "../webapi/WebAPI";
 
 const update = superclass => class extends superclass {
     async save() {
-        if (this.isNew) {
+        if (await this.isNew()) {
             return this.create();
         } else if (Object.keys(this.changes).length !== 0) {
             return this.update();
