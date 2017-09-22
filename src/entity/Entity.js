@@ -31,8 +31,9 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
         this.dat = data;
     }
 
-    get isNew() {
-        return !this.getPrimaryId();
+    async isNew() {
+        const value = await this.getPrimaryId();
+        return !value;
     }
 
     async getEntityMetadata() {
