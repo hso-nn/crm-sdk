@@ -86,18 +86,20 @@ const canParse = superclass => class extends superclass {
         return this.navProperties;
     }
 
-    static async getNavigationProperty(attribute, logicalName) {
-        const cacheKey = `${logicalName}${attribute}`;
+    static async getNavigationProperty(attribute, logicalName, targetEntity = "") {
+        const cacheKey = `${logicalName}${attribute}${targetEntity}`;
         if (this.cachedNavigationProperties[cacheKey]) {
             return this.cachedNavigationProperties[cacheKey];
         }
         let navigationProperty;
         try {
             const entityDefinitions = await Metadata.getEntityDefinitions(logicalName);
-            for (const {ReferencingAttribute, ReferencingEntity, ReferencingEntityNavigationPropertyName} of entityDefinitions.ManyToOneRelationships) {
+            for (const {ReferencingAttribute, ReferencingEntity, ReferencedEntity, ReferencingEntityNavigationPropertyName} of entityDefinitions.ManyToOneRelationships) {
                 if (ReferencingAttribute === attribute && ReferencingEntity === logicalName) {
-                    navigationProperty = ReferencingEntityNavigationPropertyName;
-                    break;
+                    navigationProperty = !targetEntity || ReferencedEntity === targetEntity ? ReferencingEntityNavigationPropertyName : null;
+                    if (navigationProperty) {
+                        break;
+                    }
                 }
             }
         } catch(e) {
