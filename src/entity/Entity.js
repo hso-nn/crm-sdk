@@ -128,14 +128,14 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
     }
 
     //account.setAttribute("primarycontactid@odata.bind", "https://dys001.crm4.dynamics.com/api/data/v8.0/contacts(465b158c-541c-e511-80d3-3863bb347ba8)");
-    async bind(name, value) {
+    async bind(name, value, targetEntity) {
         const entityDefinitionAttributes = await this.getClass().getEntityAttributes(this.logicalName),
             entityDefinitionAttribute = entityDefinitionAttributes[name];
         if (entityDefinitionAttribute.AttributeType === "Lookup") {
             const baseURL = WebAPI.webAPIPath,
-                target = entityDefinitionAttribute.Targets[0],
+                target = targetEntity || entityDefinitionAttribute.Targets[0],
                 entityMetadata = await Metadata.getEntityDefinitions(target),
-                navigationProperty = await Entity.getNavigationProperty(name, this.logicalName),
+                navigationProperty = await Entity.getNavigationProperty(name, this.logicalName, target),
                 entitySetName = entityMetadata.EntitySetName,
                 url = `${baseURL}/${entitySetName}(${value})`;
             this.setAttribute(`${navigationProperty}@odata.bind`, url);
