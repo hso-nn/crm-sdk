@@ -200,6 +200,7 @@ Entity.count(logicalName).then(function (nrOfEntities) {
 For expanded(Lookup) Attributes it's not possible to assign a new value like on normal Attributes.
 A bind is the equivalent for this. Be aware that unbinding is not implemented yet, so
 removing a binding is not possible.
+When there are multiple targets, the third argument of the bind method is the target.
 ```javascript
 Entity.get("account", null, {
     emailaddress1: "Oeha@Dys.nl",
@@ -496,5 +497,22 @@ Systemuser.getCurrent({
     select: ["systemuserid"]
 }).then(function (systemuser) {
     console.log("Entity.get 'systemuser' " + systemuser.systemuserid);
+});
+```
+
+# 6) Annotation
+Annotation is a sub-class of Entity. It can be included in your application the same way.
+The Annotation will ease programming.
+
+## 6.1) parseFile
+```javascript
+Annotation.parseFile(annotation).then(function (file) {});
+```
+
+## 6.2) parseAnnotation
+```javascript
+var accountid = window.Xrm.Page.data.getEntity().getId(); // or any other accountid
+Annotation.parseAnnotation(file, accountid).then(function (annotation) {
+    annotation.save().then(function () {});
 });
 ```
