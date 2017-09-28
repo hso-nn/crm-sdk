@@ -16,7 +16,7 @@ There are several SDK's available, so why another one?
 * This library supports modules
 * This library supports default [WebAPI](#webapi-example) like other libraries, but also
 * This library supports extra [Entity abstraction](#entity-abstraction-example)
-* This library supports [annotations](./Entity.md#annotation)
+* This library supports [annotations](./Entity.md#6-annotation)
 
 ## Table of contents
 
