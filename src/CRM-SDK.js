@@ -1,5 +1,6 @@
 export {default as Entity} from "./entity/Entity";
 export {default as Account} from "./entity/Account";
+export {default as Annotation} from "./entity/Annotation";
 export {default as Systemuser} from "./entity/Systemuser";
 export {default as WebAPI} from "./webapi/WebAPI";
 
