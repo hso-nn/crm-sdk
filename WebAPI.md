@@ -51,8 +51,17 @@ WebAPI.retrieveEntity(logicalName, entityId, queryOptions).then(function (data) 
 WebAPI.retrieveEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
-## 2.4) RetrieveEntitySet
-This class is used by retrieveEntity after finding the entitySetName
+## 2.4) GetEntityDefinitions
+The getEntityDefinitions method is used to get the metadata.
+There is one argument:
+* logicalName
+
+```javascript
+WebAPI.getEntityDefinitions(logicalName).then(function(metadata) {});
+```
+
+## 2.5) RetrieveEntitySet
+This method is used by retrieveEntity after finding the entitySetName
 and can be used when entitySetName is known already.
 The retrieveEntitySet method has three arguments:
 * entitySetName
@@ -67,7 +76,7 @@ WebAPI.retrieveEntitySet(entitySetName, entityId, queryOptions).then(function (d
 WebAPI.retrieveEntitySet("accounts", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
-## 2.5) RetrieveMultiple
+## 2.6) RetrieveMultiple
 The retrieveMultiple method has two arguments:
 * logicalName
 * queryOptions (odata query string)
@@ -95,7 +104,7 @@ WebAPI.retrieveMultiple("account", {
 }).then(function (data) {});
 ```
 
-## 2.6) Count
+## 2.7) Count
 The count has one argument:
   * logicalName
   
@@ -103,7 +112,7 @@ The count has one argument:
 WebAPI.count(logicalName).then(function (nrEntities) {});
 ```
 
-## 2.6) ExecuteFetchXml
+## 2.8) ExecuteFetchXml
 The executeFetchXml has two arguments:
   * logicalName
   * fetchXml
@@ -124,7 +133,7 @@ WebAPI.executeFetchXml("systemuser", `<fetch>
 .then(function (data) {});
 ```
 
-## 2.7) ExecuteSavedQuery
+## 2.9) ExecuteSavedQuery
 ```text
 Enterprise version only
 ```
@@ -136,7 +145,7 @@ The executeSavedQuery has two arguments:
 WebAPI.executeSavedQuery("account", "Active Accounts").then(data => {});
 ```
 
-## 2.8) ExecuteUserQuery
+## 2.10) ExecuteUserQuery
 ```text
 Enterprise version only
 ```
@@ -148,7 +157,7 @@ The executeUserQuery has two arguments:
 WebAPI.executeUserQuery("account", "HelloWorld").then(data => {});
 ```
 
-## 2.9) UpdateEntity
+## 2.11) UpdateEntity
 The updateEntity has four arguments:
   * logicalName
   * entityId
@@ -177,14 +186,14 @@ WebAPI.updateEntity("account", data.accountid, {
 });
 ```
 
-## 2.10) Actions
+## 2.12) Actions
 Bound and unbound actions can be executed via the webAPI.
 If you don't know which one to use, the executeAction will do the check for you.
 ```javascript
 WebAPI.executeAction(actionName, data, logicalName, entityId).then(function () {});
 ```
 
-### 2.10.1) Unbound action
+### 2.12.1) Unbound action
 See https://msdn.microsoft.com/en-us/library/mt607600.aspx.
 Unbound action has two arguments:
 * actionName
@@ -194,7 +203,7 @@ Unbound action has two arguments:
 WebAPI.executeUnboundAction(actionName, data).then(function () {});
 ```
 
-### 2.10.2) Bound action
+### 2.12.2) Bound action
 See https://msdn.microsoft.com/en-us/library/mt607600.aspx.
 The bound action has four arguments:
 * actionName
@@ -206,14 +215,14 @@ The bound action has four arguments:
 WebAPI.executeBoundAction(actionName, data, logicalName, entityId).then(function () {});
 ```
 
-## 2.11) Functions
+## 2.13) Functions
 Bound and unbound functions can be executed via the WebAPI.
 If you don't know which one to use, the executeFunction will do the check for you.
 ```javascript
 WebAPI.executeFunction(functionString, logicalName, entityId).then(function () {});
 ```
 
-### 2.11.1) Unbound function
+### 2.13.1) Unbound function
 See https://msdn.microsoft.com/en-us/library/gg309638.aspx.
 The execute unbound function has one argument:
 * functionString
@@ -228,7 +237,7 @@ WebAPI.executeUnboundFunction("WhoAmI").then(function (data) {
 });
 ```
 
-### 2.11.2) Bound function
+### 2.13.2) Bound function
 See https://msdn.microsoft.com/en-us/library/gg309638.aspx.
 The execute bound function has three arguments:
 * functionString
@@ -239,7 +248,7 @@ The execute bound function has three arguments:
 WebAPI.executeBoundFunction(functionString, logicalName, entityId).then(function () {});
 ```
 
-## 2.12) Workflow
+## 2.14) Workflow
 ```text
 Enterprise version only
 ```
@@ -257,11 +266,11 @@ WebAPI.executeWorkflow("MyWorkflow", "475b158c-541c-e511-80d3-3863bb347ba8").the
 });
 ```
 
-## 2.13) Associate/disassociate entities
+## 2.15) Associate/disassociate entities
 See https://msdn.microsoft.com/en-us/library/mt607875.aspx.
 Entities can be associated or disassociated using the WebAPI.
 
-### 2.13.1) Associate entities
+### 2.15.1) Associate entities
 The associateEntities has five arguments:
 * logicalName
 * entityId
@@ -274,7 +283,7 @@ WebAPI.associateEntities(logicalName, entityId, navigationProperty,
     associateEntity, associateEntityId).then(function () {});
 ```
 
-### 2.13.2) disassociate entities
+### 2.15.2) disassociate entities
 The disassociateEntities has four arguments:
 * logicalName
 * entityId
@@ -286,7 +295,7 @@ WebAPI.disassociateEntities(logicalName, entityId,
     navigationProperty, associateEntityId).then(function () {});
 ```
 
-## 2.14) getEntitySetName
+## 2.16) getEntitySetName
 The getEntitySetName has one argument:
 * logicalName
 
@@ -300,7 +309,7 @@ WebAPI.getEntitySetName("account").then(function (entitySetName) {
 });
 ```
 
-## 2.15) batch
+## 2.17) batch
 ```text
 Enterprise version only
 ```
@@ -351,7 +360,7 @@ WebAPI.batch([changeSet1, changeSet2], getSet).then(function (result) {
 });
 ```
 
-### 2.15.1) Referencing
+## 2.17.1) Referencing
 It's also possible to [reference](http://www.odata.org/documentation/odata-version-3-0/batch-processing/) in a changeSet.
 User reference instead of logicalName
 
@@ -370,8 +379,8 @@ WebAPI.batch([[{
 }]]).then(function (data) {});
 ```
 
-## 2.16) Odata headers
-### 2.16.1) odata.include-annotations
+## 2.18) Odata headers
+### 2.18.1) odata.include-annotations
 Odata.include-annotations can be passed using the 'Prefer' header.
 ```javascript
 WebAPI.retrieveMultiple("account", null, {
@@ -384,3 +393,16 @@ Following include-annotations are CRM specific. More can be found on in odata do
 * Microsoft.Dynamics.CRM.associatednavigationproperty
 * OData.Community.Display.V1.FormattedValue
 * \*
+
+## 2.19) getOptionSet
+OptionSet for a specific entity attribute can be received for both Picklist as well as Boolean(Two Option) attributes.
+The OptionSet will be mapped to a key-value object.
+```javascript
+WebAPI.getOptionSet("account", "industrycode").then(function (options) {
+    options.forEach(function (option) {
+        console.log(option.label + " " + option.value);
+    });
+}).catch(function (e) {
+    throw e;
+});
+```

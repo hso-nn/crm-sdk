@@ -61,6 +61,10 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
         return entityMetadata.EntitySetName;
     }
 
+    static getOptionSet(logicalName, attribute) {
+        return Metadata.getOptionSet(logicalName, attribute);
+    }
+
     static parseEntityId(entityId) {
         let parsedEntityId = entityId;
         if (typeof entityId === "object") {
