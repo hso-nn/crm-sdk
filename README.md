@@ -17,7 +17,7 @@ There are several SDK's available, so why another one?
 * This library supports default [WebAPI](#webapi-example) like other libraries, but also
 * This library supports extra [Entity abstraction](#entity-abstraction-example)
 * This library supports [annotations](./Entity.md#6-annotation)
-* This library supports getting [OptionSet](./WebAPI.md#217-getoptionset)
+* This library supports getting [OptionSet](./WebAPI.md#219-getoptionset)
 
 ## Table of contents
 
