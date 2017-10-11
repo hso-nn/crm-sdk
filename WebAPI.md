@@ -41,10 +41,10 @@ The retrieveEntity method has four arguments:
 * logicalName
 * entityId
 * queryOptions (odata query string)
-* headers (odata headers) (Enterprise version only)
+* headers (odata headers)
 
 ```javascript
-WebAPI.retrieveEntity(logicalName, entityId, queryOptions).then(function (data) {});
+WebAPI.retrieveEntity(logicalName, entityId, queryOptions, headers).then(function (data) {});
 ```
 
 ```javascript
