@@ -51,11 +51,11 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
     }
 
     static async getEntityAttributes(logicalName = this.logicalName) {
-        if (!this.cachedEntityAttributes) {
-            this.cachedEntityAttributes = {};
+        if (!Entity.cachedEntityAttributes) {
+            Entity.cachedEntityAttributes = {};
         }
-        if (this.cachedEntityAttributes[logicalName]) {
-            return this.cachedEntityAttributes[logicalName];
+        if (Entity.cachedEntityAttributes[logicalName]) {
+            return Entity.cachedEntityAttributes[logicalName];
         } else {
             try {
                 const entityDefinitions = await Metadata.getEntityDefinitions(logicalName),
@@ -63,7 +63,7 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
                 for (const entityDefinitionAttribute of entityDefinitions.Attributes) {
                     entityAttributes[entityDefinitionAttribute.LogicalName] = entityDefinitionAttribute;
                 }
-                this.cachedEntityAttributes[logicalName] = entityAttributes;
+                Entity.cachedEntityAttributes[logicalName] = entityAttributes;
                 return entityAttributes;
             } catch (e) {
                 throw e;
@@ -72,10 +72,10 @@ class Entity extends canParse(create(del(fetch(read(update(Class)))))) {
     }
 
     static getCachedEntityAttributes(logicalName = this.logicalName) {
-        if (!this.cachedEntityAttributes) {
-            this.cachedEntityAttributes = {};
+        if (!Entity.cachedEntityAttributes) {
+            Entity.cachedEntityAttributes = {};
         }
-        return this.cachedEntityAttributes[logicalName];
+        return Entity.cachedEntityAttributes[logicalName];
     }
 
     get changes() {
