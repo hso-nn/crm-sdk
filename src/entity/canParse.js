@@ -13,15 +13,15 @@ const canParse = superclass => class extends superclass {
     }
 
     static async getDerivedClass(logicalName) {
-        if (!this.derivedClasses) {
-            this.derivedClasses = {};
+        if (!Entity.derivedClasses) {
+            Entity.derivedClasses = {};
         }
-        let DerivedClass = this.derivedClasses[logicalName];
+        let DerivedClass = Entity.derivedClasses[logicalName];
         if (!DerivedClass) {
             try {
-                DerivedClass = class Derived extends Entity {};
+                DerivedClass = class Derived extends this {};
                 await this.addDescriptors(DerivedClass.prototype, logicalName);
-                this.derivedClasses[logicalName] = DerivedClass;
+                Entity.derivedClasses[logicalName] = DerivedClass;
             } catch(e) {
                 throw e;
             }
