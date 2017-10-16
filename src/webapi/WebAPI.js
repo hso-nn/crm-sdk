@@ -10,7 +10,7 @@ import read from "./read";
 import request from "./request";
 import update from "./update";
 
-if (typeof window.Xrm === "undefined" && typeof window.parent.Xrm !== "undefined") {
+if (typeof window !== "undefined" && typeof window.Xrm === "undefined" && typeof window.parent.Xrm !== "undefined") {
     window.Xrm = window.parent.Xrm;
 }
 
@@ -25,15 +25,43 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
         }
     }
 
+    static get clientUrl() {
+        if (!this.clntUrl) {
+            let context;
+            try {
+                context = this.context;
+                this.clntUrl = context.getClientUrl();
+            } catch (e) {
+                if (e.message === "window is not defined") {
+                    throw new Error("If using NodeJS, please set clientUrl using WebAPI.clientUrl setter");
+                }
+                throw e;
+            }
+        }
+        return this.clntUrl;
+    }
+
+    static set clientUrl(clientUrl) {
+        this.clntUrl = clientUrl;
+    }
+
     static get webAPIPath() {
-        const clientUrl = this.context.getClientUrl(),
-            api = this.version;
-        return `${clientUrl}/api/data/${api}`;
+        const api = this.version;
+        return `${this.clientUrl}/api/data/${api}`;
     }
 
     static get version() {
         if (!this.api) {
-            let version = this.context.getVersion();
+            let context;
+            try {
+                context = this.context;
+            } catch (e) {
+                if (e.message === "window is not defined") {
+                    throw new Error("If using NodeJS, please set webAPI version using WebAPI.version setter");
+                }
+                throw e;
+            }
+            let version = context.getVersion();
             /**
              * <script src="../ClientGlobalContext.js.aspx" type="text/javascript"></script> resulted in a context without version
              */

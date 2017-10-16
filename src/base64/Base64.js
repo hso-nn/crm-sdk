@@ -1,9 +1,13 @@
 
 class Base64 {
     static decode(base64) {
-        return decodeURIComponent(Array.prototype.map.call(window.atob(base64), function (c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(""));
+        if (typeof window !== "undefined") {
+            return decodeURIComponent(Array.prototype.map.call(window.atob(base64), function (c) {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(""));
+        } else {
+            return Buffer.from(base64, "base64").toString("ascii");
+        }
     }
 
     decode(base64) {
@@ -11,9 +15,13 @@ class Base64 {
     }
 
     static encode(text) {
-        return window.btoa(encodeURIComponent(text).replace(/%([0-9A-F]{2})/g, function (match, p1) {
-            return String.fromCharCode("0x" + p1);
-        }));
+        if (typeof window !== "undefined") {
+            return window.btoa(encodeURIComponent(text).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+                return String.fromCharCode("0x" + p1);
+            }));
+        } else {
+            return Buffer.from(text).toString("base64");
+        }
     }
 
     encode(text) {
