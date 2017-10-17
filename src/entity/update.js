@@ -13,7 +13,6 @@ const update = superclass => class extends superclass {
         const {changes} = this,
             primaryId = await this.getPrimaryId(),
             logicalName = this.logicalName;
-
         console.log(`Update ${logicalName} (${primaryId})`);
         await WebAPI.updateEntity(logicalName, primaryId, changes);
         this.changes = null;
