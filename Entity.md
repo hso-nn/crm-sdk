@@ -516,3 +516,34 @@ Annotation.parseAnnotation(file, accountid).then(function (annotation) {
     annotation.save().then(function () {});
 });
 ```
+
+# 7) Webresource
+Webresource is a sub-class of Entity. It can be included in your application the same way.
+The Webresource will make it easy to modify webresources.
+Publishing is included in the save (save === upload + publish).
+
+```javascript
+import {Webresource} from "crm-sdk";
+
+// update example
+let webresource = Webresource.get(null, {
+    name: webresourceName,
+    select: ["name", "webresourcetype"]
+}).then(function (webresource) {
+    webresource.content = "<base64 string here>";
+    webresource.save().then(function () {
+        // saved and published
+    });
+});
+
+// insert example
+webresource = new Webresource({
+    content: "<base64 string here>",
+    name: "<filename>",
+    displayname: "<displayname>"
+});
+webresource.solutionUniqueName = "<solution name>"; // otherwise "Active" solution will be taken
+webresource.save().then(function () {
+    // saved and published
+});
+```

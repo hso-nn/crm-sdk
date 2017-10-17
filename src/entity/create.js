@@ -1,16 +1,17 @@
-import Metadata from "../metadata/Metadata";
 import WebAPI from "../webapi/WebAPI";
 
 const create = superclass => class extends superclass {
     static async create(logicalName, entityData) {
-        const entityMetadata = await Metadata.getEntityDefinitions(logicalName);
         console.log(`Create ${logicalName}`);
-        entityData[entityMetadata.PrimaryIdAttribute] = await WebAPI.createEntity(logicalName, entityData);
-        return this.parseResult([entityData], logicalName).then(entities => entities[0]);
+        const returnedData = await WebAPI.createEntity(logicalName, entityData);
+        return this.parseResult([returnedData], logicalName).then(entities => entities[0]);
     }
 
     async create() {
-        return this.getClass().create(this.logicalName, this.data);
+        return this.getClass().create(this.logicalName, this.data).then(async entity => {
+            this.data = entity.data;
+            await this.getClass().addDescriptors(this, this.logicalName);
+        });
     }
 };
 export default create;

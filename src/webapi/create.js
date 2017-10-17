@@ -1,11 +1,8 @@
 
 const create = superclass => class extends superclass {
     static async createEntity(logicalName, attributes) {
-        const entitySetName = await this.getEntitySetName(logicalName),
-            entityIdHeader = await this.requestAndReturnHeader("POST", entitySetName, attributes, "OData-EntityId");
-        if (entityIdHeader) {
-            return this.getEntityIdFromHeader(entityIdHeader);
-        }
+        const entitySetName = await this.getEntitySetName(logicalName);
+        return await this.requestAndReturnBody("POST", `${entitySetName}`, attributes, {Prefer: "return=representation"});
     }
 
     static getEntityIdFromHeader(header) {
