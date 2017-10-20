@@ -9,6 +9,7 @@ import Metadata from "../metadata/Metadata";
 import read from "./read";
 import request from "./request";
 import update from "./update";
+const bearerWeakMap = new WeakMap();
 
 if (typeof window !== "undefined" && typeof window.Xrm === "undefined" && typeof window.parent.Xrm !== "undefined") {
     window.Xrm = window.parent.Xrm;
@@ -78,6 +79,14 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
             version = `v${version}`;
         }
         this.api = version;
+    }
+
+    static get bearer() {
+        return bearerWeakMap.get(this);
+    }
+
+    static set bearer(bearer) {
+        bearerWeakMap.set(this, bearer);
     }
 
     static getEntityDefinitions(logicalName) {
