@@ -141,6 +141,24 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
         }
         return queryParts.length ? "?" + queryParts.join("&") : "";
     }
+    
+    static urlQueryString(locationSearch = window.location.search) {
+        if (locationSearch.charAt(0) !== "?") {
+            return locationSearch;
+        }
+        const pairs = locationSearch.substring(1).split("&"),
+            obj = {};
+        for (const pair of pairs) {
+            if (pair === "" ) {
+                continue;
+            }
+            const pairSplit = pair.split("="),
+                key = decodeURIComponent(pairSplit[0]),
+                value = this.urlQueryString(decodeURIComponent(pairSplit[1]));
+            obj[key] = value;
+        }
+        return obj;
+    }
 }
 export {WebAPI};
 export default WebAPI;
