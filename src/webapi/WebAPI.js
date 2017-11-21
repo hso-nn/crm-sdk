@@ -146,21 +146,17 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
         if (locationSearch.charAt(0) !== "?") {
             return locationSearch;
         }
-        
-        var pairs = locationSearch.substring(1).split("&"),
-            obj = {}, pair, i, key, value;
-        
-        for ( i in pairs ) {
-            if ( pairs[i] === "" ) continue;
-            
-            pair = pairs[i].split("=");
-            
-            key = decodeURIComponent(pair[0]);
-            value = this.urlQueryString(decodeURIComponent(pair[1]));
-            
+        const pairs = locationSearch.substring(1).split("&"),
+            obj = {};
+        for (const pair of pairs) {
+            if (pair === "" ) {
+                continue;
+            }
+            const pairSplit = pair.split("="),
+                key = decodeURIComponent(pairSplit[0]),
+                value = this.urlQueryString(decodeURIComponent(pairSplit[1]));
             obj[key] = value;
         }
-        
         return obj;
     }
 }
