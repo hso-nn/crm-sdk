@@ -19,6 +19,7 @@ There are several SDK's available, so why another one?
 * This library supports [annotations](./Entity.md#6-annotation)
 * This library supports getting [OptionSet](./WebAPI.md#219-getoptionset)
 * This library supports [Webresource](./Entity.md#7-webresource) uploading/publishing
+* This library supports [Translation](./Translation.md)
 
 ## Table of contents
 
