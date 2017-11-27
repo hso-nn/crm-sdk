@@ -2,6 +2,7 @@
 import actions from "./actions";
 import associate from "./associate";
 import Class from "../Class";
+import Context from "../context/Context";
 import create from "./create";
 import destroy from "./destroy";
 import functions from "./functions";
@@ -16,69 +17,9 @@ if (typeof window !== "undefined" && typeof window.Xrm === "undefined" && typeof
 }
 
 class WebAPI extends actions(associate(create(destroy(functions(read(request(update(Class)))))))) {
-    static get context() {
-        if (typeof window.Xrm !== "undefined") {
-            return window.Xrm.Page.context;
-        } else if (typeof window.GetGlobalContext !== "undefined") {
-            return window.GetGlobalContext();
-        } else {
-            throw new Error("Context is not available.");
-        }
-    }
-
-    static get clientUrl() {
-        if (!this.clntUrl) {
-            let context;
-            try {
-                context = this.context;
-                this.clntUrl = context.getClientUrl();
-            } catch (e) {
-                if (e.message === "window is not defined") {
-                    throw new Error("If using NodeJS, please set clientUrl using WebAPI.clientUrl setter");
-                }
-                throw e;
-            }
-        }
-        return this.clntUrl;
-    }
-
-    static set clientUrl(clientUrl) {
-        this.clntUrl = clientUrl;
-    }
-
     static get webAPIPath() {
-        const api = this.version;
-        return `${this.clientUrl}/api/data/${api}`;
-    }
-
-    static get version() {
-        if (!this.api) {
-            let context;
-            try {
-                context = this.context;
-            } catch (e) {
-                if (e.message === "window is not defined") {
-                    throw new Error("If using NodeJS, please set webAPI version using WebAPI.version setter");
-                }
-                throw e;
-            }
-            let version = context.getVersion();
-            /**
-             * <script src="../ClientGlobalContext.js.aspx" type="text/javascript"></script> resulted in a context without version
-             */
-            if (!version) {
-                version = window.parent.Xrm.Page.context.getVersion();
-            }
-            this.version = version.substr(0, 3);
-        }
-        return this.api;
-    }
-
-    static set version(version) {
-        if (!version.startsWith("v")) {
-            version = `v${version}`;
-        }
-        this.api = version;
+        const version = Context.version;
+        return `${Context.clientUrl}/api/data/${version}`;
     }
 
     static get bearer() {
@@ -140,24 +81,6 @@ class WebAPI extends actions(associate(create(destroy(functions(read(request(upd
             }
         }
         return queryParts.length ? "?" + queryParts.join("&") : "";
-    }
-    
-    static urlQueryString(locationSearch = window.location.search) {
-        if (locationSearch.charAt(0) !== "?") {
-            return locationSearch;
-        }
-        const pairs = locationSearch.substring(1).split("&"),
-            obj = {};
-        for (const pair of pairs) {
-            if (pair === "" ) {
-                continue;
-            }
-            const pairSplit = pair.split("="),
-                key = decodeURIComponent(pairSplit[0]),
-                value = this.urlQueryString(decodeURIComponent(pairSplit[1]));
-            obj[key] = value;
-        }
-        return obj;
     }
 }
 export {WebAPI};

@@ -2,6 +2,7 @@ var path = require("path"),
     webpack = require("webpack"),
     DEBUG = process.env.NODE_ENV !== "production",
     dir_build = path.resolve(__dirname, "dist"),
+    CopyWebpackPlugin = require("copy-webpack-plugin"),
     WebpackAutoInject = require("webpack-auto-inject-version");
 
 module.exports = {
@@ -60,6 +61,9 @@ module.exports = {
         }]
     },
     plugins: [
+        new CopyWebpackPlugin([
+            {from: "locales/*", to: dir_build, context: "src/translation"}
+        ]),
         new webpack.NoEmitOnErrorsPlugin(),
         new WebpackAutoInject({
             components: {

@@ -4,6 +4,7 @@ export {default as Annotation} from "./entity/Annotation";
 export {default as Systemuser} from "./entity/Systemuser";
 export {default as WebAPI} from "./webapi/WebAPI";
 export {default as Webresource} from "./entity/Webresource";
+export {default as Translation} from "./translation/Translation";
 
 /*import Entity from "./entity/Entity";
  import Account from "./entity/Account";
