@@ -255,6 +255,25 @@ Entity.get("account", {
 });
 ```
 
+## 2.11) Entity.instantiate
+Entity.instantiate has two arguments:
+  * data
+  * logicalName
+ 
+It will instantiate the Entity local.
+
+### 2.11.1) Instantiate example
+```javascript
+Entity.instantiate({
+    paymenttermscode: 4,
+    statecode: 0,
+    emailaddress1: "instantiate@dys.nl"
+}, "account").then(function (account) {
+    console.log("entity.instantiate 'acount' " + account.emailaddress1);
+    account.save(); // create the account in CRM.
+});
+```
+
 # 3) OData
 The query arguments contain OData elements in json format.
 
