@@ -13,5 +13,26 @@ const create = superclass => class extends superclass {
             await this.getClass().addDescriptors(this, this.logicalName);
         });
     }
+
+    static async instantiate(data, logicalName) {
+        const DerivedClass = await this.getDerivedClass(logicalName);
+        const entity = new DerivedClass(data, logicalName);
+        this.addDataToChanges(entity, data);
+        return entity;
+    }
+
+    static addDataToChanges(entity, data) {
+        const entityAttributes = entity.getClass().getCachedEntityAttributes(entity.logicalName);
+        Object.keys(data).forEach(name => {
+            const entityAttribute = entityAttributes && entityAttributes[name];
+            if (entityAttribute) {
+                entity.changes[name] = data[name];
+            }
+        });
+    }
+
+    async instantiate(data) {
+        return this.getClass().instantiate(data, this.logicalName);
+    }
 };
 export default create;

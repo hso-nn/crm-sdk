@@ -34,7 +34,7 @@ const canParse = superclass => class extends superclass {
         for (const entityName of Object.keys(entityAttributes)) {
             const entityAttribute = entityAttributes[entityName],
                 descriptor = await this.getDescriptor(entityAttribute, logicalName);
-            if (descriptor) {
+            if (descriptor && !instance.hasOwnProperty(entityAttribute.LogicalName)) {
                 Object.defineProperty(instance, entityAttribute.LogicalName, descriptor);
             }
         }
