@@ -11,9 +11,13 @@ const associate = superclass => class extends superclass {
     }
 
     //https://msdn.microsoft.com/en-us/library/mt607875.aspx
-    static async disassociateEntities(logicalName, entityId, navigationProperty, associateEntityId) {
+    static async disassociateEntities(logicalName, entityId, navigationProperty, associateEntityId = "") {
         const entitySetName = await this.getEntitySetName(logicalName);
-        return this.requestAndReturnBody("DELETE", `${entitySetName}(${entityId})/${navigationProperty}(${associateEntityId})/$ref`);
+        let associateEntityIdParam = "";
+        if (associateEntityId) {
+            associateEntityIdParam = `(${associateEntityId})`;
+        }
+        return this.requestAndReturnBody("DELETE", `${entitySetName}(${entityId})/${navigationProperty}${associateEntityIdParam}/$ref`);
     }
 };
 export default associate;
