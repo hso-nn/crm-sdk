@@ -45,6 +45,7 @@ class Metadata {
         const options = result.OptionSet.Options.map(option => {
             return {
                 value: option.Value,
+                externalValue: option.ExternalValue,
                 label: option.Label.UserLocalizedLabel.Label
             };
         });
