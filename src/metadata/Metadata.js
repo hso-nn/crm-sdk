@@ -8,17 +8,28 @@ class Metadata {
         return this.entityDef;
     }
 
-    static async getEntityDefinitions(logicalName) {
-        if (this.cachedEntityDefinitions[logicalName]) {
-            return this.cachedEntityDefinitions[logicalName];
+    static get cachedEntityDefinitionsPromises() {
+        if (!this.entityDefProms) {
+            this.entityDefProms = {};
         }
+        return this.entityDefProms;
+    }
+
+    static async getEntityDefinitions(logicalName) {
         if (typeof logicalName !== "string") {
             throw Error("Invalid logicalName given");
         }
-        const result = await WebAPI.retrieveEntitySet("EntityDefinitions", null, `$filter=LogicalName eq '${logicalName}'&$expand=Attributes,ManyToOneRelationships`),
-            entityDefinitions = result.value[0];
-        this.cachedEntityDefinitions[logicalName] = entityDefinitions;
-        return entityDefinitions;
+        if (this.cachedEntityDefinitions[logicalName]) {
+            return this.cachedEntityDefinitions[logicalName];
+        }
+        if (!this.cachedEntityDefinitionsPromises[logicalName]) {
+            this.cachedEntityDefinitionsPromises[logicalName] = WebAPI.retrieveEntitySet("EntityDefinitions", null, `$filter=LogicalName eq '${logicalName}'&$expand=Attributes,ManyToOneRelationships`).then(result => {
+                const entityDefinitions = result.value[0];
+                this.cachedEntityDefinitions[logicalName] = entityDefinitions;
+                return entityDefinitions;
+            });
+        }
+        return this.cachedEntityDefinitionsPromises[logicalName];
     }
 
     static getCachedEntityDefinitions(logicalName) {
