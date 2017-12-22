@@ -49,6 +49,7 @@ class Metadata {
                 break;
             }
         }
+        return [];
     }
 
     static async getPicklistOptionSet(logicalName, attribute) {
