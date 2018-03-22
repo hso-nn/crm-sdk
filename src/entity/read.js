@@ -199,7 +199,7 @@ const read = superclass => class extends superclass {
             let {operator, value} = condition,
                 {attribute} = condition;
             const {AttributeType} = entityAttributes[attribute];
-            attribute = AttributeType === "Lookup" ? `_${attribute}_value` : attribute;
+            attribute = ["Lookup", "Owner"].includes(AttributeType) ? `_${attribute}_value` : attribute;
             operator = operator || "eq";
             value = AttributeType === "String" ? `'${value}'` : `${value}`;
             if (parsedConditions !== "") {
