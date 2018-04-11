@@ -8,17 +8,9 @@ var path = require("path"),
 module.exports = {
     entry: {
         CRMSDK: [
-            "babel-polyfill",
-            path.resolve(__dirname, "src/CRM-SDK.js")
-        ],
-        "CRMSDK.noBabelPolyfill": [
             path.resolve(__dirname, "src/CRM-SDK.js")
         ],
         WebAPI: [
-            "babel-polyfill",
-            path.resolve(__dirname, "src/webapi/WebAPI.js")
-        ],
-        "WebAPI.noBabelPolyfill": [
             path.resolve(__dirname, "src/webapi/WebAPI.js")
         ]
     },
