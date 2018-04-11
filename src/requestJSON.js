@@ -79,7 +79,8 @@ const handleXMLHttpsRequest = request => {
     if (statusHandler) {
         return statusHandler();
     } else {
-        throw new Error("Unexpected Error");
+        const responseJSON = JSON.parse(request.response);
+        throw new Error(responseJSON.error.message);
     }
 };
 
