@@ -17,9 +17,12 @@ class Annotation extends SubEntity {
         return this.getClass().parseFile(annotation);
     }
 
-    static async parseAnnotation(file, accountid) {
-        if (!accountid) {
-            throw new Error("No accountid specified!");
+    static async parseAnnotation(file, id, logicalName) {
+        if (!id) {
+            throw new Error("No id specified!");
+        }
+        if (!logicalName) {
+            throw new Error("No logicalName specified");
         }
         const base64 = await Base64.decodeBlob(file);
         const {name, type} = file;
@@ -28,9 +31,9 @@ class Annotation extends SubEntity {
             mimetype: type,
             documentbody: base64
         });
-        const strippedAccountid = accountid.startsWith("{") && accountid.endsWith("}") ? accountid.substr(1, accountid.length - 2) : accountid;
+        const strippedId = id.startsWith("{") && id.endsWith("}") ? id.substr(1, id.length - 2) : id;
         try {
-            await annotation.bind("objectid", strippedAccountid, "account");
+            await annotation.bind("objectid", strippedId, logicalName);
             return annotation;
         } catch(e) {
             throw e;
