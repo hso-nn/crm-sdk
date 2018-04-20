@@ -40,8 +40,8 @@ class Annotation extends SubEntity {
         }
     }
 
-    async parseAnnotation(file) {
-        return this.getClass().parseAnnotation(file);
+    async parseAnnotation(file, id, logicalName) {
+        return this.getClass().parseAnnotation(file, id, logicalName);
     }
 }
 export default Annotation;
