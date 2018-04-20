@@ -530,8 +530,9 @@ Annotation.parseFile(annotation).then(function (file) {});
 
 ## 6.2) parseAnnotation
 ```javascript
-var accountid = window.Xrm.Page.data.getEntity().getId(); // or any other accountid
-Annotation.parseAnnotation(file, accountid).then(function (annotation) {
+var id = window.Xrm.Page.data.getEntity().getId();
+var logicalName = window.Xrm.Page.data.getEntity().getEntityName();
+Annotation.parseAnnotation(file, id, logicalName).then(function (annotation) {
     annotation.save().then(function () {});
 });
 ```
