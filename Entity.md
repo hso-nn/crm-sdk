@@ -531,7 +531,7 @@ Annotation.parseFile(annotation).then(function (file) {});
 ## 6.2) parseAnnotation
 ```javascript
 var id = window.Xrm.Page.data.getEntity().getId();
-var logicalName  window.Xrm.Page.data.getEntity().getEntityName();
+var logicalName = window.Xrm.Page.data.getEntity().getEntityName();
 Annotation.parseAnnotation(file, id, logicalName).then(function (annotation) {
     annotation.save().then(function () {});
 });
