@@ -24,7 +24,7 @@ class Translation {
     }
 
     static getLoadPath(relativePath = "", fileExtension = "json") {
-        const resourceVersion = window.top.WEB_RESOURCE_ORG_VERSION_NUMBER,
+        const resourceVersion = window.top.WEB_RESOURCE_ORG_VERSION_NUMBER || "",
             clientUrl = Context.clientUrl;
         let path = relativePath;
         path = path.startsWith(".") ? path.substr(1) : path;
