@@ -1,5 +1,21 @@
 
 const read = superclass => class extends superclass {
+    /**
+     * retrieveRecord
+     * https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-webapi/retrieverecord
+     * @param entityLogicalName
+     * @param id
+     * @param options
+     * @returns {Promise<*>}
+     */
+    static async retrieveRecord(entityLogicalName, id, options) {
+        if (window.Xrm && window.Xrm.WebApi) {
+            return window.Xrm.WebApi.retrieveRecord(entityLogicalName, id, options);
+        } else {
+            return this.retrieveEntity(entityLogicalName, id, options.substr(1));
+        }
+    }
+
     static async retrieveEntity(logicalName, entityId, query, headers) {
         const entitySetName = await this.getEntitySetName(logicalName);
         return this.retrieveEntitySet(entitySetName, entityId, query, headers);
@@ -14,6 +30,23 @@ const read = superclass => class extends superclass {
         }
         url += `${queryString}`;
         return this.requestAndReturnBody("GET", url, null, headers);
+    }
+
+    /**
+     * retrieveMultipleRecords
+     * https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-webapi/retrievemultiplerecords
+     * @param entityLogicalName
+     * @param options
+     * @param maxPageSize
+     * @returns {Promise<*>}
+     */
+    static async retrieveMultipleRecords(entityLogicalName, options, maxPageSize) {
+        if (window.Xrm && window.Xrm.WebApi) {
+            return window.Xrm.WebApi.retrieveMultipleRecords(entityLogicalName, options, maxPageSize);
+        } else {
+            const headers = maxPageSize ? {Prefer: `odata.maxpagesize=${maxPageSize}`} : {};
+            return this.retrieveMultiple(entityLogicalName, options.substr(1), headers);
+        }
     }
 
     static async retrieveMultiple(logicalName, query, headers) {
