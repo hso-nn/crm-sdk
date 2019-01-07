@@ -31,6 +31,7 @@ class Systemuser extends SubEntity {
             if (e.message === "window is not defined") {
                 throw new Error("If using NodeJS, please don't use Systemuser.userId.");
             }
+            return "";
         }
     }
 }
