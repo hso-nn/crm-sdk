@@ -1,11 +1,30 @@
 var path = require("path"),
     webpack = require("webpack"),
     DEBUG = process.env.NODE_ENV !== "production",
+    mode = DEBUG ? "development" : "production",
     dir_build = path.resolve(__dirname, "dist"),
+    WebpackAutoInject = require("webpack-auto-inject-version"),
     CopyWebpackPlugin = require("copy-webpack-plugin"),
-    WebpackAutoInject = require("webpack-auto-inject-version");
+    MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const postcssLoader = {
+        loader: "postcss-loader",
+        options: {
+            plugins: function () {
+                return [
+                    require("autoprefixer")({
+                        browsers: ["Android > 0","last 3 versions", "> 1%"]
+                    }),
+                    require("cssnano")({zindex: false})
+                ];
+            }
+        }
+    },
+    scssLoaders = [DEBUG ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", postcssLoader, "sass-loader"],
+    cssLoaders = [DEBUG ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", postcssLoader];
 
 module.exports = {
+    mode: mode,
     entry: {
         CRMSDK: [
             path.resolve(__dirname, "src/CRM-SDK.js")
@@ -22,7 +41,7 @@ module.exports = {
         umdNamedDefine: true
     },
     resolve: {
-        extensions: [".js", ".json"]
+        extensions: [".js", ".json", ".ts"]
     },
     devServer: {
         contentBase: dir_build,
@@ -38,8 +57,10 @@ module.exports = {
                 failOnError: true
             },
             include: [
-                path.resolve(__dirname, "./src"),
-                path.resolve(__dirname, "./tests")
+                path.resolve(__dirname, "./src")
+            ],
+            exclude: [
+                path.resolve(__dirname, "./src/libs")
             ]
         },{
             loader: "babel-loader",
@@ -47,9 +68,32 @@ module.exports = {
             include: [
                 path.resolve(__dirname, "./src"),
                 path.resolve(__dirname, "./tests")
+            ],
+            exclude: [
+                path.resolve(__dirname, "./src/libs")
             ]
         }, {
             test: /\.json$/, loader: "json"
+        }, {
+            test: /\.scss$/, loader: scssLoaders
+        }, {
+            test: /\.css$/, loader: cssLoaders
+        }, {
+            test: /\.ts$/,
+            enforce: "pre",
+            use: [
+                {
+                    loader: "tslint-loader",
+                    options: {
+                        failOnWarning: false,
+                        failOnError: true
+                    }
+                }
+            ]
+        }, {
+            test: /\.tsx?$/,
+            use: "ts-loader",
+            exclude: /node_modules/
         }]
     },
     plugins: [
@@ -63,16 +107,15 @@ module.exports = {
                 InjectAsComment: false
             }
         }),
-        new webpack.BannerPlugin("crm-sdk [AIV]{version}[/AIV] | (c) Dynamics Software | MIT license - https://github.com/dys-solutions/crm-sdk/blob/develop/LICENSE")
-    ].concat(DEBUG ? [] : [
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: false,
-            minimize: true,
-            mangle: {
-                keep_fnames: true
-            }
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new webpack.BannerPlugin("Customer Location [AIV]{version}[/AIV] | (c) HSO Innovation"),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "[name]/[name].css",
+            chunkFilename: "[id].css",
         })
-    ]),
+    ].concat(DEBUG ? [] : []),
     stats: {
         colors: true
     },
