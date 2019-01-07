@@ -9,34 +9,48 @@ See more about Dynamics CRM Web API at https://msdn.microsoft.com/en-us/library/
 # 2) WebAPI
 
 ## 2.1) Create
-The createEntity method has two arguments:
-* logicalName
-* attributes
+The createRecord method has two arguments:
+* entityLogicalName
+* data
 
 ```javascript
-WebAPI.createEntity(logicalName, attributes).then(function (data) {});
+WebAPI.createRecord(entityLogicalName, data).then(function (data) {});
 ```
 
 ```javascript
-WebAPI.createEntity("account", {
+WebAPI.createRecord("account", {
     emailaddress1: "test@company.com" 
 }).then(function (data) {});
 ```
 
 ## 2.2) Delete
-The deleteEntity method has two arguments:
-* logicalName
-* entityId
+The deleteRecord method has two arguments:
+* entityLogicalName
+* id
 
 ```javascript
-WebAPI.deleteEntity(logicalName, entityId).then(function (data) {});
+WebAPI.deleteRecord(entityLogicalName, id).then(function (data) {});
 ```
 
 ```javascript
-WebAPI.deleteEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
+WebAPI.deleteRecord("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
-## 2.3) RetrieveEntity
+## 2.3.1) RetrieveRecord
+The retrieveRecord method has four arguments:
+* entityLogicalName
+* id
+* options
+
+```javascript
+WebAPI.retrieveRecord(entityLogicalName, id, options).then(function (data) {});
+```
+
+```javascript
+WebAPI.retrieveRecord("account", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
+```
+
+## 2.3.2) RetrieveEntity
 The retrieveEntity method has four arguments:
 * logicalName
 * entityId
@@ -76,7 +90,17 @@ WebAPI.retrieveEntitySet(entitySetName, entityId, queryOptions).then(function (d
 WebAPI.retrieveEntitySet("accounts", "475b158c-541c-e511-80d3-3863bb347ba8").then(function (data) {});
 ```
 
-## 2.6) RetrieveMultiple
+## 2.6.1) RetrieveMultipleRecords
+The retrieveMultipleRecords method has three arguments:
+* entityLogicalName
+* options
+* maxPageSize
+
+```javascript
+WebAPI.retrieveMultipleRecords(entityLogicalName, options, maxPageSize).then(function (data) {});
+```
+
+## 2.6.2) RetrieveMultiple
 The retrieveMultiple method has two arguments:
 * logicalName
 * queryOptions (odata query string)
@@ -157,33 +181,21 @@ The executeUserQuery has two arguments:
 WebAPI.executeUserQuery("account", "HelloWorld").then(data => {});
 ```
 
-## 2.11) UpdateEntity
-The updateEntity has four arguments:
-  * logicalName
+## 2.11) UpdateRecord
+The updateRecord has four arguments:
+  * entityLogicalName
   * entityId
   * attributes
   * query (enterprise version only; $select only: see https://msdn.microsoft.com/en-us/library/mt607664.aspx)
 
 ```javascript
-WebAPI.updateEntity(logicalName, entityId, attributes, query).then(function (data) {});
+WebAPI.updateRecord(entityLogicalName, entityId, attributes, query).then(function (data) {});
 ```
 
 ```javascript
-WebAPI.updateEntity("account", "475b158c-541c-e511-80d3-3863bb347ba8", {
+WebAPI.updateRecord("account", "475b158c-541c-e511-80d3-3863bb347ba8", {
     emailaddress1: "test2@company.com"
 }).then(function (data) {});
-```
-
-Update using query results in having return=representation (https://msdn.microsoft.com/en-us/library/mt607664.aspx)
-```text
-Enterprise version only
-```
-```javascript
-WebAPI.updateEntity("account", data.accountid, {
-    emailaddress3: "test3@test.com"
-}, "$select=emailaddress3, accountid").then(function (result) {
-    console.log("Update using select " + JSON.stringify(result.body));
-});
 ```
 
 ## 2.12) Actions
