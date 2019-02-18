@@ -119,5 +119,5 @@ module.exports = {
     stats: {
         colors: true
     },
-    devtool: "source-map"
+    devtool: mode === "development" ? "source-map" : false
 };
