@@ -9,7 +9,7 @@ const update = superclass => class extends superclass {
      * @returns {Promise<*>}
      */
     static async updateRecord(entityLogicalName, id, data) {
-        if (window.Xrm && window.Xrm.WebApi) {
+        if (typeof window !== "undefined" && window.Xrm && window.Xrm.WebApi) {
             return window.Xrm.WebApi.updateRecord(entityLogicalName, id, data);
         } else {
             const entitySetName = await this.getEntitySetName(entityLogicalName);
