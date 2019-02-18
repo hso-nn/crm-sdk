@@ -1,13 +1,14 @@
 
 class Context {
     static get context() {
-        if (typeof window.Xrm !== "undefined") {
-            return window.Xrm.Page.context;
-        } else if (typeof window.GetGlobalContext !== "undefined") {
-            return window.GetGlobalContext();
-        } else {
-            throw new Error("Context is not available.");
+        if (typeof window !== "undefined") {
+            if(typeof window.Xrm !== "undefined") {
+                return window.Xrm.Page.context;
+            } else if (typeof window.GetGlobalContext !== "undefined") {
+                return window.GetGlobalContext();
+            }
         }
+        throw new Error("Context is not available.");
     }
 
     static get lcid() {
@@ -50,7 +51,7 @@ class Context {
             /**
              * <script src="../ClientGlobalContext.js.aspx" type="text/javascript"></script> resulted in a context without version
              */
-            if (!version) {
+            if (typeof window !== "undefined" && !version) {
                 version = window.parent.Xrm.Page.context.getVersion();
             }
             this.version = version.substr(0, 3);
