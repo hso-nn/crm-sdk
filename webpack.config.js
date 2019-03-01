@@ -36,9 +36,9 @@ module.exports = {
     output: {
         path: dir_build,
         filename: "[name].js",
-        library: "[name]",
-        libraryTarget: "umd",
-        umdNamedDefine: true
+        // library: "[name]",
+        libraryTarget: "this",
+        // umdNamedDefine: true
     },
     resolve: {
         extensions: [".js", ".json", ".ts"]
@@ -119,5 +119,5 @@ module.exports = {
     stats: {
         colors: true
     },
-    devtool: "source-map"
+    devtool: mode === "development" ? "source-map" : false
 };

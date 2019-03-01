@@ -9,7 +9,7 @@ const read = superclass => class extends superclass {
      * @returns {Promise<*>}
      */
     static async retrieveRecord(entityLogicalName, id, options) {
-        if (window.Xrm && window.Xrm.WebApi) {
+        if (typeof window !== "undefined" && window.Xrm && window.Xrm.WebApi) {
             return window.Xrm.WebApi.retrieveRecord(entityLogicalName, id, options);
         } else {
             return this.retrieveEntity(entityLogicalName, id, options.substr(1));
@@ -41,7 +41,7 @@ const read = superclass => class extends superclass {
      * @returns {Promise<*>}
      */
     static async retrieveMultipleRecords(entityLogicalName, options, maxPageSize) {
-        if (window.Xrm && window.Xrm.WebApi) {
+        if (typeof window !== "undefined" && window.Xrm && window.Xrm.WebApi) {
             return window.Xrm.WebApi.retrieveMultipleRecords(entityLogicalName, options, maxPageSize);
         } else {
             const headers = maxPageSize ? {Prefer: `odata.maxpagesize=${maxPageSize}`} : {};

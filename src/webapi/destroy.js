@@ -8,7 +8,7 @@ const destroy = superclass => class extends superclass {
      * @returns {Promise<*>}
      */
     static async deleteRecord(entityLogicalName, id) {
-        if (window.Xrm && window.Xrm.WebApi) {
+        if (typeof window !== "undefined" && window.Xrm && window.Xrm.WebApi) {
             return window.Xrm.WebApi.deleteRecord(entityLogicalName, id);
         } else {
             const entitySetName = await this.getEntitySetName(entityLogicalName);

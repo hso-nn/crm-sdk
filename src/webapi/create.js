@@ -8,7 +8,7 @@ const create = superclass => class extends superclass {
      * @returns {Promise<*>}
      */
     static async createRecord(entityLogicalName, data) {
-        if (window.Xrm && window.Xrm.WebApi) {
+        if (typeof window !== "undefined" && window.Xrm && window.Xrm.WebApi) {
             return window.Xrm.WebApi.createRecord(entityLogicalName, data);
         } else {
             const entitySetName = await this.getEntitySetName(entityLogicalName);
