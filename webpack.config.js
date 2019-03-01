@@ -36,9 +36,9 @@ module.exports = {
     output: {
         path: dir_build,
         filename: "[name].js",
-        // library: "[name]",
-        libraryTarget: "this",
-        // umdNamedDefine: true
+        library: "[name]",
+        libraryTarget: "umd",
+        umdNamedDefine: true
     },
     resolve: {
         extensions: [".js", ".json", ".ts"]
