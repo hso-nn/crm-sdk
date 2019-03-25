@@ -38,7 +38,8 @@ module.exports = {
         filename: "[name].js",
         library: "[name]",
         libraryTarget: "umd",
-        umdNamedDefine: true
+        umdNamedDefine: true,
+        globalObject: "typeof window !== 'undefined' ? window : this", // "typeof self !== 'undefined' ? self : this",
     },
     resolve: {
         extensions: [".js", ".json", ".ts"]
