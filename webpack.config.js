@@ -38,7 +38,8 @@ module.exports = {
         filename: "[name].js",
         library: "[name]",
         libraryTarget: "umd",
-        umdNamedDefine: true
+        umdNamedDefine: true,
+        globalObject: "typeof window !== 'undefined' ? window : this", // "typeof self !== 'undefined' ? self : this",
     },
     resolve: {
         extensions: [".js", ".json", ".ts"]
@@ -108,7 +109,7 @@ module.exports = {
             }
         }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new webpack.BannerPlugin("Customer Location [AIV]{version}[/AIV] | (c) HSO Innovation"),
+        new webpack.BannerPlugin("CRM SDK [AIV]{version}[/AIV] | (c) HSO Innovation"),
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
