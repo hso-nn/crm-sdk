@@ -18,7 +18,10 @@ class Translation {
                         loadPath: this.getLoadPath(options.relativePath, options.fileExtension)
                     }
                 }, (err, t) => {
-                    err ? reject(err) : resolve(t);
+                    if (err) {
+                        console.log(err.join("/n"));
+                    }
+                    resolve(t);
                 });
         });
     }
