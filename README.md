@@ -5,8 +5,14 @@
 [![npm](https://img.shields.io/npm/dt/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
 [![npm](https://img.shields.io/npm/v/crm-sdk.svg)](https://www.npmjs.com/package/crm-sdk)
 
-
 Javascript Software Development Kit for Dynamics CRM Web API.
+
+## Recommendation
+This library was written while Microsoft was still inventing [Xrm.WebApi](https://docs.microsoft.com/en-us/powerapps/developer/model-driven-apps/clientapi/reference/xrm-webapi).
+Nowadays the [Xrm Api](https://docs.microsoft.com/en-us/powerapps/developer/model-driven-apps/clientapi/reference) will do most for you.
+This library may still be usefull when implementing a SPA, but we recommend using another NPM package to develop your D365 project.
+
+Please have a look at the [HSO D365 Command Line Interface](https://www.npmjs.com/package/@hso/d365-cli). That [@hso/d365-cli](https://www.npmjs.com/package/@hso/d365-cli) package also contains a WebApi as wrapper to help you building odata queries in an easier way.
 
 ## Why another library
 There are several SDK's available, so why another one?
