@@ -1,12 +1,12 @@
 {
   "name": "crm-sdk",
   "version": "4.0.8",
-  "author": "Dynamics Software <solutions@dynamicssoftware.com> (http://www.dynamicssoftware.com)",
-  "description": "Javasript Software Development Kit for Microsoft Dynamics CRM Web API",
+  "author": "HSO Innovation <NNSolutions@hso.com> (https://www.hso.com)",
+  "description": "Javasript Software Development Kit for Microsoft Dynamics CE Web API",
   "main": "dist/CRMSDK.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dys-solutions/crm-sdk.git"
+    "url": "https://github.com/hso-nn/crm-sdk.git"
   },
   "keywords": [
     "crm",
