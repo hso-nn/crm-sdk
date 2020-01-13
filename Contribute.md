@@ -15,7 +15,7 @@ Please use the .eslintrc.json.
 ## Clone
 
 ```sh
-$ git clone https://github.com/dys-solutions/crm-sdk.git
+$ git clone https://github.com/hso-nn/crm-sdk.git
 ```
 
 ## Node modules
